@@ -2,92 +2,137 @@ import React from 'react';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-slate-900 text-white font-sans selection:bg-fuchsia-500 selection:text-white">
+    <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
       {/* Navigation */}
-      <nav className="container mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-green-400">
-          ViralSpark ⚡
-        </div>
-        <div className="space-x-4">
-          <a href="#features" className="hover:text-purple-400 transition">Özellikler</a>
-          <a href="#pricing" className="hover:text-purple-400 transition">Fiyatlandırma</a>
-          <button className="bg-gradient-to-r from-blue-500 to-purple-600 px-6 py-2 rounded-full font-semibold hover:opacity-90 transition">
+      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="text-xl font-semibold tracking-tight">ViralSpark.</div>
+          <div className="hidden md:flex space-x-8 text-sm font-medium text-gray-500">
+            <a href="#features" className="hover:text-black transition-colors">Özellikler</a>
+            <a href="#pricing" className="hover:text-black transition-colors">Fiyatlandırma</a>
+          </div>
+          <button className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors">
             Giriş Yap
           </button>
         </div>
       </nav>
 
       {/* Hero Section */}
-      <main className="container mx-auto px-6 py-20 text-center">
-        <h1 className="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">
-          Saniyeler İçinde <br />
-          <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-purple-500 to-green-400 animate-pulse">
-            Viral İçerikler
-          </span> Üretin
+      <main className="pt-40 pb-24 px-6 text-center max-w-5xl mx-auto">
+        <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-black">
+          Fikirlerinizi <br className="hidden md:block" />
+          <span className="text-gray-400">virale dönüştürün.</span>
         </h1>
-        <p className="text-xl md:text-2xl text-slate-400 mb-12 max-w-3xl mx-auto">
-          Yapay zeka ile sosyal medya gönderilerinizi otomatikleştirin, etkileşiminizi uçuşa geçirin. Sadece ne istediğinizi söyleyin, gerisini bize bırakın.
+        <p className="text-xl md:text-2xl text-gray-500 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+          Yapay zeka gücüyle saniyeler içinde etkileşimi yüksek içerikler üretin. Sosyal medyada büyümek artık çok daha kolay, çok daha zarif.
         </p>
-        
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <button className="bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 p-1 rounded-full group">
-            <span className="block bg-slate-900 px-8 py-4 rounded-full font-bold text-lg group-hover:bg-opacity-0 transition duration-300">
-              Ücretsiz Başla 🚀
-            </span>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <button className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-full font-medium text-lg hover:scale-105 transition-transform duration-300">
+            Ücretsiz Deneyin
           </button>
-          <button className="px-8 py-4 rounded-full font-bold text-lg bg-slate-800 hover:bg-slate-700 transition">
+          <button className="w-full sm:w-auto px-8 py-4 bg-gray-100 text-black rounded-full font-medium text-lg hover:bg-gray-200 transition-colors duration-300">
             Nasıl Çalışır?
           </button>
         </div>
       </main>
 
-      {/* Pricing Demo */}
-      <section id="pricing" className="py-20 bg-slate-800/50">
-        <div className="container mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-12">Hızlı Kazandıran Planlar</h2>
+      {/* Video / App Preview Mockup */}
+      <div className="max-w-6xl mx-auto px-6 pb-32">
+        <div className="aspect-video bg-gray-50 rounded-[2rem] border border-gray-200 shadow-2xl flex items-center justify-center">
+          <span className="text-gray-400 font-medium">Uygulama Arayüzü (Yakında)</span>
+        </div>
+      </div>
+
+      {/* Pricing Section */}
+      <section id="pricing" className="py-32 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">Sade ve şeffaf fiyatlandırma.</h2>
+            <p className="text-xl text-gray-500 font-light">İhtiyacınıza uygun planı seçin, hemen başlayın.</p>
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {/* Starter */}
-            <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700">
-              <h3 className="text-2xl font-bold mb-4">Başlangıç</h3>
-              <p className="text-4xl font-black mb-6">$9<span className="text-lg text-slate-400 font-normal">/ay</span></p>
-              <ul className="space-y-3 mb-8 text-slate-300">
-                <li>✓ 50 AI Gönderi / Ay</li>
-                <li>✓ Temel Şablonlar</li>
-                <li>✓ Standart Destek</li>
-              </ul>
-              <button className="w-full py-3 rounded-xl bg-slate-700 hover:bg-slate-600 font-bold transition">Seç</button>
-            </div>
-            
-            {/* Pro (Highlighted) */}
-            <div className="bg-gradient-to-b from-purple-500/10 to-transparent rounded-3xl p-8 border border-purple-500 relative transform md:-translate-y-4">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 px-4 py-1 rounded-full text-sm font-bold">
-                EN ÇOK TERCİH EDİLEN
+            <div className="bg-white p-10 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-semibold mb-2">Başlangıç</h3>
+              <p className="text-gray-500 mb-6 font-light">Temel ihtiyaçlar için.</p>
+              <div className="mb-8">
+                <span className="text-5xl font-bold tracking-tight">$9</span>
+                <span className="text-gray-500">/ay</span>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Pro İçerik Üreticisi</h3>
-              <p className="text-4xl font-black mb-6">$29<span className="text-lg text-slate-400 font-normal">/ay</span></p>
-              <ul className="space-y-3 mb-8 text-slate-300">
-                <li>✓ Sınırsız AI Gönderi</li>
-                <li>✓ Özel Şablonlar (Twitter, LinkedIn)</li>
-                <li>✓ Analitik Raporları</li>
-                <li>✓ 7/24 Öncelikli Destek</li>
+              <ul className="space-y-4 mb-10 text-gray-600 font-light">
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  50 AI Gönderi / Ay
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Temel Şablonlar
+                </li>
               </ul>
-              <button className="w-full py-3 rounded-xl bg-gradient-to-r from-blue-500 via-purple-500 to-green-500 font-bold hover:opacity-90 transition">Hemen Başla</button>
+              <button className="w-full py-4 rounded-full bg-gray-100 font-medium hover:bg-gray-200 transition-colors">Seç</button>
+            </div>
+
+            {/* Pro */}
+            <div className="bg-black text-white p-10 rounded-[2rem] shadow-xl relative scale-105 z-10">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-4 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                Önerilen
+              </div>
+              <h3 className="text-2xl font-semibold mb-2">Pro</h3>
+              <p className="text-gray-400 mb-6 font-light">Profesyonel üreticiler için.</p>
+              <div className="mb-8">
+                <span className="text-5xl font-bold tracking-tight">$29</span>
+                <span className="text-gray-400">/ay</span>
+              </div>
+              <ul className="space-y-4 mb-10 text-gray-300 font-light">
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Sınırsız AI Gönderi
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Özel Şablonlar
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Analitik Raporları
+                </li>
+              </ul>
+              <button className="w-full py-4 rounded-full bg-white text-black font-medium hover:bg-gray-200 transition-colors">Hemen Başla</button>
             </div>
 
             {/* Enterprise */}
-            <div className="bg-slate-800 rounded-3xl p-8 border border-slate-700">
-              <h3 className="text-2xl font-bold mb-4">Ajans</h3>
-              <p className="text-4xl font-black mb-6">$99<span className="text-lg text-slate-400 font-normal">/ay</span></p>
-              <ul className="space-y-3 mb-8 text-slate-300">
-                <li>✓ Sınırsız Gönderi & Video Fikirleri</li>
-                <li>✓ 10 Alt Kullanıcı Ekleme</li>
-                <li>✓ Özel API Erişimi</li>
+            <div className="bg-white p-10 rounded-[2rem] border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+              <h3 className="text-2xl font-semibold mb-2">Ajans</h3>
+              <p className="text-gray-500 mb-6 font-light">Ekipler ve ajanslar için.</p>
+              <div className="mb-8">
+                <span className="text-5xl font-bold tracking-tight">$99</span>
+                <span className="text-gray-500">/ay</span>
+              </div>
+              <ul className="space-y-4 mb-10 text-gray-600 font-light">
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Sınırsız Her Şey
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  10 Alt Kullanıcı
+                </li>
+                <li className="flex items-center gap-3">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                  Özel API Erişimi
+                </li>
               </ul>
-              <button className="w-full py-3 rounded-xl bg-slate-700 hover:bg-slate-600 font-bold transition">Seç</button>
+              <button className="w-full py-4 rounded-full bg-gray-100 font-medium hover:bg-gray-200 transition-colors">İletişime Geç</button>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 py-12 text-center text-gray-500 text-sm">
+        <p>&copy; 2026 ViralSpark. Tüm hakları saklıdır.</p>
+      </footer>
     </div>
   );
 }
