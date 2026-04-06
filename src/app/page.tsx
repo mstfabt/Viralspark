@@ -1,6 +1,33 @@
-import React from 'react';
+"use client";
+import React, { useState } from 'react';
 
 export default function Home() {
+  const [topic, setTopic] = useState('');
+  const [generatedText, setGeneratedText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleGenerate = async () => {
+    if (!topic) return;
+    setIsLoading(true);
+    setGeneratedText('');
+    try {
+      const res = await fetch('/api/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: topic })
+      });
+      const data = await res.json();
+      if (data.result) {
+        setGeneratedText(data.result);
+      } else {
+        setGeneratedText('Bir hata oluştu. Lütfen tekrar deneyin.');
+      }
+    } catch (error) {
+      setGeneratedText('Sunucuya bağlanılamadı. Lütfen tekrar deneyin.');
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="min-h-screen bg-white text-black font-sans selection:bg-black selection:text-white">
       {/* Navigation */}
@@ -9,6 +36,7 @@ export default function Home() {
           <div className="text-xl font-semibold tracking-tight">ViralSpark.</div>
           <div className="hidden md:flex space-x-8 text-sm font-medium text-gray-500">
             <a href="#features" className="hover:text-black transition-colors">Özellikler</a>
+            <a href="#demo" className="hover:text-black transition-colors">Yapay Zeka</a>
             <a href="#pricing" className="hover:text-black transition-colors">Fiyatlandırma</a>
           </div>
           <button className="text-sm font-medium bg-black text-white px-5 py-2 rounded-full hover:bg-gray-800 transition-colors">
@@ -18,7 +46,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <main className="pt-40 pb-24 px-6 text-center max-w-5xl mx-auto">
+      <main className="pt-40 pb-16 px-6 text-center max-w-5xl mx-auto">
         <h1 className="text-6xl md:text-8xl font-bold tracking-tighter mb-8 text-black">
           Fikirlerinizi <br className="hidden md:block" />
           <span className="text-gray-400">virale dönüştürün.</span>
@@ -26,22 +54,37 @@ export default function Home() {
         <p className="text-xl md:text-2xl text-gray-500 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
           Yapay zeka gücüyle saniyeler içinde etkileşimi yüksek içerikler üretin. Sosyal medyada büyümek artık çok daha kolay, çok daha zarif.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-full font-medium text-lg hover:scale-105 transition-transform duration-300">
-            Ücretsiz Deneyin
-          </button>
-          <button className="w-full sm:w-auto px-8 py-4 bg-gray-100 text-black rounded-full font-medium text-lg hover:bg-gray-200 transition-colors duration-300">
-            Nasıl Çalışır?
-          </button>
-        </div>
       </main>
 
-      {/* Video / App Preview Mockup */}
-      <div className="max-w-6xl mx-auto px-6 pb-32">
-        <div className="aspect-video bg-gray-50 rounded-[2rem] border border-gray-200 shadow-2xl flex items-center justify-center">
-          <span className="text-gray-400 font-medium">Uygulama Arayüzü (Yakında)</span>
+      {/* Generator Tool Section */}
+      <section id="demo" className="max-w-4xl mx-auto px-6 pb-24 z-10 relative">
+        <div className="bg-white p-8 md:p-12 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100">
+          <h2 className="text-2xl font-semibold mb-8 text-center tracking-tight">Hemen Ücretsiz Deneyin</h2>
+          <div className="space-y-4 max-w-2xl mx-auto">
+            <textarea 
+              className="w-full p-5 text-lg bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none placeholder:text-gray-400"
+              rows={3}
+              placeholder="Örn: Yeni açtığım butik kahveci için Instagram postu yaz..."
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+            ></textarea>
+            <button 
+              onClick={handleGenerate}
+              disabled={isLoading || !topic}
+              className="w-full bg-black text-white py-4 rounded-2xl font-medium text-lg hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
+            >
+              {isLoading ? 'Yapay Zeka Üretiyor... ⚡' : 'Viral Gönderi Üret'}
+            </button>
+            
+            {generatedText && (
+              <div className="mt-8 p-8 bg-gray-50 rounded-2xl border border-gray-100 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <h3 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">Sonuç:</h3>
+                <p className="whitespace-pre-wrap text-gray-800 leading-relaxed text-lg">{generatedText}</p>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      </section>
 
       {/* Pricing Section */}
       <section id="pricing" className="py-32 bg-gray-50 border-t border-gray-100">
