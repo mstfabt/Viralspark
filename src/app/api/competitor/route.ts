@@ -2,12 +2,18 @@ import { NextResponse } from 'next/server'
 import { auth } from '@clerk/nextjs/server'
 import { generateContent } from '@/lib/gemini'
 import { checkAndIncrementUsage } from '@/lib/usage'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 })
+    }
+
+    const rl = rateLimit(userId, 10, 60_000)
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Çok fazla istek. Lütfen biraz bekleyin.' }, { status: 429 })
     }
 
     const { niche, platform, competitors } = await req.json()

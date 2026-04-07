@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { auth, clerkClient } from '@clerk/nextjs/server'
 import { generateContent } from '@/lib/gemini'
 import { checkAndIncrementUsage } from '@/lib/usage'
+import { rateLimit } from '@/lib/rate-limit'
 
 export async function POST(req: Request) {
   try {
@@ -10,7 +11,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 })
     }
 
-    const { prompt, platforms } = await req.json()
+    const rl = rateLimit(userId, 10, 60_000)
+    if (!rl.allowed) {
+      return NextResponse.json({ error: 'Çok fazla istek. Lütfen biraz bekleyin.' }, { status: 429 })
+    }
+
+    const { prompt, platforms, variations: reqVariations } = await req.json()
     if (!prompt) {
       return NextResponse.json({ error: 'Konu gerekli' }, { status: 400 })
     }
@@ -63,6 +69,16 @@ export async function POST(req: Request) {
 
     const platformRules = selectedPlatforms.map((p: string) => `- ${rules[p] || rules.twitter}`).join('\n')
 
+    const variationCount = Math.min(reqVariations || 1, 3)
+
+    const variationInstruction = variationCount > 1
+      ? `Her platform icin ${variationCount} FARKLI varyasyon uret. Her varyasyon farkli bir hook/yaklasim kullansın.`
+      : 'Her platform icin 1 icerik uret.'
+
+    const formatExample = variationCount > 1
+      ? selectedPlatforms.map((p: string) => `"${p}": [{"text": "icerik 1", "score": 85, "tip": null}, {"text": "icerik 2", "score": 78, "tip": "oneri"}, {"text": "icerik 3", "score": 72, "tip": "oneri"}]`).join(',\n  ')
+      : selectedPlatforms.map((p: string) => `"${p}": {"text": "icerik metni", "score": 85, "tip": "iyilestirme onerisi veya null"}`).join(',\n  ')
+
     systemPrompt = `Sen profesyonel bir sosyal medya uzmanısın.${brandContext}
 
 Konu: ${prompt}
@@ -70,13 +86,14 @@ Konu: ${prompt}
 Platform kuralları:
 ${platformRules}
 
-Her platform için içerik üret. Ayrıca her içeriğe 1-100 arası viral skor ver.
+${variationInstruction}
+Ayrıca her içeriğe 1-100 arası viral skor ver.
 Viral skor kriterleri: hook gücü, etkileşim potansiyeli, hashtag kalitesi, platform uyumu, duygusal tetikleyici.
 Düşük skor aldıysa (60 altı) kısa iyileştirme önerisi ekle.
 
 ZORUNLU FORMAT (JSON):
 {
-  ${selectedPlatforms.map((p: string) => `"${p}": {"text": "içerik metni", "score": 85, "tip": "iyileştirme önerisi veya null"}`).join(',\n  ')}
+  ${formatExample}
 }
 
 SADECE JSON döndür.`
