@@ -20,7 +20,7 @@ const LIMIT_MAP: Record<FeatureType, keyof typeof PLAN_LIMITS.free> = {
   calendar: 'calendarPerMonth',
 }
 
-export async function checkAndIncrementUsage(
+export async function checkUsage(
   userId: string,
   feature: FeatureType
 ): Promise<{
@@ -59,12 +59,29 @@ export async function checkAndIncrementUsage(
     return { allowed: false, used: currentUsage, limit, plan }
   }
 
-  // Increment
+  return { allowed: true, used: currentUsage, limit, plan }
+}
+
+export async function incrementUsage(userId: string, feature: FeatureType): Promise<number> {
+  const client = await clerkClient()
+  const user = await client.users.getUser(userId)
+
+  const monthKey = getCurrentMonthKey()
+  const privateMetadata = user.privateMetadata as Record<string, unknown>
+  const usageData = (privateMetadata?.usage as UsageData) || {
+    singlePosts: {},
+    multiPlatform: {},
+    calendar: {},
+  }
+
+  const featureUsage = usageData[feature] || {}
+  const newCount = (featureUsage[monthKey] || 0) + 1
+
   const updatedUsage = {
     ...usageData,
     [feature]: {
       ...featureUsage,
-      [monthKey]: currentUsage + 1,
+      [monthKey]: newCount,
     },
   }
 
@@ -72,5 +89,18 @@ export async function checkAndIncrementUsage(
     privateMetadata: { usage: updatedUsage },
   })
 
-  return { allowed: true, used: currentUsage + 1, limit, plan }
+  return newCount
+}
+
+// Backward compat wrapper
+export async function checkAndIncrementUsage(
+  userId: string,
+  feature: FeatureType
+) {
+  const result = await checkUsage(userId, feature)
+  if (result.allowed && result.limit !== Infinity) {
+    const newUsed = await incrementUsage(userId, feature)
+    return { ...result, used: newUsed }
+  }
+  return result
 }

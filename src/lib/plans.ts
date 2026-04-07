@@ -44,7 +44,8 @@ export function getUserPlan(publicMetadata: Record<string, unknown>): PlanType {
   const plan = publicMetadata?.plan as PlanType | undefined
   const status = publicMetadata?.subscriptionStatus as string | undefined
 
-  if (plan && (status === 'active' || status === 'on_trial')) {
+  // cancelled = user cancelled but period not ended yet, keep their plan
+  if (plan && (status === 'active' || status === 'on_trial' || status === 'cancelled')) {
     return plan
   }
   return 'free'

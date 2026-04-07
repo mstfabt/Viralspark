@@ -15,7 +15,8 @@ export async function POST(request: NextRequest) {
   const hmac = crypto.createHmac('sha256', secret)
   const digest = hmac.update(rawBody).digest('hex')
 
-  if (!crypto.timingSafeEqual(Buffer.from(digest, 'utf8'), Buffer.from(signature, 'utf8'))) {
+  if (signature.length !== digest.length ||
+      !crypto.timingSafeEqual(Buffer.from(digest, 'utf8'), Buffer.from(signature, 'utf8'))) {
     return NextResponse.json('Invalid signature', { status: 401 })
   }
 
@@ -33,7 +34,7 @@ export async function POST(request: NextRequest) {
   switch (eventName) {
     case 'subscription_created':
     case 'subscription_updated': {
-      const status = payload.data?.attributes?.status // active, past_due, cancelled, expired
+      const status = payload.data?.attributes?.status
       const variantId = payload.data?.attributes?.variant_id
       const subscriptionId = payload.data?.id
 
@@ -48,12 +49,32 @@ export async function POST(request: NextRequest) {
       break
     }
 
-    case 'subscription_expired':
     case 'subscription_cancelled': {
+      // Don't downgrade yet - user keeps access until period ends
+      // Just mark as cancelled, subscription_expired will do the actual downgrade
+      await client.users.updateUserMetadata(userId, {
+        publicMetadata: {
+          subscriptionStatus: 'cancelled',
+        },
+      })
+      break
+    }
+
+    case 'subscription_expired': {
+      // Period ended, now actually downgrade to free
       await client.users.updateUserMetadata(userId, {
         publicMetadata: {
           plan: 'free',
-          subscriptionStatus: 'cancelled',
+          subscriptionStatus: 'expired',
+        },
+      })
+      break
+    }
+
+    case 'subscription_payment_failed': {
+      await client.users.updateUserMetadata(userId, {
+        publicMetadata: {
+          subscriptionStatus: 'past_due',
         },
       })
       break
