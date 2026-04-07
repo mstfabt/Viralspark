@@ -1,26 +1,25 @@
-import { NextResponse } from 'next/server'
+import { verifyWebhook } from '@clerk/nextjs/webhooks'
+import { NextRequest } from 'next/server'
 
-// Clerk webhook for user events (welcome email, etc.)
-// Set up webhook in Clerk Dashboard -> Webhooks -> user.created event
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { type, data } = body
+    const evt = await verifyWebhook(req)
+    const eventType = evt.type
 
-    if (type === 'user.created') {
-      const email = data.email_addresses?.[0]?.email_address
-      const firstName = data.first_name || 'there'
+    if (eventType === 'user.created') {
+      const { id, email_addresses, first_name } = evt.data
+      const email = email_addresses?.[0]?.email_address
+      const firstName = first_name || 'there'
 
-      if (email) {
-        console.log(`Welcome email should be sent to: ${email} (${firstName})`)
-        // TODO: Connect email service (Resend, Nodemailer, etc.)
-        // await sendWelcomeEmail(email, firstName)
-      }
+      console.log(`New user: ${email} (${id}, ${firstName})`)
+
+      // TODO: Connect email service (Resend, Nodemailer) for welcome email
+      // await sendWelcomeEmail(email, firstName)
     }
 
-    return NextResponse.json({ received: true })
-  } catch (error) {
-    console.error('Clerk webhook error:', error)
-    return NextResponse.json({ error: 'Webhook failed' }, { status: 500 })
+    return new Response('Webhook received', { status: 200 })
+  } catch (err) {
+    console.error('Error verifying webhook:', err)
+    return new Response('Error verifying webhook', { status: 400 })
   }
 }
