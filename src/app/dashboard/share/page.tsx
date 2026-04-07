@@ -22,7 +22,8 @@ const PLATFORM_SIZES = [
 export default function SharePage() {
   const { user } = useUser()
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
-  const plan = (publicMeta.subscriptionStatus === 'active' || publicMeta.subscriptionStatus === 'on_trial')
+  const status = publicMeta.subscriptionStatus as string
+  const plan = (status === 'active' || status === 'on_trial' || status === 'cancelled')
     ? (publicMeta.plan as PlanType || 'free')
     : 'free'
   const limits = PLAN_LIMITS[plan]
@@ -69,16 +70,26 @@ SADECE JSON döndür.`, platforms: ['instagram'] }),
         return
       }
 
-      // Parse the instagram result which should be JSON
+      // Extract text from the result - handle both old and new formats
+      const igResult = data.result?.instagram
+      let rawText = ''
+      if (Array.isArray(igResult)) {
+        rawText = igResult[0]?.text || ''
+      } else if (igResult && typeof igResult === 'object') {
+        rawText = igResult.text || ''
+      } else {
+        rawText = String(igResult || '')
+      }
+
+      // Try to parse as JSON (overlay + caption)
       let parsed
-      const text = data.result?.instagram || ''
       try {
-        const cleaned = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+        const cleaned = rawText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
         parsed = JSON.parse(cleaned)
       } catch {
-        // Fallback
-        setOverlayText(text.slice(0, 50))
-        setCaption(text)
+        // Fallback: use raw text
+        setOverlayText(rawText.slice(0, 50))
+        setCaption(rawText)
         return
       }
 
