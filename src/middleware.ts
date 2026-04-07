@@ -1,9 +1,1 @@
-import { authMiddleware } from "@clerk/nextjs/server";
- 
-export default authMiddleware({
-  publicRoutes: ["/", "/api/generate"],
-});
- 
-export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*) \', '/(api|trpc)(.*)\'],
-};
+import { authMiddleware } from \"@clerk/nextjs/server\";\n \nexport default authMiddleware({\n  publicRoutes: [\"/\", \"/api/generate\"],\n});\n \nexport const config = {\n  matcher: [\'/((?!.+\\\\.[\\\\w]+$|_next).*) \\\', \'/ (api|trpc)(.*)\\'\],\n};\n
