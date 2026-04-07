@@ -3,6 +3,7 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { generateContent } from '@/lib/gemini'
 import { checkAndIncrementUsage } from '@/lib/usage'
 import { rateLimit } from '@/lib/rate-limit'
+import { sendUsageLimitEmail } from '@/lib/email'
 
 export async function POST(req: Request) {
   try {
@@ -111,6 +112,14 @@ SADECE JSON döndür.`
         fallback[p] = { text: text, score: 70, tip: null }
       }
       parsed = fallback
+    }
+
+    // Send usage limit warning at 80%
+    if (usage.limit > 0 && usage.limit !== Infinity && usage.used >= Math.floor(usage.limit * 0.8)) {
+      const userEmail = user.emailAddresses?.[0]?.emailAddress
+      if (userEmail) {
+        sendUsageLimitEmail(userEmail, user.firstName || 'Kullanici', usage.used, usage.limit)
+      }
     }
 
     return NextResponse.json({

@@ -1,20 +1,19 @@
 import { verifyWebhook } from '@clerk/nextjs/webhooks'
 import { NextRequest } from 'next/server'
+import { sendWelcomeEmail } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
   try {
     const evt = await verifyWebhook(req)
-    const eventType = evt.type
 
-    if (eventType === 'user.created') {
-      const { id, email_addresses, first_name } = evt.data
+    if (evt.type === 'user.created') {
+      const { email_addresses, first_name } = evt.data
       const email = email_addresses?.[0]?.email_address
-      const firstName = first_name || 'there'
+      const firstName = first_name || 'Kullanici'
 
-      console.log(`New user: ${email} (${id}, ${firstName})`)
-
-      // TODO: Connect email service (Resend, Nodemailer) for welcome email
-      // await sendWelcomeEmail(email, firstName)
+      if (email) {
+        await sendWelcomeEmail(email, firstName)
+      }
     }
 
     return new Response('Webhook received', { status: 200 })
