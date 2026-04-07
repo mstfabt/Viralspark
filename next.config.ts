@@ -1,6 +1,5 @@
-const { withClerk } = require("@clerk/nextjs/withClerk");
+import type { NextConfig } from 'next'
 
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+const nextConfig: NextConfig = {}
 
-module.exports = withClerk(nextConfig);
+export default nextConfig
