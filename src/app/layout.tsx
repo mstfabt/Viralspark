@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { ClerkProvider } from '@clerk/nextjs'
+import { Analytics } from '@vercel/analytics/next'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { ToastProvider } from '@/components/toast'
 import { ErrorBoundary } from '@/components/error-boundary'
 import './globals.css'
@@ -49,6 +51,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </ToastProvider>
           </ErrorBoundary>
         </ClerkProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

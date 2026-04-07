@@ -321,9 +321,54 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Lead Magnet */}
+      <section className="py-20 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-2xl mx-auto px-4 md:px-6 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight mb-3">100 Viral Hook Cumlesi (Ucretsiz PDF)</h2>
+          <p className="text-gray-500 mb-6">E-posta adresinizi girin, kanitlanmis 100 viral hook cumlesini hemen indirin.</p>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              const form = e.target as HTMLFormElement
+              const email = (form.elements.namedItem('email') as HTMLInputElement).value
+              if (email) {
+                fetch('/api/lead', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ email }),
+                })
+                form.reset()
+                alert('Tesekkurler! PDF linki e-posta adresinize gonderilecek.')
+              }
+            }}
+            className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto"
+          >
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="E-posta adresiniz"
+              className="flex-1 px-5 py-3 rounded-full border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black text-sm"
+            />
+            <button type="submit" className="bg-black text-white px-6 py-3 rounded-full font-medium text-sm hover:bg-gray-800 transition-colors whitespace-nowrap">
+              Ucretsiz Indir
+            </button>
+          </form>
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="border-t border-gray-100 py-12 text-center text-gray-500 text-sm">
-        <p>&copy; 2026 ViralSpark. Tum haklari saklidir.</p>
+      <footer className="border-t border-gray-100 py-12">
+        <div className="max-w-7xl mx-auto px-4 md:px-6">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-gray-500 text-sm">&copy; 2026 ViralSpark. Tum haklari saklidir.</p>
+            <div className="flex gap-6 text-sm text-gray-400">
+              <a href="/privacy" className="hover:text-black transition-colors">Gizlilik Politikasi</a>
+              <a href="/terms" className="hover:text-black transition-colors">Kullanim Sartlari</a>
+              <a href="/blog" className="hover:text-black transition-colors">Blog</a>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   )
