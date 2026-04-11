@@ -12,6 +12,16 @@ export default function BlogPostClient({ slug }: { slug: string }) {
   const post = BLOG_POSTS.find((p) => p.slug === slug)
   if (!post) notFound()
 
+  // Related posts: same category first, then same locale — max 3.
+  const related = BLOG_POSTS
+    .filter((p) => p.slug !== post.slug && p.locale === post.locale)
+    .sort((a, b) => {
+      const aMatch = a.category === post.category ? 0 : 1
+      const bMatch = b.category === post.category ? 0 : 1
+      return aMatch - bMatch
+    })
+    .slice(0, 3)
+
   return (
     <div className="min-h-screen bg-white dark:bg-[#13131a]">
       <nav className="border-b border-gray-100 dark:border-[#27272a]">
@@ -54,6 +64,29 @@ export default function BlogPostClient({ slug }: { slug: string }) {
             {isEn ? 'Get Started Free' : 'Ucretsiz Basla'}
           </a>
         </div>
+
+        {related.length > 0 && (
+          <section className="mt-16 pt-12 border-t border-gray-100 dark:border-[#27272a]">
+            <h2 className="text-2xl font-bold mb-6">
+              {isEn ? 'Related articles' : 'İlgili yazılar'}
+            </h2>
+            <div className="grid md:grid-cols-3 gap-4">
+              {related.map((p) => (
+                <a
+                  key={p.slug}
+                  href={`/blog/${p.slug}`}
+                  className="block p-5 rounded-2xl border border-gray-100 dark:border-[#27272a] hover:border-gray-200 dark:hover:border-[#3f3f46] hover:shadow-md transition-all"
+                >
+                  <span className="text-xs font-medium bg-gray-100 dark:bg-[#1f1f26] px-3 py-1 rounded-full inline-block mb-3">
+                    {p.category}
+                  </span>
+                  <h3 className="text-base font-semibold mb-2 leading-snug">{p.title}</h3>
+                  <p className="text-xs text-gray-500 dark:text-[#a1a1aa] leading-relaxed line-clamp-3">{p.excerpt}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
       </article>
     </div>
   )

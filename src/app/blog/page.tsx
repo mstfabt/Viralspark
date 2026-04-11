@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { BLOG_POSTS } from '@/lib/blog-data'
 import { useLanguage } from '@/components/language-provider'
 import { LanguageSelector } from '@/components/language-selector'
@@ -8,7 +9,11 @@ import { Logo } from '@/components/logo'
 export default function BlogPage() {
   const { locale } = useLanguage()
   const isEn = locale === 'en'
-  const posts = BLOG_POSTS.filter((p) => p.locale === locale)
+  const [category, setCategory] = useState<string | null>(null)
+
+  const localePosts = BLOG_POSTS.filter((p) => p.locale === locale)
+  const categories = Array.from(new Set(localePosts.map((p) => p.category)))
+  const posts = category ? localePosts.filter((p) => p.category === category) : localePosts
 
   return (
     <div className="min-h-screen bg-white dark:bg-[#13131a]">
@@ -26,11 +31,39 @@ export default function BlogPage() {
 
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-12 md:py-20">
         <h1 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">Blog</h1>
-        <p className="text-lg text-gray-500 dark:text-[#a1a1aa] mb-12">
+        <p className="text-lg text-gray-500 dark:text-[#a1a1aa] mb-8">
           {isEn
             ? 'Social media strategies, viral content tips, and more.'
             : 'Sosyal medya stratejileri, viral icerik ipuclari ve daha fazlasi.'}
         </p>
+
+        <div className="flex flex-wrap gap-2 mb-12">
+          <button
+            type="button"
+            onClick={() => setCategory(null)}
+            className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
+              !category
+                ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white'
+                : 'bg-white dark:bg-[#13131a] text-gray-600 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-300'
+            }`}
+          >
+            {isEn ? 'All' : 'Tümü'}
+          </button>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategory(cat)}
+              className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
+                category === cat
+                  ? 'bg-black dark:bg-white text-white dark:text-black border-black dark:border-white'
+                  : 'bg-white dark:bg-[#13131a] text-gray-600 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-300'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
         <div className="space-y-8">
           {posts.map((post) => (
