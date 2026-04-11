@@ -164,6 +164,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="tr" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* Preconnect to third-party origins to shave LCP */}
+        <link rel="preconnect" href="https://clerk.viralspark.shop" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://clerk.viralspark.shop" />
+        <link rel="preconnect" href="https://va.vercel-scripts.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
