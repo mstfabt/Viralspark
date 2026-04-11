@@ -950,4 +950,492 @@ Content matters on TikTok, but the description is what carries the content to th
     category: 'TikTok',
     locale: 'en',
   },
+  // ============================================================
+  // NEW TR — Long-tail high-intent
+  // ============================================================
+  {
+    slug: 'youtube-shorts-baslik-olusturucu',
+    title: 'YouTube Shorts Başlık Oluşturucu: AI ile Tıklanma Oranını Katlayın',
+    excerpt: 'YouTube Shorts başlığı, video kadar önemli. AI ile saniyeler içinde CTR\'ı yüksek, algoritmaya uygun başlıklar nasıl üretilir — örneklerle anlatıyoruz.',
+    translationSlug: 'youtube-shorts-title-generator',
+    content: `YouTube Shorts'ta başarılı olmanın ilk adımı viral bir video çekmek değil — doğru başlığı yazmak. YouTube'un dahili verilerine göre aynı video iki farklı başlıkla yayınlandığında tıklanma oranı (CTR) arasında **3 kata kadar** fark çıkabiliyor. Bu rehberde, 2026 itibarıyla YouTube Shorts'ta gerçekten çalışan başlık formüllerini, yapay zeka ile nasıl saniyeler içinde üreteceğinizi ve hangi tuzaklardan kaçınmanız gerektiğini anlatıyoruz.
+
+## YouTube Shorts Algoritması ve Başlığın Rolü
+
+YouTube Shorts'ta erişimi belirleyen üç ana sinyal var: izlenme süresi (watch time), tıklanma oranı (CTR) ve etkileşim. Bu üç metriğin de tetikleyicisi başlık. Kullanıcı feed'de kaydırırken videoya tıklayıp tıklamayacağına ilk 1.2 saniyede karar veriyor — ve bu kararı genellikle başlık ile küçük resmin (thumbnail) ilk okunan kelimeleri belirliyor.
+
+Shorts'ta thumbnail çoğu zaman videodan otomatik üretildiği için, başlığın yükü daha da artıyor. Yani Shorts içeriğinizin %40'a yakını başlığa bağlı.
+
+## 2026'da Çalışan 5 Başlık Formülü
+
+### 1. Sayı + Vaat Formülü
+"3 dakikada öğrendim, hayatım değişti" gibi başlıklar sayı içeriyor (beyni ankraj noktası verir) ve net bir vaat sunuyor. Sayıların tek olması (3, 5, 7) çift sayılara göre %12 daha yüksek CTR alıyor.
+
+### 2. Karşı Görüş Formülü
+"Herkes yanlış öğretiyor: ..." veya "Kimse bunu söylemiyor ama..." gibi başlıklar, izleyicide bilişsel uyumsuzluk yaratır. Bu uyumsuzluk, beynin "Acaba?" sorusuna cevap aramaya itmesini sağlar — yani tıklamayı.
+
+### 3. Soru Formülü
+"Neden Instagram'ı bıraktım?" gibi açık uçlu sorular meraka yatırım yapar. Ama dikkat: cevabı kolayca tahmin edilen sorular kaybeden başlıklardır. "Kahve içmek zararlı mı?" işe yaramaz, "Günde 3 fincan kahvenin yan etkisi olduğunu biliyor muydunuz?" işe yarar.
+
+### 4. Kayıp Formülü
+"Bunu yapmazsan paranı kaybedeceksin" gibi kayıp odaklı başlıklar, kazanç odaklı başlıklara göre %42 daha yüksek CTR alır. Sebep: insanlar kazançtan çok kayıptan kaçınır (loss aversion).
+
+### 5. Hikâye Açılışı
+"Geçen hafta bir e-postaya cevap verdim, hayatım değişti." Hikâye açılışları izleyicinin bir sonraki cümleyi merak etmesini sağlar. Shorts ilk 2 saniye kritik olduğu için, hikâyeyle başlayan başlıklar izleme süresini de %25-30 artırır.
+
+## AI ile Başlık Üretmenin Mantığı
+
+Manuel başlık yazmak yorucu ve subjektif. Bir konuya kafayı taktığınızda 2-3 başlık fikri çıkar, sonra tıkanırsınız. Yapay zeka bu noktada işe yarıyor: ViralSpark'ın YouTube Shorts başlık aracı, yukarıdaki 5 formülün her birinden başlık üretip, her biri için 0-100 arası viral skor veriyor. Skor kriterleri: hook gücü, merak uyandırma, karakter limiti uyumu (60 karakter altı tercih edilir), tıklanma tahmini.
+
+3 saniyede 5 farklı varyasyon görmek, sezgisel olarak hangisinin daha iyi olduğunu anlamayı kolaylaştırıyor. Çoğu içerik üreticisinin başlık yazma süresi 8-15 dakika. AI ile bu süre 20 saniyeye düşüyor ve seçenek sayısı 5 katına çıkıyor.
+
+## Yapmamanız Gerekenler
+
+- **Clickbait yapma**: YouTube'un 2024 güncellemesinden sonra başlıkla içerik uyuşmazlığı tespit ediliyor. Aldatıcı başlıklar artık otomatik olarak erişim kaybediyor.
+- **80+ karakter kullanma**: Mobilde başlık kesilir. Önemli kelimeler ilk 50 karakterde olmalı.
+- **Tüm büyük harf**: Spam olarak algılanır, CTR düşer.
+- **Soru işareti yığını**: "Neden??? Nasıl???" gibi başlıklar amatör görünür ve etkileşimi düşürür.
+- **Genel kelimeler**: "İlginç", "şaşırtıcı", "harika" gibi sıfatlar boş kalori. "Beklenmedik 3 sonuç" daha iyidir.
+
+## Türkçe Özelinde Başlık Yazma
+
+Türkçe bazı avantajlar sunar: kelimeler genellikle İngilizceye göre daha kısa, ek yapısı sayesinde aynı anlamı daha az karakterle anlatabilirsiniz. Ama aynı zamanda Türkçe Shorts izleyicisi reklam diline karşı daha hassas. "Sizi şok edecek" gibi çeviri kokulu ifadeler hemen elenir. Doğal Türkçe, yerel deyimler ve günlük dil kullanan başlıklar daha iyi performans gösterir.
+
+ViralSpark'ın AI modeli özellikle Türkçe için fine-tune edildiği için, çeviri kokmayan, yerel hisseden başlıklar üretir. "%100 organik 3 ipucu" yerine "Üç şey değiştirdim, fark ettiğim an şaştım" gibi.
+
+## Pratik Çalışma: Bir Video, 5 Başlık
+
+Diyelim ki "Sabah 5'te kalkma deneyimi" üzerine bir Short çektiniz. AI'a bu konuyu verdiğinizde dönen başlık varyasyonları:
+
+1. **Sayı**: "Sabah 5'te kalkmanın 3 beklenmedik etkisi"
+2. **Karşı görüş**: "Herkes yanlış kalkıyor: Sabah 5 hayatımı değiştirmedi"
+3. **Soru**: "30 gün boyunca sabah 5'te kalkınca ne olur?"
+4. **Kayıp**: "Geç kalkmak hayatına nasıl mâl oluyor?"
+5. **Hikâye**: "Bir tweet okudum, ertesi sabah 5'te uyandım"
+
+Beşi de aynı videoya gider. CTR'lerini ölçer, kazanan formülü içerik kategorinizin baseline'ı yaparsınız.
+
+## Sonuç
+
+YouTube Shorts'ta video kadar başlık önemli — belki daha da önemli. AI başlık üretimi artık niş bir taktik değil, profesyonel içerik üreticilerinin standart araç setinde. Manuel yazıp tek başlıkla yayınlamak yerine, 3-5 varyasyon üretip en güçlüsünü seçmek CTR'nizi 2-3 katına çıkarabilir. ViralSpark Free plan size günde 5 başlık üretimi hediye eder — denemek için tek tıklama yeterli.`,
+    date: '2026-04-11',
+    readTime: '8 dk',
+    category: 'YouTube',
+    locale: 'tr',
+  },
+  {
+    slug: 'twitter-thread-yazma-rehberi',
+    title: 'Twitter Thread Yazma Rehberi: Algoritmayı Kazandıran Yapı',
+    excerpt: 'Etkili Twitter (X) thread\'i yazmanın bilim ve sanatı. İlk tweet, geçiş cümleleri, kapanış ve AI ile thread üretmenin pratik yöntemi.',
+    translationSlug: 'twitter-thread-writing-guide',
+    content: `Twitter (X) thread'leri 2026'da hâlâ platformun en güçlü dağılım formatı. Tek tweet'lerin organik erişimi düşse de, doğru yapılmış bir thread 10-15 dakika içinde 100K+ gösterime ulaşabiliyor. Ama doğru yapılmış olması şart. Bu rehberde, viral olan thread'lerle olmayanlar arasındaki yapısal farkları, hangi formülün hangi içerik türü için işe yaradığını ve AI ile thread üretmenin pratik yöntemini anlatacağız.
+
+## İlk Tweet: Thread'in Kaderi Burada Belirlenir
+
+Bir thread'in performansının %80'i ilk tweet tarafından belirlenir. X algoritması ilk tweet'in engagement oranına bakar: kullanıcı tıkladı mı, devamını okudu mu, yer imine ekledi mi? Bu sinyaller iyiyse algoritma thread'i daha geniş bir kitleye dağıtır.
+
+İyi bir thread başlangıcının üç özelliği:
+
+1. **Net vaat**: "Bu thread'de X öğreneceksin" ya da daha iyisi: "X yapmanın 5 yolu" gibi sayısal somut vaat.
+2. **Merak boşluğu**: Cevabı tamamen söylemeden ipucu vermek. "Son 90 günde 6 müşteri kaybettim. Sebebini anladığım an pazarlama anlayışım değişti" — devamı ne, merak ediyorsun.
+3. **Görsel desen**: Emoji veya satır arası boşluk gibi görsel öğeler. Ama abartmadan — 2026 itibarıyla aşırı emojili thread'ler "düşük kaliteli" olarak işaretleniyor.
+
+## Thread Yapısı: 3 Ana Format
+
+### Liste Formatı
+"Şu konuda 7 ders öğrendim" başlığıyla başlar, her tweet bir ders. En kolay format, en yüksek tamamlanma oranı (%62 ortalama). En iyi için ders sayısı 5-9 arası olmalı. 3'ten azsa thread olmaktansa tek tweet daha iyi, 10'dan fazlaysa kullanıcı sıkılır.
+
+### Hikâye Formatı
+"Geçen yıl bir karar verdim, hayatımı değiştirdi. İşte tüm hikâye" gibi başlangıç. Lineer akışlı, kronolojik. Engagement bakımından en güçlü format ama yazılması en zor olanı. Tipik tamamlanma oranı %48 — düşük gibi görünür ama yorum/paylaşım oranı 2 kat daha yüksektir.
+
+### Çerçeve Formatı (Framework)
+"Şu yöntemi kullanıyorum, 4 adımda anlatıyorum" tarzı. Eğitim içerikleri için ideal. Yer imine eklenme oranı %25'e kadar çıkar — bu da algoritma için dev bir sinyal, çünkü "save" en güçlü engagement aksiyonudur.
+
+## Geçiş Cümleleri: Akışı Korumak
+
+Thread'in en sık öldüğü yer geçişlerdir. Kullanıcı 3. tweet'te sıkıldıysa kalanı okumaz ve algoritma bunu görür. Geçiş cümleleri kısa olmalı, bir sonraki tweet'e merak yaratmalı:
+
+- "Ama asıl ilginç olan bundan sonrası..."
+- "Bu noktada işler karıştı..."
+- "Sebebini öğrenince şok oldum..."
+- "Şimdi sıra en kritik adıma geldi..."
+
+Her tweet'in son satırı, bir sonraki tweet'in açılış cümlesi gibi düşünülmeli. Bu yapıya "thread cliffhanger" deniyor.
+
+## Tweet Uzunluğu ve Görsel Akış
+
+2026'da X'te tweet başına optimum karakter sayısı 220-260 arası. 280 karakter sınırına yakın yazmak okunmayı zorlaştırır, çok kısa tweet'ler de "boşaltma" hissi verir. Her tweet'in en az 2 paragrafı olmalı, paragraflar arasında satır aralığı bırakılmalı.
+
+Thread içinde 1-2 görsel kullanmak engagement'ı %35 artırıyor. Ama görsel her tweet'e değil, sadece kritik noktalara konmalı. Aşırı görsel kullanımı algoritma tarafından "bot" sinyali olarak okunabiliyor.
+
+## Kapanış Tweet'i: Engagement'ı Çağırma
+
+Thread'in son tweet'i çoğu içerik üreticisi tarafından es geçiliyor — büyük hata. Kapanış tweet'i şunları içermeli:
+
+1. **Özet**: Thread'in ana mesajını 1 cümleyle hatırlat.
+2. **CTA (call-to-action)**: "Beğendiyseniz yer imine ekleyin" veya "Sizin deneyiminiz nedir?" gibi eylem çağrısı.
+3. **Yeniden paylaşım daveti**: "Faydalı bulduysanız ilk tweet'i RT'leyin" — bu, profilinize trafik çeker.
+
+İyi bir CTA thread'in toplam etkileşimini %20-40 artırabilir.
+
+## AI ile Thread Üretmek: Pratik Yöntem
+
+Manuel thread yazmak ortalama 45 dakika sürer. Bir konu seçer, başlık ararsın, yapıyı kurar, geçişleri yazarsın. ViralSpark'ın Twitter Thread aracı bu süreci 30 saniyeye indiriyor:
+
+1. Konuyu yaz ya da kaynak link/metin yapıştır.
+2. Format seç: liste, hikâye veya çerçeve.
+3. Tweet sayısını belirle (5-9 önerilir).
+4. AI 30 saniyede 3 farklı varyasyon üretir, her biri viral skor ve karakter sayımıyla gelir.
+
+Üretilen thread'i kopyalamadan önce mutlaka düzenleyin — AI iyi bir başlangıç noktası verir ama kişisel detaylarınızı eklemek thread'in özgünlüğünü artırır.
+
+## Hangi Saatler İşe Yarıyor?
+
+Türkçe Twitter için en yüksek engagement saatleri: hafta içi 12:30-13:30 ve 20:00-22:30. İngilizce uluslararası kitle için: Pazartesi-Çarşamba 14:00-16:00 GMT. Hafta sonu thread atmaktan kaçının — tamamlanma oranı %30 düşer çünkü kullanıcılar dikkatlerini X'ten ayırır.
+
+## Yapmamanız Gerekenler
+
+- Thread'i "Bu thread'de..." diye başlatma: çok klişe oldu, algoritma da düşük puanlıyor.
+- Aynı thread'i defalarca yeniden paylaşma: shadow ban riski.
+- Bağlam dışı hashtag yığını: thread'in altında 5+ hashtag amatör görünür.
+- 25+ tweet'lik thread'ler: tamamlanma oranı %15'in altına düşer.
+
+## Sonuç
+
+Twitter thread'i hâlâ X'in en güçlü organik dağılım aracı. Doğru ilk tweet, akıcı geçişler, net kapanış — bu üç bileşenle herkes thread yazabilir. AI thread üretimi süreyi 90'a 1 oranında kısaltıyor ama sonucu kontrol etmek yine sizin işiniz. ViralSpark Free plan size 5 thread denemesi veriyor; ilkini yazıp kendi tarzınıza uyarlayabilirsiniz.`,
+    date: '2026-04-11',
+    readTime: '9 dk',
+    category: 'Twitter',
+    locale: 'tr',
+  },
+  {
+    slug: 'linkedin-headline-ai-tr',
+    title: 'LinkedIn Headline AI: Profilinizi 10 Saniyede Pazarlama Cümlesine Dönüştürün',
+    excerpt: 'LinkedIn headline\'ınız, profilinize gelen herkesin gördüğü ilk şey. AI ile etkili, aranabilir ve karakter dolu bir headline nasıl yazılır?',
+    translationSlug: 'linkedin-headline-ai',
+    content: `LinkedIn'de profilinize gelen herkesin ilk gördüğü şey adınızın altındaki "headline" satırı. Bu 220 karakterlik küçük alan, kariyerinizdeki en önemli pazarlama metni olabilir. Çünkü recruiter'lar, müşteriler ve potansiyel ortaklar sizinle konuşmaya değer biri olup olmadığınıza bakarken **profilinize harcadıkları sürenin %60'ını** bu cümleye ayırıyor. Bu rehberde, etkili bir LinkedIn headline'ın yapısını, AI ile nasıl saniyeler içinde üretebileceğinizi ve sektöre özel formülleri anlatıyoruz.
+
+## Neden Headline Bu Kadar Önemli?
+
+LinkedIn, kullanıcılarınızın profilinizde harcadığı sürenin verisini açıkça paylaşıyor: ortalama bir profil ziyareti 23 saniye sürüyor, ve bu sürenin 14 saniyesi headline + profil fotoğrafı + isim üçgeninde harcanıyor. Yani 14 saniye içinde "Bu kişi benim için değerli mi?" sorusuna cevap veremezseniz, kullanıcı sayfayı kapatıyor.
+
+Daha kritik olan: LinkedIn'in arama algoritması headline'ı en yüksek sıralama faktörü olarak kullanıyor. "Pazarlama uzmanı" olarak aratıldığında, headline'ında "Pazarlama Uzmanı" geçenler "Marketing Specialist" yazanlardan önce çıkıyor. Yani yanlış headline = arama sonuçlarında görünmemek.
+
+## Etkili Headline'ın 4 Bileşeni
+
+Tüm yüksek performanslı LinkedIn headline'lar şu dört unsuru içerir:
+
+### 1. Kim Olduğunuz (Pozisyon)
+"Pazarlama Yöneticisi" gibi net bir pozisyon başlığı. Soyut kelimelerden kaçının — "Yaratıcı Düşünür" hiçbir şey ifade etmez. Spesifik olun: "B2B SaaS Pazarlama Yöneticisi".
+
+### 2. Kim İçin Çalıştığınız (Şirket veya Niş)
+"Acme Inc." veya "Erken aşama startup'lar için". Bu, profilinize gelen kullanıcının sizi bir bağlama oturtmasını sağlar.
+
+### 3. Nasıl Değer Yarattığınız (Sonuç)
+"E-ticaret şirketlerinin dönüşüm oranlarını ortalama %40 artırıyorum" gibi somut bir vaat. Sayılar headline'ı 3 kata kadar daha hatırlanır kılıyor.
+
+### 4. Anahtar Kelimeler (SEO)
+LinkedIn aramasında çıkmak için sektör anahtar kelimeleri. Bunlar "Pazarlama", "SEO", "İçerik Stratejisi" gibi kelimeler. Headline'ınızda en az 3 anahtar kelime olmalı.
+
+## Çalışan Headline Formülleri
+
+### Formül 1: Pozisyon + Sonuç + Niş
+"B2B SaaS Pazarlama Yöneticisi | Erken aşama startup'ların dönüşüm oranlarını %40 artırıyorum"
+
+### Formül 2: Yardım Cümlesi
+"E-ticaret markalarının Instagram satışlarını 6 ayda 3 katına çıkarmasına yardım ediyorum"
+
+### Formül 3: Hikâye Açılışı
+"6 yıl önce bir startup'ı 0'dan 1M kullanıcıya çıkardım. Şimdi başkalarına aynı yolda eşlik ediyorum."
+
+### Formül 4: Değer + Sosyal Kanıt
+"Türkiye'nin en hızlı büyüyen 50 şirketinden 8'inin pazarlama danışmanı | Growth Marketing"
+
+### Formül 5: Spesifik + Spesifik
+"Shopify uzmanı | Konvansiyon optimizasyonu (CRO) | 47 ülkede 200+ mağaza"
+
+## AI ile Headline Üretmek
+
+Manuel headline yazmak çoğu zaman yorucudur — kendiniz hakkında objektif konuşmak zor. ViralSpark'ın LinkedIn Headline aracı bu noktada işe yarıyor: pozisyonunuzu, deneyim alanınızı ve elde ettiğiniz sonuçları girersiniz, AI 5 farklı varyasyon üretir. Her biri farklı formülde, her biri için karakter sayısı ve LinkedIn arama uyumluluk skoru gösterilir.
+
+AI'nın faydası: kendinize dışarıdan bakmayı sağlar. Bazı varyasyonlar size "ben böyle değilim" hissi verecek — onları silin. Ama 1-2 tanesi muhtemelen daha önce düşünmediğiniz bir açıdan sizi tanımlayacak. İşte o, kullanıcının yeni headline'ı oluyor.
+
+## Sektöre Özel İpuçları
+
+### Yazılım Geliştirici
+Teknolojileri değil, çözdüğünüz problemleri yazın. "React + Node.js Developer" yerine "Yüksek trafikli e-ticaret sitelerini ölçeklendiriyorum (React, Node, AWS)".
+
+### Tasarımcı
+"UX/UI Designer" yerine "B2B SaaS ürünlerinde kullanıcı dönüşümünü tasarımla artırıyorum" gibi sonuç odaklı.
+
+### Satış Profesyoneli
+Sayı kullanın. "Enterprise Account Executive | 2025'te $4.2M ARR yarattı".
+
+### Danışman / Freelance
+Net niş + net hizmet. "Türk e-ticaret markaları için Meta Ads danışmanlığı | Müşteri başına ortalama 2.4x ROAS".
+
+### İş Arayan
+Headline'a "Open to Work" eklemek arama algoritmasında %25 boost veriyor. "Senior Backend Developer | Açıkça yeni fırsatlara açığım".
+
+## Yapmamanız Gerekenler
+
+- **"Tutkulu", "kararlı", "özverili" gibi sıfatlar**: Anlamsız ve herkes tarafından kullanılıyor.
+- **Aşırı emoji**: 2 emoji kabul edilebilir, 5+ amatör görünür.
+- **CEO, Founder, Owner zinciri**: Tek bir başlık seçin, hepsini sıralamak ciddiyetsiz görünür.
+- **Klişeleşmiş "Helping X to Y" cümleleri**: "Helping startups grow" çok klişe oldu, niş eklemeden kullanmayın.
+- **Türkçe-İngilizce karışımı**: Hangi dile karar verdiğinizi sezdirin, hedef kitlenize göre seçin.
+
+## Headline'ı Test Etmek
+
+İyi bir headline yazdığınızı düşünüyorsanız test edin. LinkedIn'in "Profile Views" verisine bakın: yeni headline'dan sonraki 14 gün içinde profil görüntülemeleri %10+ artmadıysa headline işe yaramıyor demektir. Geri dönün ve formülü değiştirin.
+
+## Sonuç
+
+LinkedIn headline'ınız profilinizin reklam panosu. 220 karakter içinde kim olduğunuzu, kim için çalıştığınızı, nasıl değer yarattığınızı anlatabilirseniz, profil ziyaretçilerinin sizinle bağlantı kurma oranı 2-3 katına çıkar. AI bu süreci hızlandırır ama nihai cümle hâlâ sizin sesinizi taşımalı. ViralSpark'ın LinkedIn Headline aracı 5 varyasyon üretir, siz en kendiniz hissetiren cümleyi seçer ve profilinizi 60 saniyede güncellersiniz.`,
+    date: '2026-04-11',
+    readTime: '9 dk',
+    category: 'LinkedIn',
+    locale: 'tr',
+  },
+  // ============================================================
+  // NEW EN — Long-tail high-intent
+  // ============================================================
+  {
+    slug: 'youtube-shorts-title-generator',
+    title: 'YouTube Shorts Title Generator: Multiply Your CTR with AI',
+    excerpt: 'On YouTube Shorts, the title matters as much as the video. Learn how to generate high-CTR, algorithm-friendly titles in seconds with AI — with examples.',
+    translationSlug: 'youtube-shorts-baslik-olusturucu',
+    content: `Success on YouTube Shorts doesn't start with a viral video — it starts with the right title. According to YouTube's internal data, the same video with two different titles can see up to a **3x difference in click-through rate (CTR)**. In this guide, we'll cover the title formulas that actually work on YouTube Shorts in 2026, how to generate them in seconds with AI, and the pitfalls to avoid.
+
+## YouTube Shorts Algorithm and the Role of the Title
+
+Three signals determine reach on YouTube Shorts: watch time, click-through rate, and engagement. The trigger for all three is the title. Users decide whether to tap on a video within the first 1.2 seconds of seeing it in the feed — and that decision is largely shaped by the title and the first readable words on the thumbnail.
+
+Because Shorts thumbnails are auto-generated from the video most of the time, the burden on the title grows. Roughly 40% of a Short's performance comes from the title alone.
+
+## 5 Title Formulas That Work in 2026
+
+### 1. Number + Promise
+"I learned this in 3 minutes, it changed my life." Numbers anchor the brain and the title delivers a clear promise. Odd numbers (3, 5, 7) get about 12% higher CTR than even numbers.
+
+### 2. Counterintuitive Take
+"Everyone is teaching this wrong: ..." or "Nobody talks about this, but..." These create cognitive dissonance and force the brain to ask "Wait, really?" — which is exactly the click trigger.
+
+### 3. Open Question
+"Why did I quit Instagram?" Open-ended questions invest in curiosity. But careful: easily-answerable questions are losing titles. "Is coffee bad?" doesn't work. "Did you know 3 cups a day has this side effect?" does.
+
+### 4. Loss Frame
+"You're losing money if you don't do this." Loss-framed titles outperform gain-framed ones by about 42%. People avoid losses harder than they chase gains.
+
+### 5. Story Opener
+"I replied to one email last week, and my life changed." Story openers make viewers crave the next sentence. Since the first 2 seconds of a Short are critical, story-opener titles also boost watch time by 25-30%.
+
+## Why AI Title Generation Makes Sense
+
+Manual title writing is exhausting and subjective. You think of 2-3 ideas for a topic and then your brain locks up. AI helps here: ViralSpark's YouTube Shorts title tool generates a title in each of the 5 formulas above, then scores each from 0-100 on hook strength, curiosity gap, character limit fit (under 60 is preferred), and CTR prediction.
+
+Seeing 5 variations in 3 seconds makes it intuitive to spot the strongest one. Most creators spend 8-15 minutes writing a title. With AI it drops to 20 seconds, with 5x more options.
+
+## What to Avoid
+
+- **Clickbait**: After YouTube's 2024 update, mismatch between title and content is detected and auto-throttles your reach.
+- **80+ characters**: Mobile cuts the title off. Critical words must land in the first 50.
+- **ALL CAPS**: Reads as spam, kills CTR.
+- **Question mark stacks**: "WHY??? HOW???" looks amateur and drops engagement.
+- **Generic adjectives**: "Interesting", "amazing", "surprising" are filler. "3 unexpected results" is better.
+
+## Practical Exercise: One Video, 5 Titles
+
+Say you shot a Short on "the experience of waking up at 5 AM." Feed it to AI and you get:
+
+1. **Number**: "3 unexpected effects of waking up at 5 AM"
+2. **Counter**: "Everyone wakes up wrong: 5 AM didn't change my life"
+3. **Question**: "What happens after 30 days of waking up at 5 AM?"
+4. **Loss**: "How sleeping in is costing you your life"
+5. **Story**: "I read one tweet, the next morning I was up at 5"
+
+All five point to the same video. You measure CTR, and the winning formula becomes the baseline for that content category.
+
+## Conclusion
+
+On YouTube Shorts, the title is as important as the video — maybe more. AI title generation is no longer a niche tactic; it's standard in the toolkit of pro creators. Generating 3-5 variations and shipping the strongest one can 2-3x your CTR vs. writing one and shipping it. ViralSpark's free plan gives you 5 title generations a day — one click to try.`,
+    date: '2026-04-11',
+    readTime: '8 min',
+    category: 'YouTube',
+    locale: 'en',
+  },
+  {
+    slug: 'twitter-thread-writing-guide',
+    title: 'Twitter Thread Writing Guide: The Structure That Wins the Algorithm',
+    excerpt: 'The science and art of writing effective Twitter (X) threads. First tweet, transitions, closing, and a practical AI workflow for thread generation.',
+    translationSlug: 'twitter-thread-yazma-rehberi',
+    content: `Twitter (X) threads are still the platform's most powerful distribution format in 2026. Even as single-tweet reach declines, a well-built thread can hit 100K+ impressions in 10-15 minutes. But "well-built" is the keyword. In this guide, we'll break down the structural differences between threads that go viral and those that don't, which formula works for which content type, and how to use AI to generate threads in practice.
+
+## The First Tweet: Where the Thread's Fate Is Decided
+
+About 80% of a thread's performance is determined by its first tweet. The X algorithm watches the engagement rate of the opener: did the user tap, did they read more, did they bookmark? If those signals are strong, the algorithm pushes the thread to a wider audience.
+
+Three traits of a strong thread opener:
+
+1. **Clear promise**: "In this thread you'll learn X" or better — a numbered concrete promise like "5 ways to do X."
+2. **Curiosity gap**: Hint at the answer without giving it away. "I lost 6 customers in 90 days. The moment I figured out why, my marketing changed forever" — what's next? You want to know.
+3. **Visual rhythm**: Emojis or whitespace as visual cues. But don't overdo it — in 2026, emoji-heavy threads get flagged as "low quality."
+
+## Thread Structure: 3 Core Formats
+
+### List Format
+Starts with "I learned 7 lessons about X" — each tweet is one lesson. The easiest format, with the highest completion rate (62% average). Best size is 5-9 items. Fewer than 3 should just be one tweet; more than 10 and the reader fatigues.
+
+### Story Format
+"Last year I made a decision that changed everything. Here's the full story." Linear, chronological. The strongest format for engagement but the hardest to write. Typical completion rate is 48% — looks low, but the reply/share rate is 2x higher.
+
+### Framework Format
+"I use this method, here are the 4 steps." Ideal for educational content. Bookmark rate can hit 25% — a massive signal because "save" is the most powerful engagement action for the algorithm.
+
+## Transitions: Keeping the Flow
+
+The most common place threads die is in transitions. If a user fatigues at tweet 3, they don't read the rest, and the algorithm sees that. Transitions should be short and pull the reader forward:
+
+- "But here's where it got interesting..."
+- "Then everything went sideways..."
+- "When I figured out why, I was shocked..."
+- "Now for the most critical step..."
+
+Treat the last line of every tweet as the opening line of the next. The pattern is called a "thread cliffhanger."
+
+## Tweet Length and Visual Flow
+
+In 2026, the optimal character count per tweet on X is 220-260. Pushing 280 makes reading harder; very short tweets feel like padding. Each tweet should have at least 2 paragraphs with line breaks between them.
+
+Adding 1-2 images inside a thread bumps engagement by 35%. But images shouldn't go in every tweet — only in critical moments. Overusing images can read as a "bot signal" to the algorithm.
+
+## The Closing Tweet: Calling Engagement
+
+The last tweet of the thread is what most creators skip — big mistake. The closing tweet should:
+
+1. **Recap**: Reinforce the main message in 1 sentence.
+2. **CTA**: An action prompt like "Save this if it helped" or "What's been your experience?"
+3. **Reshare invite**: "If this was useful, RT the first tweet" — drives traffic to your profile.
+
+A good CTA can lift total engagement by 20-40%.
+
+## Generating Threads with AI
+
+Manual thread writing takes about 45 minutes. You pick a topic, hunt for an opener, build the structure, write transitions. ViralSpark's Twitter Thread tool reduces that to 30 seconds:
+
+1. Type the topic or paste a source link/text.
+2. Pick a format: list, story, or framework.
+3. Set the tweet count (5-9 recommended).
+4. AI produces 3 variations in 30 seconds, each with a viral score and character counts.
+
+Always edit the generated thread before posting — AI gives a strong starting point, but adding personal details makes the thread feel original.
+
+## What Times Work?
+
+For Turkish Twitter, peak engagement is weekdays 12:30-13:30 and 20:00-22:30. For an English international audience: Mon-Wed 14:00-16:00 GMT. Avoid weekends — completion rates drop 30% as users disengage from X.
+
+## What to Avoid
+
+- Starting with "In this thread..." — too cliché, the algorithm down-ranks it.
+- Reposting the same thread repeatedly — shadow ban risk.
+- Hashtag stacks: 5+ hashtags at the bottom looks amateur.
+- 25+ tweet threads — completion drops below 15%.
+
+## Conclusion
+
+Twitter threads are still X's strongest organic distribution mechanism. A strong first tweet, fluid transitions, a clean close — three components and anyone can write one. AI thread generation cuts the time by 90:1, but checking the result is still your job. ViralSpark's free plan gives you 5 thread generations to try; write the first one and tune it to your voice.`,
+    date: '2026-04-11',
+    readTime: '9 min',
+    category: 'Twitter',
+    locale: 'en',
+  },
+  {
+    slug: 'linkedin-headline-ai',
+    title: 'LinkedIn Headline AI: Turn Your Profile Into a Pitch in 10 Seconds',
+    excerpt: 'Your LinkedIn headline is the first thing every visitor sees. How to write an effective, searchable, character-driven headline with AI.',
+    translationSlug: 'linkedin-headline-ai-tr',
+    content: `Your LinkedIn headline — the line of text right under your name — is the first thing every visitor to your profile reads. That 220-character box might be the most important piece of marketing copy in your career. Recruiters, prospects, and potential partners deciding whether you're worth a conversation spend **about 60% of their profile view time** on it. In this guide, we'll cover the structure of an effective LinkedIn headline, how to generate one with AI in seconds, and industry-specific formulas.
+
+## Why the Headline Matters So Much
+
+LinkedIn shares the data openly: an average profile visit lasts 23 seconds, and 14 of those seconds are spent in the triangle of name, photo, and headline. If you can't answer "is this person valuable to me?" within 14 seconds, the visitor closes the tab.
+
+More critically: LinkedIn's search algorithm uses the headline as its top ranking factor. When someone searches "marketing specialist," profiles with "Marketing Specialist" in the headline outrank profiles that say only "Marketer." Wrong headline = invisible in search.
+
+## 4 Components of an Effective Headline
+
+Every high-performing LinkedIn headline contains these four elements:
+
+### 1. Who You Are (Position)
+A clear job title like "Marketing Manager." Avoid abstract words — "Creative Thinker" tells the reader nothing. Be specific: "B2B SaaS Marketing Manager."
+
+### 2. Who You Work For (Company or Niche)
+"Acme Inc." or "for early-stage startups." This anchors the visitor in a context.
+
+### 3. How You Create Value (Result)
+A concrete claim like "I lift conversion rates for e-commerce brands by an average of 40%." Numbers make a headline up to 3x more memorable.
+
+### 4. Keywords (SEO)
+Industry keywords for LinkedIn search. Words like "Marketing," "SEO," "Content Strategy." A headline should contain at least 3 keywords.
+
+## Headline Formulas That Work
+
+### Formula 1: Position + Result + Niche
+"B2B SaaS Marketing Manager | I lift early-stage startup conversion rates by 40%"
+
+### Formula 2: Helper Statement
+"I help e-commerce brands triple their Instagram sales in 6 months"
+
+### Formula 3: Story Opener
+"6 years ago I scaled a startup from 0 to 1M users. Now I help others walk the same path."
+
+### Formula 4: Value + Social Proof
+"Marketing advisor to 8 of Turkey's 50 fastest-growing companies | Growth Marketing"
+
+### Formula 5: Specific + Specific
+"Shopify expert | Conversion rate optimization (CRO) | 200+ stores in 47 countries"
+
+## Generating a Headline with AI
+
+Writing your own headline is tough — being objective about yourself is hard. ViralSpark's LinkedIn Headline tool helps here: enter your role, area of expertise, and the results you've delivered, and AI generates 5 variations. Each uses a different formula and shows character count plus a LinkedIn search-fit score.
+
+What AI gives you: an outside view of yourself. Some variations will feel "not me" — delete them. But 1-2 will likely describe you from an angle you hadn't considered. That one becomes your new headline.
+
+## Industry-Specific Tips
+
+### Software Engineer
+Don't list technologies; list problems you solve. "React + Node.js Developer" → "I scale high-traffic e-commerce sites (React, Node, AWS)."
+
+### Designer
+"UX/UI Designer" → "I lift user conversion in B2B SaaS products through design" — outcome-driven.
+
+### Sales Professional
+Use numbers. "Enterprise Account Executive | $4.2M ARR generated in 2025."
+
+### Consultant / Freelancer
+Clear niche, clear service. "Meta Ads consultant for Turkish e-commerce brands | 2.4x average ROAS per client."
+
+### Job Seeker
+Adding "Open to Work" boosts visibility in search by 25%. "Senior Backend Developer | Openly looking for new opportunities."
+
+## What to Avoid
+
+- **"Passionate," "driven," "dedicated"**: Meaningless, used by everyone.
+- **Excessive emoji**: 2 is fine, 5+ looks amateur.
+- **CEO, Founder, Owner stack**: Pick one, listing all reads as unserious.
+- **Cliché "Helping X to Y"**: "Helping startups grow" is over-used; don't use it without a niche.
+- **Mixed languages**: Pick one and commit; choose for your target audience.
+
+## Test the Headline
+
+If you think you wrote a good one, test it. Check LinkedIn's "Profile Views" data: if profile views don't lift by 10%+ in the 14 days after the change, the headline isn't working. Go back and switch the formula.
+
+## Conclusion
+
+Your LinkedIn headline is the billboard of your profile. If you can convey who you are, who you serve, and how you create value in 220 characters, your visitor-to-connection rate doubles or triples. AI accelerates the process, but the final line still needs your voice. ViralSpark's LinkedIn Headline tool generates 5 variations — pick the one that feels most like you and update your profile in 60 seconds.`,
+    date: '2026-04-11',
+    readTime: '9 min',
+    category: 'LinkedIn',
+    locale: 'en',
+  },
 ]
