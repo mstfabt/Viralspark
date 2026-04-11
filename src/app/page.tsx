@@ -1,7 +1,7 @@
 'use client'
 
 import { Show, useUser } from '@clerk/nextjs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { LanguageSelector } from '@/components/language-selector'
 
@@ -143,6 +143,17 @@ export default function Home() {
   const isEn = locale === 'en'
   const [openFaq, setOpenFaq] = useState<number | null>(0)
   const faqs = isEn ? FAQ_EN : FAQ_TR
+
+  // lemon.js attaches click listeners at init via querySelectorAll — Clerk's
+  // <Show when="signed-in"> mounts the buttons after that scan, so we re-scan
+  // once the user resolves.
+  useEffect(() => {
+    if (!user?.id) return
+    const t = setTimeout(() => {
+      window.LemonSqueezy?.Refresh?.()
+    }, 100)
+    return () => clearTimeout(t)
+  }, [user?.id])
 
   const faqJsonLd = {
     '@context': 'https://schema.org',

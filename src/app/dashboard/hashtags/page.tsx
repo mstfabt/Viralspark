@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs'
 import { useState } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORMS = [
   { id: 'genel', labelKey: 'common.general' },
@@ -25,6 +26,7 @@ type HashtagResult = {
 export default function HashtagsPage() {
   const { user } = useUser()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
   const [topic, setTopic] = useState('')
   const [platform, setPlatform] = useState('genel')
   const [result, setResult] = useState<HashtagResult | null>(null)
@@ -78,9 +80,9 @@ export default function HashtagsPage() {
           <div className="text-5xl mb-4">🔒</div>
           <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
           <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
             {t('common.upgrade')}
-          </a>
+          </button>
         </div>
       </div>
     )

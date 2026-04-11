@@ -5,6 +5,7 @@ import { useState, useMemo } from 'react'
 import { HOOKS_TR, HOOKS_EN, HOOK_CATEGORIES_TR, HOOK_CATEGORIES_EN, type Hook } from '@/lib/hooks-data'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORM_FILTERS = [
   { id: 'all', labelKey: 'hooks.all' },
@@ -23,6 +24,7 @@ const ENGAGEMENT_COLORS = {
 export default function HooksPage() {
   const { user } = useUser()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
 
   const hooks = locale === 'en' ? HOOKS_EN : HOOKS_TR
   const categories = locale === 'en' ? HOOK_CATEGORIES_EN : HOOK_CATEGORIES_TR
@@ -67,9 +69,9 @@ export default function HooksPage() {
           <div className="text-5xl mb-4">🔒</div>
           <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
           <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
             {t('common.upgrade')}
-          </a>
+          </button>
         </div>
       </div>
     )

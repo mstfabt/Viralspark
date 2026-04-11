@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useToast } from '@/components/toast'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X' },
@@ -16,6 +17,7 @@ type PostResult = { text: string; score: number }
 export default function UrlToPostPage() {
   const { toast } = useToast()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
   const [url, setUrl] = useState('')
   const [selectedPlatforms, setSelectedPlatforms] = useState(['twitter'])
   const [results, setResults] = useState<Record<string, PostResult> | null>(null)
@@ -134,9 +136,9 @@ export default function UrlToPostPage() {
       {limitReached && (
         <div className="mt-6 p-6 bg-red-50 border border-red-100 rounded-2xl">
           <p className="text-red-600 mb-3">{errorMsg}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
             {t('gen.upgrade.button')}
-          </a>
+          </button>
         </div>
       )}
 

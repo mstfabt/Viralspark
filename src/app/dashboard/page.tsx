@@ -7,6 +7,7 @@ import { useToast } from '@/components/toast'
 import { saveToHistory } from '@/lib/history'
 import { addFavorite, isFavorite } from '@/lib/favorites'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', color: 'bg-black', icon: 'X' },
@@ -21,6 +22,7 @@ export default function DashboardPage() {
   const { user } = useUser()
   const { toast } = useToast()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
   const [topic, setTopic] = useState('')
   const [results, setResults] = useState<Record<string, ContentResult[]> | null>(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -195,9 +197,9 @@ export default function DashboardPage() {
                     ? `You've used ${usageInfo.used}/${usageInfo.limit} generations this month. Upgrade for unlimited.`
                     : `Bu ay ${usageInfo.used}/${usageInfo.limit} icerik urettiniz. Sinirsiz icin planininizi yukseltin.`)}
               </span>
-              <a href="/#pricing" className={`font-semibold underline whitespace-nowrap ${isMaxed ? 'text-red-900' : 'text-amber-900'}`}>
+              <button type="button" onClick={openUpgrade} className={`font-semibold underline whitespace-nowrap ${isMaxed ? 'text-red-900' : 'text-amber-900'}`}>
                 {locale === 'en' ? 'Upgrade' : 'Planini Yukselt'}
-              </a>
+              </button>
             </div>
             <button onClick={() => setBannerDismissed(true)} className="shrink-0 p-1 rounded-full hover:bg-black/5 transition-colors">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +249,7 @@ export default function DashboardPage() {
         {!canMulti && (
           <span className="flex items-center text-xs text-gray-400 dark:text-[#71717a] ml-2">
             {t('gen.upgrade')}{' '}
-            <a href="/#pricing" className="underline ml-1">{t('common.upgrade')}</a>
+            <button type="button" onClick={openUpgrade} className="underline ml-1">{t('common.upgrade')}</button>
           </span>
         )}
       </div>
@@ -291,9 +293,9 @@ export default function DashboardPage() {
       {limitReached && (
         <div className="mt-6 p-6 bg-red-50 border border-red-100 rounded-2xl">
           <p className="text-red-600 mb-3">{errorMsg}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
             {t('gen.upgrade.button')}
-          </a>
+          </button>
         </div>
       )}
 

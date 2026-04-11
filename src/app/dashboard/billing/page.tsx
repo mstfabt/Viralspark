@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs'
 import { useState, useEffect } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 type UsageFeature = { used: number; limit: number | null }
 
@@ -18,6 +19,7 @@ export default function BillingPage() {
   const { user, isLoaded } = useUser()
   const { t, locale } = useLanguage()
   const isEn = locale === 'en'
+  const { open: openUpgrade } = useUpgradeModal()
   const [usage, setUsage] = useState<UsageResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -116,12 +118,13 @@ export default function BillingPage() {
           </div>
 
           {plan === 'free' ? (
-            <a
-              href="/#pricing"
+            <button
+              type="button"
+              onClick={openUpgrade}
               className="px-6 py-3 brand-grad brand-shadow-sm rounded-full text-sm font-semibold"
             >
               {isEn ? 'Upgrade plan' : 'Plani yukselt'}
-            </a>
+            </button>
           ) : (
             <button
               onClick={openBillingPortal}

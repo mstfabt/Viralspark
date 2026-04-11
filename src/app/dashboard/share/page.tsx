@@ -4,6 +4,7 @@ import { useUser } from '@clerk/nextjs'
 import { useState, useRef, useCallback } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const OVERLAY_STYLES = [
   { id: 'bottom-dark', label: { tr: 'Alt Koyu Bant', en: 'Bottom Dark' }, position: 'bottom' as const, bg: 'rgba(0,0,0,0.7)', text: '#fff' },
@@ -36,6 +37,7 @@ const BG_TEMPLATES = [
 export default function SharePage() {
   const { user } = useUser()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
   const status = publicMeta.subscriptionStatus as string
   const plan = (status === 'active' || status === 'on_trial' || status === 'cancelled')
@@ -257,9 +259,9 @@ export default function SharePage() {
           <div className="text-6xl mb-4">🔒</div>
           <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
           <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow px-8 py-4 rounded-full font-semibold">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow px-8 py-4 rounded-full font-semibold">
             {t('common.upgrade')}
-          </a>
+          </button>
         </div>
       </div>
     )

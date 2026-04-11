@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { useToast } from '@/components/toast'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X' },
@@ -27,6 +28,7 @@ const GOALS = [
 export default function ReplyPage() {
   const { t, locale } = useLanguage()
   const { toast } = useToast()
+  const { open: openUpgrade } = useUpgradeModal()
   const [content, setContent] = useState('')
   const [platform, setPlatform] = useState('twitter')
   const [tone, setTone] = useState('witty')
@@ -185,9 +187,9 @@ export default function ReplyPage() {
       {limitReached && (
         <div className="mt-6 p-6 bg-red-50 border border-red-100 rounded-2xl">
           <p className="text-red-600 mb-3">{errorMsg}</p>
-          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
+          <button type="button" onClick={openUpgrade} className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm">
             {t('gen.upgrade.button')}
-          </a>
+          </button>
         </div>
       )}
 

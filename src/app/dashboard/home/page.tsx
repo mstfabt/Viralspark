@@ -5,6 +5,7 @@ import { useState, useEffect, useMemo } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { getHistory, type HistoryItem } from '@/lib/history'
 import { useLanguage } from '@/components/language-provider'
+import { useUpgradeModal } from '@/components/upgrade-modal'
 
 const PLATFORM_LABELS: Record<string, string> = {
   twitter: 'Twitter/X',
@@ -39,6 +40,7 @@ const QUICK_ACTIONS = [
 export default function HomePage() {
   const { user } = useUser()
   const { t, locale } = useLanguage()
+  const { open: openUpgrade } = useUpgradeModal()
   const [usageInfo, setUsageInfo] = useState<{ used: number; limit: number; plan: string } | null>(null)
   const [recentHistory, setRecentHistory] = useState<HistoryItem[]>([])
   const [tipIndex, setTipIndex] = useState(0)
@@ -128,9 +130,9 @@ export default function HomePage() {
                 </p>
                 <p className="text-sm text-gray-500 dark:text-[#a1a1aa]">{t('home.usage.generations')}</p>
                 {usagePct !== null && usagePct >= 70 && (
-                  <a href="/#pricing" className="inline-block mt-2 text-xs font-semibold brand-grad brand-shadow-sm px-3 py-1.5 rounded-full">
+                  <button type="button" onClick={openUpgrade} className="inline-block mt-2 text-xs font-semibold brand-grad brand-shadow-sm px-3 py-1.5 rounded-full">
                     {t('common.upgrade')}
-                  </a>
+                  </button>
                 )}
               </div>
             </div>
