@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { BLOG_POSTS } from '@/lib/blog-data'
+import { TOOLS } from '@/lib/tools-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://viralspark.shop'
@@ -27,9 +28,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   })
 
+  // Tool landing pages — high commercial-intent targets
+  const toolUrls: MetadataRoute.Sitemap = TOOLS.map((tool) => ({
+    url: `${baseUrl}/tools/${tool.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
   // Static pages — all primary pages include both TR and EN as x-default
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${baseUrl}/tools`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${baseUrl}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/sign-up`, lastModified: now, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${baseUrl}/sign-in`, lastModified: now, changeFrequency: 'monthly', priority: 0.5 },
@@ -39,5 +49,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/refund`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  return [...staticRoutes, ...blogUrls]
+  return [...staticRoutes, ...toolUrls, ...blogUrls]
 }
