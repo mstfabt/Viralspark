@@ -37,7 +37,7 @@ export function LemonSqueezyOverlay() {
 
   return (
     <Script
-      src="https://app.lemonsqueezy.com/js/lemon.js"
+      src="https://assets.lemonsqueezy.com/lemon.js"
       strategy="afterInteractive"
       onLoad={initLemonSqueezy}
     />
