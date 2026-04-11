@@ -171,6 +171,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://va.vercel-scripts.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://va.vercel-scripts.com" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Lemon Squeezy overlay checkout — must load before any .lemonsqueezy-button is clicked */}
+        <script src="https://assets.lemonsqueezy.com/lemon.js" defer />
         <meta name="theme-color" content="#0a0a0f" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
         <meta name="apple-mobile-web-app-capable" content="yes" />

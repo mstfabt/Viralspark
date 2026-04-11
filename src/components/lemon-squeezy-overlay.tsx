@@ -1,6 +1,5 @@
 'use client'
 
-import Script from 'next/script'
 import { useEffect } from 'react'
 
 declare global {
@@ -15,31 +14,29 @@ declare global {
   }
 }
 
-let setupDone = false
-
-function initLemonSqueezy() {
-  if (setupDone || typeof window === 'undefined' || !window.LemonSqueezy) return
-  setupDone = true
-  window.LemonSqueezy.Setup({
-    eventHandler: (payload) => {
-      if (payload.event === 'Checkout.Success') {
-        // Webhook flips Clerk plan async — give it a beat then full reload.
-        setTimeout(() => window.location.reload(), 2500)
-      }
-    },
-  })
-}
-
+// Polls until lemon.js (loaded via <script defer> in layout head) attaches
+// itself to window, then registers a Checkout.Success listener that reloads
+// the page so Clerk picks up the new plan from the LS webhook.
 export function LemonSqueezyOverlay() {
   useEffect(() => {
-    initLemonSqueezy()
+    let attempts = 0
+    const interval = setInterval(() => {
+      attempts++
+      if (window.LemonSqueezy) {
+        clearInterval(interval)
+        window.LemonSqueezy.Setup({
+          eventHandler: (payload) => {
+            if (payload.event === 'Checkout.Success') {
+              setTimeout(() => window.location.reload(), 2500)
+            }
+          },
+        })
+      } else if (attempts > 50) {
+        clearInterval(interval)
+      }
+    }, 200)
+    return () => clearInterval(interval)
   }, [])
 
-  return (
-    <Script
-      src="https://assets.lemonsqueezy.com/lemon.js"
-      strategy="afterInteractive"
-      onLoad={initLemonSqueezy}
-    />
-  )
+  return null
 }
