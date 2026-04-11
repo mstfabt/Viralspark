@@ -133,7 +133,19 @@ function getCheckoutUrl(baseUrl: string, userId: string | undefined) {
   if (baseUrl.includes('gumroad.com')) {
     return `${baseUrl}?user_id=${userId}`
   }
-  return `${baseUrl}?checkout[custom][user_id]=${userId}`
+  // embed=1 enables iframe-friendly chrome so the Lemon overlay can render it
+  return `${baseUrl}?embed=1&checkout[custom][user_id]=${userId}`
+}
+
+function openLemonCheckout(url: string) {
+  if (typeof window === 'undefined') return
+  if (url === '#') return
+  if (window.LemonSqueezy?.Url?.Open) {
+    window.LemonSqueezy.Url.Open(url)
+  } else {
+    // Script not loaded yet — fall back to opening in a new tab so user isn't navigated away
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
 }
 
 export default function Home() {
@@ -521,7 +533,13 @@ export default function Home() {
                   <a href="/sign-up" className="block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('nav.start')}</a>
                 </Show>
                 <Show when="signed-in">
-                  <a href={getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id)} className="lemonsqueezy-button block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('pricing.select')}</a>
+                  <button
+                    type="button"
+                    onClick={() => openLemonCheckout(getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id))}
+                    className="w-full block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
+                  >
+                    {t('pricing.select')}
+                  </button>
                 </Show>
               </div>
             </div>
@@ -543,7 +561,13 @@ export default function Home() {
                 <a href="/sign-up" className="block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('nav.start')}</a>
               </Show>
               <Show when="signed-in">
-                <a href={getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id)} className="lemonsqueezy-button block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('pricing.go')}</a>
+                <button
+                  type="button"
+                  onClick={() => openLemonCheckout(getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id))}
+                  className="w-full block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
+                >
+                  {t('pricing.go')}
+                </button>
               </Show>
             </div>
           </div>
