@@ -30,20 +30,106 @@ const PLAN_KEYS = {
 }
 
 const FEATURE_KEYS = [
-  { titleKey: 'feature.multiplatform', descKey: 'feature.multiplatform.desc', icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z' },
-  { titleKey: 'feature.score', descKey: 'feature.score.desc', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
-  { titleKey: 'feature.ab', descKey: 'feature.ab.desc', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
-  { titleKey: 'feature.hooks', descKey: 'feature.hooks.desc', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
-  { titleKey: 'feature.hashtags', descKey: 'feature.hashtags.desc', icon: 'M7 20l4-16m2 16l4-16M6 9h14M4 15h14' },
-  { titleKey: 'feature.competitor', descKey: 'feature.competitor.desc', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
-  { titleKey: 'feature.thread', descKey: 'feature.thread.desc', icon: 'M4 6h16M4 10h16M4 14h16M4 18h16' },
-  { titleKey: 'feature.urltopost', descKey: 'feature.urltopost.desc', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' },
-  { titleKey: 'feature.bio', descKey: 'feature.bio.desc', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
-  { titleKey: 'feature.reply', descKey: 'feature.reply.desc', icon: 'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6' },
-  { titleKey: 'feature.rewrite', descKey: 'feature.rewrite.desc', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
-  { titleKey: 'feature.bulk', descKey: 'feature.bulk.desc', icon: 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z' },
-  { titleKey: 'feature.favorites', descKey: 'feature.favorites.desc', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
-  { titleKey: 'feature.improver', descKey: 'feature.improver.desc', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
+  { titleKey: 'feature.multiplatform', descKey: 'feature.multiplatform.desc', href: '/dashboard', icon: 'M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z' },
+  { titleKey: 'feature.score', descKey: 'feature.score.desc', href: '/dashboard', icon: 'M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' },
+  { titleKey: 'feature.ab', descKey: 'feature.ab.desc', href: '/dashboard', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+  { titleKey: 'feature.hooks', descKey: 'feature.hooks.desc', href: '/dashboard/hooks', icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10' },
+  { titleKey: 'feature.hashtags', descKey: 'feature.hashtags.desc', href: '/dashboard/hashtags', icon: 'M7 20l4-16m2 16l4-16M6 9h14M4 15h14' },
+  { titleKey: 'feature.competitor', descKey: 'feature.competitor.desc', href: '/dashboard/competitor', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z' },
+  { titleKey: 'feature.thread', descKey: 'feature.thread.desc', href: '/dashboard/thread', icon: 'M4 6h16M4 10h16M4 14h16M4 18h16' },
+  { titleKey: 'feature.urltopost', descKey: 'feature.urltopost.desc', href: '/dashboard/url-to-post', icon: 'M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' },
+  { titleKey: 'feature.bio', descKey: 'feature.bio.desc', href: '/dashboard/bio', icon: 'M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z' },
+  { titleKey: 'feature.reply', descKey: 'feature.reply.desc', href: '/dashboard/reply', icon: 'M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6' },
+  { titleKey: 'feature.rewrite', descKey: 'feature.rewrite.desc', href: '/dashboard/rewrite', icon: 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15' },
+  { titleKey: 'feature.bulk', descKey: 'feature.bulk.desc', href: '/dashboard/bulk', icon: 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z' },
+  { titleKey: 'feature.favorites', descKey: 'feature.favorites.desc', href: '/dashboard/favorites', icon: 'M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z' },
+  { titleKey: 'feature.improver', descKey: 'feature.improver.desc', href: '/dashboard/improve', icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z' },
+]
+
+const FAQ_TR = [
+  {
+    q: 'ViralSpark nedir ve nasıl çalışır?',
+    a: 'ViralSpark, yapay zeka destekli bir sosyal medya içerik üreticisidir. Twitter, Instagram, LinkedIn ve TikTok için saniyeler içinde viral potansiyeli yüksek gönderiler, başlıklar, hashtag\'ler ve hook cümleleri üretir. Bir konu yazın, platform seçin — AI sizin için içeriği hazırlasın.',
+  },
+  {
+    q: 'ViralSpark ücretsiz mi?',
+    a: 'Evet, ücretsiz planımız mevcuttur. Her ay 5 içerik üretebilirsiniz. Daha fazla içerik, A/B varyasyonlar, içerik takvimi ve markalama özellikleri için Starter (₺30/ay) veya Pro (₺100/ay) planlarına geçebilirsiniz.',
+  },
+  {
+    q: 'Hangi sosyal medya platformlarını destekliyor?',
+    a: 'Twitter/X, Instagram, LinkedIn ve TikTok desteklenen ana platformlardır. Her platforma özel karakter limiti, ton ve format optimizasyonu yapılır.',
+  },
+  {
+    q: 'Yapay zeka ile üretilen içerikler özgün mü?',
+    a: 'Evet. ViralSpark, her içeriği sizin konunuza ve marka sesinize göre sıfırdan üretir. Marka Profilinizi oluşturduğunuzda tüm içerikler sizin tarzınıza uygun olur. Üretilen içeriklerin telif hakkı size aittir.',
+  },
+  {
+    q: 'Viral skoru nedir ve nasıl hesaplanır?',
+    a: 'Viral skor, her içeriğin viral olma potansiyelini 1-100 arasında puanlayan bir metriktir. Hook gücü, etkileşim potansiyeli, hashtag kalitesi, platform uyumu ve içerik uzunluğu gibi faktörler analiz edilir. Yüksek skor, içeriğin daha çok etkileşim alma ihtimalinin yüksek olduğunu gösterir.',
+  },
+  {
+    q: 'Türkçe ve İngilizce içerik üretebilir miyim?',
+    a: 'Evet, ViralSpark Türkçe ve İngilizce dillerinde tam destek sunar. Dil seçicisinden dili değiştirebilir, her iki dilde de yüksek kaliteli içerikler üretebilirsiniz.',
+  },
+  {
+    q: 'Hangi AI araçlarını içeriyor?',
+    a: 'ViralSpark 14 farklı AI aracı sunar: İçerik Üretici, Viral Skorlama, A/B Varyasyonlar, Hook Kütüphanesi, Hashtag Araştırma, Rakip Analizi, İçerik Takvimi, Thread/Carousel Üretici, URL→Post, Bio Üretici, Yanıt Üretici, İçerik Yeniden Yazma, Toplu Üretim, Favori Yönetimi.',
+  },
+  {
+    q: 'Aboneliğimi nasıl iptal edebilirim?',
+    a: 'Aboneliğinizi istediğiniz zaman Dashboard → Fatura sayfasından veya ödeme sağlayıcınızın müşteri portalından iptal edebilirsiniz. İptal ettiğinizde mevcut fatura dönemi sonuna kadar planınızdan yararlanmaya devam edersiniz.',
+  },
+  {
+    q: 'ViralSpark hangi yapay zeka modelini kullanıyor?',
+    a: 'ViralSpark, Google\'ın en yeni ve en hızlı modeli olan Gemini 2.5 Flash ile çalışır. Bu sayede içerik üretimi hem hızlı hem de yüksek kalitelidir.',
+  },
+  {
+    q: 'Hangi ödeme yöntemlerini kabul ediyorsunuz?',
+    a: 'Kredi kartı, banka kartı ve Apple Pay / Google Pay desteği mevcuttur. Tüm ödemeler Lemon Squeezy üzerinden güvenli bir şekilde işlenir. Türkiye için TRY, uluslararası için USD fiyatlandırma yapılır.',
+  },
+]
+
+const FAQ_EN = [
+  {
+    q: 'What is ViralSpark and how does it work?',
+    a: 'ViralSpark is an AI-powered social media content generator. It creates high-viral-potential posts, captions, hashtags, and hook sentences for Twitter, Instagram, LinkedIn, and TikTok in seconds. Just type a topic, pick a platform — AI handles the rest.',
+  },
+  {
+    q: 'Is ViralSpark free?',
+    a: 'Yes, we have a free plan. You can generate 5 posts per month. For more content, A/B variations, content calendar, and branding features, you can upgrade to Starter ($3/mo) or Pro ($10/mo).',
+  },
+  {
+    q: 'Which social media platforms are supported?',
+    a: 'Twitter/X, Instagram, LinkedIn, and TikTok are the main supported platforms. Each platform gets optimized character limits, tone, and format.',
+  },
+  {
+    q: 'Is AI-generated content original?',
+    a: 'Yes. ViralSpark generates every piece of content from scratch based on your topic and brand voice. When you set up your Brand Profile, all content matches your style. The copyright of generated content belongs to you.',
+  },
+  {
+    q: 'What is the Viral Score and how is it calculated?',
+    a: 'The Viral Score is a metric that rates each piece of content\'s viral potential on a 1-100 scale. Factors like hook strength, engagement potential, hashtag quality, platform fit, and content length are analyzed. Higher scores indicate a better chance of high engagement.',
+  },
+  {
+    q: 'Can I generate content in Turkish and English?',
+    a: 'Yes, ViralSpark fully supports both Turkish and English. You can switch languages from the selector and generate high-quality content in either language.',
+  },
+  {
+    q: 'What AI tools are included?',
+    a: 'ViralSpark offers 14 AI tools: Content Generator, Viral Scoring, A/B Variations, Hook Library, Hashtag Research, Competitor Analysis, Content Calendar, Thread/Carousel Builder, URL→Post, Bio Generator, Reply Composer, Content Rewriter, Bulk Generation, Favorites Management.',
+  },
+  {
+    q: 'How do I cancel my subscription?',
+    a: 'You can cancel your subscription anytime from Dashboard → Billing or your payment provider\'s customer portal. Upon cancellation, you\'ll keep using your plan until the end of the current billing period.',
+  },
+  {
+    q: 'Which AI model does ViralSpark use?',
+    a: 'ViralSpark is powered by Google\'s latest and fastest model, Gemini 2.5 Flash. This ensures content generation is both fast and high-quality.',
+  },
+  {
+    q: 'What payment methods do you accept?',
+    a: 'We support credit cards, debit cards, and Apple Pay / Google Pay. All payments are securely processed through Lemon Squeezy. TRY pricing for Turkey, USD for international.',
+  },
 ]
 
 const TESTIMONIALS_DATA = {
@@ -75,6 +161,22 @@ export default function Home() {
   const [topic, setTopic] = useState('')
   const [generatedText, setGeneratedText] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(0)
+  const faqs = isEn ? FAQ_EN : FAQ_TR
+  // FAQPage JSON-LD — Google uses this for featured snippets.
+  // We emit the Turkish version (site default) since SSR renders TR.
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: FAQ_TR.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: f.a,
+      },
+    })),
+  }
 
   const STATS = [
     { value: '10,000+', label: t('stats.content') },
@@ -133,6 +235,7 @@ export default function Home() {
             <a href="#demo" className="hover:text-black dark:hover:text-white transition-colors">{t('nav.ai')}</a>
             <a href="#testimonials" className="hover:text-black dark:hover:text-white transition-colors">{t('nav.reviews')}</a>
             <a href="#pricing" className="hover:text-black dark:hover:text-white transition-colors">{t('nav.pricing')}</a>
+            <a href="#faq" className="hover:text-black dark:hover:text-white transition-colors">{isEn ? 'FAQ' : 'SSS'}</a>
           </div>
           <div className="flex items-center gap-3">
             <ThemeToggle surface="adaptive" />
@@ -231,7 +334,7 @@ export default function Home() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {FEATURE_KEYS.map((f) => (
-              <div key={f.titleKey} className="bg-white dark:bg-[#13131a] p-6 rounded-2xl border border-gray-100 dark:border-[#27272a] hover:shadow-md transition-shadow">
+              <a key={f.titleKey} href={f.href} className="block bg-white dark:bg-[#13131a] p-6 rounded-2xl border border-gray-100 dark:border-[#27272a] hover:shadow-md hover:border-gray-200 dark:hover:border-[#3f3f46] transition-all">
                 <div className="w-10 h-10 brand-grad brand-shadow-sm rounded-xl flex items-center justify-center mb-4">
                   <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={f.icon} />
@@ -239,7 +342,7 @@ export default function Home() {
                 </div>
                 <h3 className="font-semibold mb-2">{t(f.titleKey)}</h3>
                 <p className="text-sm text-gray-500 dark:text-[#a1a1aa] leading-relaxed">{t(f.descKey)}</p>
-              </div>
+              </a>
             ))}
           </div>
         </div>
@@ -440,6 +543,76 @@ export default function Home() {
               {t('nav.dashboard')}
             </a>
           </Show>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section id="faq" className="py-20 border-t border-gray-100 dark:border-[#27272a]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+        <div className="max-w-3xl mx-auto px-4 md:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4">
+              {isEn ? 'Frequently Asked Questions' : 'Sıkça Sorulan Sorular'}
+            </h2>
+            <p className="text-gray-500 dark:text-[#a1a1aa] text-lg">
+              {isEn
+                ? 'Everything you need to know about ViralSpark.'
+                : 'ViralSpark hakkında bilmeniz gereken her şey.'}
+            </p>
+          </div>
+          <div className="space-y-3">
+            {faqs.map((faq, idx) => {
+              const isOpen = openFaq === idx
+              return (
+                <div
+                  key={idx}
+                  className="border border-gray-200 dark:border-[#27272a] rounded-2xl overflow-hidden bg-white dark:bg-[#13131a] transition-all hover:border-gray-300 dark:hover:border-[#3f3f46]"
+                >
+                  <button
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left"
+                    aria-expanded={isOpen}
+                  >
+                    <h3 className="text-base md:text-lg font-semibold text-gray-900 dark:text-white">
+                      {faq.q}
+                    </h3>
+                    <svg
+                      className={`w-5 h-5 shrink-0 text-gray-400 transition-transform duration-300 ${
+                        isOpen ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                      isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="px-6 pb-5 text-gray-600 dark:text-[#a1a1aa] leading-relaxed text-sm md:text-base">
+                        {faq.a}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          <div className="mt-10 text-center">
+            <p className="text-sm text-gray-500 dark:text-[#a1a1aa]">
+              {isEn ? 'Still have questions?' : 'Başka sorularınız mı var?'}{' '}
+              <a href="/contact" className="brand-text font-semibold hover:underline">
+                {isEn ? 'Contact us' : 'Bizimle iletişime geçin'}
+              </a>
+            </p>
+          </div>
         </div>
       </section>
 

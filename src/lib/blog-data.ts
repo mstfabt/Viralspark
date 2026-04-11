@@ -7,34 +7,37 @@ export type BlogPost = {
   readTime: string
   category: string
   locale: 'tr' | 'en'
+  /** Slug of the counterpart post in the other language (for hreflang). */
+  translationSlug?: string
 }
 
 export const BLOG_POSTS: BlogPost[] = [
   // --- Turkish ---
   {
     slug: 'viral-icerik-nasil-uretilir',
-    title: 'Viral Icerik Nasil Uretilir? 2026 Rehberi',
-    excerpt: 'Sosyal medyada viral olmanin sirlarini, kanitlanmis stratejileri ve AI araclariyla nasil 10 kat daha hizli icerik uretebileceginizi ogrelin.',
-    content: `Sosyal medyada viral olmak artik bir sans meselesi degil, bir strateji meselesi. 2026'da viral icerik uretmenin temel kurallari:
+    title: 'Viral İçerik Nasıl Üretilir? 2026 Rehberi',
+    excerpt: 'Sosyal medyada viral olmanın sırlarını, kanıtlanmış stratejileri ve AI araçlarıyla nasıl 10 kat daha hızlı içerik üretebileceğinizi öğrenin.',
+    translationSlug: 'how-to-create-viral-content',
+    content: `Sosyal medyada viral olmak artık bir şans meselesi değil, bir strateji meselesi. 2026'da viral içerik üretmenin temel kuralları:
 
-**1. Hook ile Baslayin**
-Ilk cumleniz her seyi belirler. "Bunu bilmiyordunuz ama..." gibi merak uyandiran hooklar etkilesimi %300 artiriyor.
+**1. Hook ile Başlayın**
+İlk cümleniz her şeyi belirler. "Bunu bilmiyordunuz ama..." gibi merak uyandıran hook cümleleri etkileşimi %300 artırıyor.
 
-**2. Platform Kurallarini Bilin**
-Her platformun kendine has kurallari var:
-- Twitter: 280 karakter, kisa ve vurucu
-- Instagram: Gorsel agirlikli, hikaye anlatici
-- LinkedIn: Profesyonel ton, deger odakli
+**2. Platform Kurallarını Bilin**
+Her platformun kendine has kuralları var:
+- Twitter: 280 karakter, kısa ve vurucu
+- Instagram: Görsel ağırlıklı, hikâye anlatıcı
+- LinkedIn: Profesyonel ton, değer odaklı
 - TikTok: Enerjik, Gen-Z dili
 
-**3. Viral Skoru Kontrol Edin**
-Iceriginigin viral potansiyelini olcun. Hook gucu, etkilesim potansiyeli, hashtag kalitesi ve platform uyumu kritik faktorler.
+**3. Viral Skorunu Kontrol Edin**
+İçeriğinizin viral potansiyelini ölçün. Hook gücü, etkileşim potansiyeli, hashtag kalitesi ve platform uyumu kritik faktörlerdir.
 
-**4. A/B Test Yapin**
-Ayni konu icin farkli versiyonlar uretin ve en iyisini secin. ViralSpark ile tek tikla 3 farkli varyasyon uretebilirsiniz.
+**4. A/B Test Yapın**
+Aynı konu için farklı versiyonlar üretin ve en iyisini seçin. ViralSpark ile tek tıkla 3 farklı varyasyon üretebilirsiniz.
 
-**5. Hashtag Stratejisi Olusturun**
-Dogru hashtagler erisiminizi katlayabilir. Ana, ikincil, trend ve nis hashtagleri dogru kombine edin.`,
+**5. Hashtag Stratejisi Oluşturun**
+Doğru hashtag'ler erişiminizi katlayabilir. Ana, ikincil, trend ve niş hashtag'leri doğru kombine edin.`,
     date: '2026-04-07',
     readTime: '5 dk',
     category: 'Strateji',
@@ -42,45 +45,46 @@ Dogru hashtagler erisiminizi katlayabilir. Ana, ikincil, trend ve nis hashtagler
   },
   {
     slug: 'en-etkili-hook-cumleleri',
-    title: 'En Etkili 20 Hook Cumlesi (Kopyala-Yapistir)',
-    excerpt: 'Sosyal medya iceriklerinizde kullayabileceginiz, kanitlanmis en etkili hook cumlelerini derlerdik.',
-    content: `Hook cumlesi, iceriginigin ilk saniyede dikkat cekmesini saglayan en onemli unsurdur.
+    title: 'En Etkili 20 Hook Cümlesi (Kopyala-Yapıştır)',
+    excerpt: 'Sosyal medya içeriklerinizde kullanabileceğiniz, kanıtlanmış en etkili hook cümlelerini derledik.',
+    translationSlug: 'most-effective-hook-sentences',
+    content: `Hook cümlesi, içeriğinizin ilk saniyede dikkat çekmesini sağlayan en önemli unsurdur.
 
-**Merak Uyandiran Hooklar:**
+**Merak Uyandıran Hook'lar:**
 1. "Kimse bundan bahsetmiyor ama..."
-2. "Bunu ogrendigimde her sey degisti."
+2. "Bunu öğrendiğimde her şey değişti."
 3. "Bu bilgiyi %99 insan bilmiyor."
-4. "Bu gonderiyi kaydedin. Ileride tesekkur edeceksiniz."
+4. "Bu gönderiyi kaydedin. İleride teşekkür edeceksiniz."
 
-**Tartisma Baslatan Hooklar:**
+**Tartışma Başlatan Hook'lar:**
 5. "Unpopular opinion: ..."
-6. "Bence herkes bunda yaniliyor."
+6. "Bence herkes bunda yanılıyor."
 7. "Hot take: ..."
-8. "Bunu soyledigim icin linc yiyecegim ama..."
+8. "Bunu söylediğim için linç yiyeceğim ama..."
 
-**Hikaye Anlatici Hooklar:**
-9. "Gecen yil bugun, hicbir seyim yoktu. Bugun ise..."
-10. "24 yasindaydim ve cebimde 50 lira bile yoktu."
+**Hikâye Anlatıcı Hook'lar:**
+9. "Geçen yıl bugün, hiçbir şeyim yoktu. Bugün ise..."
+10. "24 yaşındaydım ve cebimde 50 lira bile yoktu."
 
-**Egitici Hooklar:**
-11. "5 dakikada ogren: ..."
-12. "Thread: [konu] icin adim adim rehber"
-13. "Bu 3 hata yuzunden basarisiz oluyorsunuz:"
+**Eğitici Hook'lar:**
+11. "5 dakikada öğren: ..."
+12. "Thread: [konu] için adım adım rehber"
+13. "Bu 3 hata yüzünden başarısız oluyorsunuz:"
 
-**Satis Hooklari:**
-14. "Bu urunu gormeden satin almayin."
-15. "Neden 10.000+ kisi bizi tercih ediyor?"
+**Satış Hook'ları:**
+14. "Bu ürünü görmeden satın almayın."
+15. "Neden 10.000+ kişi bizi tercih ediyor?"
 
-**Trend Hooklari:**
+**Trend Hook'ları:**
 16. "2026'da bunu yapmayan geride kalacak."
-17. "Bu trend'e erken binen kazanacak."
+17. "Bu trende erken binen kazanacak."
 
-**Kisisel Hooklar:**
-18. "Bugun size bir itirafta bulunacagim."
-19. "3 ay once burnout yasadim. Iste ogrendigim dersler:"
-20. "Ilk isimi kurdigumda en buyuk hatam buydu:"
+**Kişisel Hook'lar:**
+18. "Bugün size bir itirafta bulunacağım."
+19. "3 ay önce burnout yaşadım. İşte öğrendiğim dersler:"
+20. "İlk işimi kurduğumda en büyük hatam buydu:"
 
-Bu hooklarin hepsini ViralSpark Hook Kutuphanesinde bulabilir ve tek tikla kopyalayabilirsiniz.`,
+Bu hook'ların hepsini ViralSpark Hook Kütüphanesinde bulabilir ve tek tıkla kopyalayabilirsiniz.`,
     date: '2026-04-06',
     readTime: '4 dk',
     category: 'Hook',
@@ -88,24 +92,25 @@ Bu hooklarin hepsini ViralSpark Hook Kutuphanesinde bulabilir ve tek tikla kopya
   },
   {
     slug: 'instagram-hashtag-stratejisi',
-    title: 'Instagram Hashtag Stratejisi: Erisimi 10x Artirin',
-    excerpt: 'Dogru hashtag stratejisi ile Instagram erisminizi nasil katlayabileceginizi adim adim anlatiyoruz.',
-    content: `Instagram'da hashtagler hala en guclu organik buyume aracidir. Dogru strateji ile erisminizi 10 kat artirabilirsiniz.
+    title: 'Instagram Hashtag Stratejisi: Erişimi 10x Artırın',
+    excerpt: 'Doğru hashtag stratejisi ile Instagram erişiminizi nasıl katlayabileceğinizi adım adım anlatıyoruz.',
+    translationSlug: 'instagram-hashtag-strategy',
+    content: `Instagram'da hashtag'ler hâlâ en güçlü organik büyüme aracıdır. Doğru strateji ile erişiminizi 10 kat artırabilirsiniz.
 
 **Hashtag Kategorileri:**
-1. **Ana Hashtagler (3-5 adet):** Yuksek hacimli, sektorunuzle dogrudan iliskili
-2. **Ikincil Hashtagler (5-7 adet):** Orta rekabet, nis kitlenize hitap eden
-3. **Trend Hashtagler (2-3 adet):** Su an populer olan, iliskili hashtagler
-4. **Nis Hashtagler (3-5 adet):** Dusuk rekabet ama hedefli, sadik kitle olusturan
+1. **Ana Hashtag'ler (3-5 adet):** Yüksek hacimli, sektörünüzle doğrudan ilişkili
+2. **İkincil Hashtag'ler (5-7 adet):** Orta rekabet, niş kitlenize hitap eden
+3. **Trend Hashtag'ler (2-3 adet):** Şu an popüler olan, ilişkili hashtag'ler
+4. **Niş Hashtag'ler (3-5 adet):** Düşük rekabet ama hedefli, sadık kitle oluşturan
 
-**Altin Kurallar:**
-- Toplam 20-25 hashtag kullanin (30 sinirina yaklasmayin)
-- Her gonderi icin hashtag setinizi degistirin
-- Yasakli hashtagleri kontrol edin
-- Hashtag performansini takip edin
+**Altın Kurallar:**
+- Toplam 20-25 hashtag kullanın (30 sınırına yaklaşmayın)
+- Her gönderi için hashtag setinizi değiştirin
+- Yasaklı hashtag'leri kontrol edin
+- Hashtag performansını takip edin
 
-**ViralSpark ile Hashtag Arastirma:**
-ViralSpark'in AI destekli hashtag arastirma araci, konunuza ozel 4 kategori hashtag + kacinilmasi gerekenler + strateji notu uretiyor. Tek tikla tum hashtagleri kopyalayabilirsiniz.`,
+**ViralSpark ile Hashtag Araştırma:**
+ViralSpark'ın AI destekli hashtag araştırma aracı, konunuza özel 4 kategori hashtag + kaçınılması gerekenler + strateji notu üretiyor. Tek tıkla tüm hashtag'leri kopyalayabilirsiniz.`,
     date: '2026-04-05',
     readTime: '6 dk',
     category: 'Hashtag',
@@ -117,6 +122,7 @@ ViralSpark'in AI destekli hashtag arastirma araci, konunuza ozel 4 kategori hash
     slug: 'how-to-create-viral-content',
     title: 'How to Create Viral Content: 2026 Guide',
     excerpt: 'Discover the secrets of going viral on social media, proven strategies, and how AI tools can help you create content 10x faster.',
+    translationSlug: 'viral-icerik-nasil-uretilir',
     content: `Going viral on social media is no longer about luck — it's about strategy. Here are the key rules for creating viral content in 2026:
 
 **1. Start with a Hook**
@@ -146,6 +152,7 @@ The right hashtags can multiply your reach. Combine primary, secondary, trending
     slug: 'most-effective-hook-sentences',
     title: '20 Most Effective Hook Sentences (Copy & Paste)',
     excerpt: 'A curated list of proven hook sentences you can use in your social media content to grab attention instantly.',
+    translationSlug: 'en-etkili-hook-cumleleri',
     content: `A hook sentence is the most important element that captures attention in the first second of your content.
 
 **Curiosity Hooks:**
@@ -192,6 +199,7 @@ You can find all of these hooks in ViralSpark's Hook Library and copy them with 
     slug: 'instagram-hashtag-strategy',
     title: 'Instagram Hashtag Strategy: 10x Your Reach',
     excerpt: 'A step-by-step guide to multiplying your Instagram reach with the right hashtag strategy.',
+    translationSlug: 'instagram-hashtag-stratejisi',
     content: `Hashtags are still the most powerful organic growth tool on Instagram. With the right strategy, you can 10x your reach.
 
 **Hashtag Categories:**
