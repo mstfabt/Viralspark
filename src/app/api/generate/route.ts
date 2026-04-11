@@ -4,23 +4,36 @@ import { generateContent } from '@/lib/gemini'
 import { checkUsage, incrementUsage } from '@/lib/usage'
 import { rateLimit } from '@/lib/rate-limit'
 import { sendUsageLimitEmail } from '@/lib/email'
+import { getAILanguage } from '@/lib/i18n'
+import { validateString, validatePlatforms, validateLang, sanitize } from '@/lib/validate'
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth()
     if (!userId) {
-      return NextResponse.json({ error: 'Giris yapmaniz gerekiyor.' }, { status: 401 })
+      return NextResponse.json({ error: 'Authentication required.' }, { status: 401 })
     }
 
     const rl = rateLimit(userId, 10, 60_000)
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Cok fazla istek. Lutfen biraz bekleyin.' }, { status: 429 })
+      return NextResponse.json({ error: 'Too many requests. Please wait.' }, { status: 429 })
     }
 
-    const { prompt, platforms, variations: reqVariations } = await req.json()
-    if (!prompt) {
-      return NextResponse.json({ error: 'Konu gerekli' }, { status: 400 })
+    const { prompt: rawPrompt, platforms, variations: reqVariations, lang: rawLang } = await req.json()
+
+    // Validate inputs
+    const promptCheck = validateString(rawPrompt, 500)
+    if (!promptCheck.valid) {
+      return NextResponse.json({ error: promptCheck.error }, { status: 400 })
     }
+    const prompt = promptCheck.value
+
+    if (platforms && !validatePlatforms(platforms)) {
+      return NextResponse.json({ error: 'Invalid platform. Allowed: twitter, instagram, linkedin, tiktok' }, { status: 400 })
+    }
+
+    const lang = (validateLang(rawLang) ? rawLang : 'tr') as 'tr' | 'en'
+    const language = getAILanguage(lang)
 
     const isMulti = platforms && platforms.length > 1
     const feature = isMulti ? 'multiPlatform' as const : 'singlePosts' as const
@@ -60,14 +73,24 @@ Icerikleri bu marka kimligine uygun olustur.`
 
     const selectedPlatforms = platforms || ['twitter']
 
-    const rules: Record<string, string> = {
-      twitter: 'Twitter/X: Max 280 karakter. Kisa, vurucu, tartisma baslatici. 2-3 hashtag.',
-      instagram: 'Instagram: Caption formati. Emoji agirlikli, hikaye anlatici. Ilk cumle hook. 5-10 hashtag.',
-      linkedin: 'LinkedIn: Profesyonel ton. Deger odakli, ogretici. Kisa paragraflar. 3-5 hashtag.',
-      tiktok: 'TikTok: Video aciklamasi. Gen-Z dili, enerjik. "POV:" veya hook ile basla. 3-5 hashtag.',
+    const rules: Record<string, Record<string, string>> = {
+      tr: {
+        twitter: 'Twitter/X: Max 280 karakter. Kisa, vurucu, tartisma baslatici. 2-3 hashtag.',
+        instagram: 'Instagram: Caption formati. Emoji agirlikli, hikaye anlatici. Ilk cumle hook. 5-10 hashtag.',
+        linkedin: 'LinkedIn: Profesyonel ton. Deger odakli, ogretici. Kisa paragraflar. 3-5 hashtag.',
+        tiktok: 'TikTok: Video aciklamasi. Gen-Z dili, enerjik. "POV:" veya hook ile basla. 3-5 hashtag.',
+      },
+      en: {
+        twitter: 'Twitter/X: Max 280 chars. Short, punchy, conversation-starting. 2-3 hashtags.',
+        instagram: 'Instagram: Caption format. Emoji-rich, storytelling. First sentence is hook. 5-10 hashtags.',
+        linkedin: 'LinkedIn: Professional tone. Value-driven, educational. Short paragraphs. 3-5 hashtags.',
+        tiktok: 'TikTok: Video description. Gen-Z language, energetic. Start with "POV:" or hook. 3-5 hashtags.',
+      },
     }
 
-    const platformRules = selectedPlatforms.map((p: string) => `- ${rules[p] || rules.twitter}`).join('\n')
+    const langRules = rules[lang || 'tr'] || rules.tr
+
+    const platformRules = selectedPlatforms.map((p: string) => `- ${langRules[p] || langRules.twitter}`).join('\n')
     const variationCount = Math.min(reqVariations || 1, 3)
 
     const variationInstruction = variationCount > 1
@@ -78,7 +101,28 @@ Icerikleri bu marka kimligine uygun olustur.`
       ? selectedPlatforms.map((p: string) => `"${p}": [{"text": "icerik 1", "score": 85, "tip": null}, {"text": "icerik 2", "score": 78, "tip": "oneri"}, {"text": "icerik 3", "score": 72, "tip": "oneri"}]`).join(',\n  ')
       : selectedPlatforms.map((p: string) => `"${p}": {"text": "icerik metni", "score": 85, "tip": "iyilestirme onerisi veya null"}`).join(',\n  ')
 
-    const systemPrompt = `Sen profesyonel bir sosyal medya uzmanisin.${brandContext}
+    const isEnglish = lang === 'en'
+
+    const systemPrompt = isEnglish
+      ? `You are a professional social media expert.${brandContext}
+
+Topic: ${prompt}
+
+Platform rules:
+${platformRules}
+
+${variationInstruction}
+Also give each content a viral score from 1-100.
+Viral score criteria: hook strength, engagement potential, hashtag quality, platform fit, emotional trigger.
+If score is low (below 60), add a short improvement suggestion.
+
+REQUIRED FORMAT (JSON):
+{
+  ${formatExample}
+}
+
+Return ONLY JSON.`
+      : `Sen profesyonel bir sosyal medya uzmanisin.${brandContext}
 
 Konu: ${prompt}
 

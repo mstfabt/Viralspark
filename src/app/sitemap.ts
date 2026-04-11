@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { BLOG_POSTS } from '@/lib/blog-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://viralspark.vercel.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://viralspark.shop'
 
   const blogUrls = BLOG_POSTS.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/blog`, lastModified: new Date(), changeFrequency: 'weekly', priority: 0.8 },
     { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
     { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${baseUrl}/contact`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.5 },
     { url: `${baseUrl}/sign-up`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.6 },
     ...blogUrls,
   ]

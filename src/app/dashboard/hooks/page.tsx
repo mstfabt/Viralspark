@@ -2,11 +2,12 @@
 
 import { useUser } from '@clerk/nextjs'
 import { useState, useMemo } from 'react'
-import { HOOKS, HOOK_CATEGORIES, type Hook } from '@/lib/hooks-data'
+import { HOOKS_TR, HOOKS_EN, HOOK_CATEGORIES_TR, HOOK_CATEGORIES_EN, type Hook } from '@/lib/hooks-data'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
+import { useLanguage } from '@/components/language-provider'
 
 const PLATFORM_FILTERS = [
-  { id: 'all', label: 'Tümü' },
+  { id: 'all', labelKey: 'hooks.all' },
   { id: 'twitter', label: 'Twitter/X' },
   { id: 'instagram', label: 'Instagram' },
   { id: 'linkedin', label: 'LinkedIn' },
@@ -16,12 +17,18 @@ const PLATFORM_FILTERS = [
 const ENGAGEMENT_COLORS = {
   high: 'bg-green-100 text-green-700',
   medium: 'bg-yellow-100 text-yellow-700',
-  low: 'bg-gray-100 text-gray-500',
+  low: 'bg-gray-100 dark:bg-[#1f1f26] text-gray-500 dark:text-[#a1a1aa]',
 }
 
 export default function HooksPage() {
   const { user } = useUser()
-  const [category, setCategory] = useState('Tümü')
+  const { t, locale } = useLanguage()
+
+  const hooks = locale === 'en' ? HOOKS_EN : HOOKS_TR
+  const categories = locale === 'en' ? HOOK_CATEGORIES_EN : HOOK_CATEGORIES_TR
+  const allLabel = locale === 'en' ? 'All' : 'Tümü'
+
+  const [category, setCategory] = useState(allLabel)
   const [platform, setPlatform] = useState('all')
   const [copiedId, setCopiedId] = useState<number | null>(null)
 
@@ -33,12 +40,12 @@ export default function HooksPage() {
   const isLocked = limits.singlePostsPerMonth === 0
 
   const filtered = useMemo(() => {
-    return HOOKS.filter((h) => {
-      if (category !== 'Tümü' && h.category !== category) return false
+    return hooks.filter((h) => {
+      if (category !== allLabel && h.category !== category) return false
       if (platform !== 'all' && h.platform !== platform) return false
       return true
     })
-  }, [category, platform])
+  }, [category, platform, hooks, allLabel])
 
   const handleCopy = (hook: Hook) => {
     navigator.clipboard.writeText(hook.text)
@@ -46,16 +53,22 @@ export default function HooksPage() {
     setTimeout(() => setCopiedId(null), 2000)
   }
 
+  const engagementLabel = (e: string) => {
+    if (e === 'high') return t('hooks.high')
+    if (e === 'medium') return t('hooks.medium')
+    return t('hooks.low')
+  }
+
   if (isLocked) {
     return (
       <div className="p-8 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">Hook Kütüphanesi</h1>
-        <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm">
+        <h1 className="text-3xl font-bold tracking-tight mb-6">{t('hooks.title')}</h1>
+        <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-12 text-center shadow-sm">
           <div className="text-5xl mb-4">🔒</div>
-          <h2 className="text-xl font-semibold mb-2">Bu özellik planınızda mevcut değil</h2>
-          <p className="text-gray-500 mb-6">Hook kütüphanesine erişmek için planınızı yükseltin.</p>
-          <a href="/#pricing" className="inline-block bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
-            Planını Yükselt
+          <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
+          <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
+          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
+            {t('common.upgrade')}
           </a>
         </div>
       </div>
@@ -65,20 +78,20 @@ export default function HooksPage() {
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Hook Kütüphanesi</h1>
-        <p className="text-gray-500 mt-1">Viral içerikler için kanıtlanmış hook cümleleri. Kopyala ve kullan.</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('hooks.title')}</h1>
+        <p className="text-gray-500 dark:text-[#a1a1aa] mt-1">{t('hooks.desc')}</p>
       </div>
 
       {/* Category Filter */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {HOOK_CATEGORIES.map((cat) => (
+        {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
             className={`px-4 py-2 rounded-full text-sm font-medium border transition-all ${
               category === cat
-                ? 'bg-black text-white border-black'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                ? 'brand-grad brand-shadow-sm border-transparent'
+                : 'bg-white dark:bg-[#13131a] text-gray-500 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-400 dark:hover:border-[#52525b]'
             }`}
           >
             {cat}
@@ -95,42 +108,42 @@ export default function HooksPage() {
             className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
               platform === p.id
                 ? 'bg-gray-800 text-white border-gray-800'
-                : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                : 'bg-white dark:bg-[#13131a] text-gray-500 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-400 dark:hover:border-[#52525b]'
             }`}
           >
-            {p.label}
+            {p.labelKey ? t(p.labelKey) : p.label}
           </button>
         ))}
       </div>
 
       {/* Results Count */}
-      <p className="text-sm text-gray-400 mb-4">{filtered.length} hook bulundu</p>
+      <p className="text-sm text-gray-400 dark:text-[#71717a] mb-4">{filtered.length} {t('hooks.found')}</p>
 
       {/* Hook Cards */}
       <div className="grid gap-4 md:grid-cols-2">
         {filtered.map((hook) => (
           <div
             key={hook.id}
-            className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition-shadow group"
+            className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-5 shadow-sm hover:shadow-md transition-shadow group"
           >
-            <p className="text-gray-800 text-base leading-relaxed mb-4">&ldquo;{hook.text}&rdquo;</p>
+            <p className="text-gray-800 dark:text-[#e5e5e5] text-base leading-relaxed mb-4">&ldquo;{hook.text}&rdquo;</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-full border border-gray-100">
+                <span className="text-xs text-gray-400 dark:text-[#71717a] bg-gray-50 dark:bg-[#1a1a22] px-2 py-1 rounded-full border border-gray-100 dark:border-[#27272a]">
                   {hook.category}
                 </span>
-                <span className="text-xs text-gray-400 bg-gray-50 px-2 py-1 rounded-full border border-gray-100">
+                <span className="text-xs text-gray-400 dark:text-[#71717a] bg-gray-50 dark:bg-[#1a1a22] px-2 py-1 rounded-full border border-gray-100 dark:border-[#27272a]">
                   {hook.platform}
                 </span>
                 <span className={`text-xs px-2 py-1 rounded-full font-medium ${ENGAGEMENT_COLORS[hook.engagement]}`}>
-                  {hook.engagement === 'high' ? 'Yüksek' : hook.engagement === 'medium' ? 'Orta' : 'Düşük'}
+                  {engagementLabel(hook.engagement)}
                 </span>
               </div>
               <button
                 onClick={() => handleCopy(hook)}
-                className="text-xs bg-black text-white px-3 py-1.5 rounded-full hover:bg-gray-800 transition-colors opacity-0 group-hover:opacity-100"
+                className="text-xs brand-grad brand-shadow-sm px-3 py-1.5 rounded-full font-semibold opacity-0 group-hover:opacity-100"
               >
-                {copiedId === hook.id ? 'Kopyalandı!' : 'Kopyala'}
+                {copiedId === hook.id ? t('common.copied') : t('common.copy')}
               </button>
             </div>
           </div>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><title>ViralSpark Icon Generator</title></head>
+<body style="background:#f0f0f0;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:sans-serif">
+<h2>ViralSpark Icon — 512x512 PNG</h2>
+<canvas id="c" width="512" height="512" style="border:1px solid #ccc;border-radius:16px"></canvas>
+<br>
+<button onclick="download()" style="padding:12px 32px;font-size:16px;background:#000;color:#fff;border:none;border-radius:8px;cursor:pointer">PNG Indir</button>
+<script>
+const canvas = document.getElementById('c')
+const ctx = canvas.getContext('2d')
+const w = 512
+
+// Background
+ctx.beginPath()
+ctx.roundRect(0, 0, w, w, 128)
+ctx.fillStyle = '#000'
+ctx.fill()
+
+// V spark
+ctx.beginPath()
+ctx.moveTo(128, 352)
+ctx.lineTo(208, 160)
+ctx.lineTo(256, 256)
+ctx.lineTo(304, 160)
+ctx.lineTo(384, 352)
+ctx.strokeStyle = '#fff'
+ctx.lineWidth = 40
+ctx.lineCap = 'round'
+ctx.lineJoin = 'round'
+ctx.stroke()
+
+// Blue dot
+ctx.beginPath()
+ctx.arc(384, 160, 40, 0, Math.PI * 2)
+ctx.fillStyle = '#3B82F6'
+ctx.fill()
+
+function download() {
+  const a = document.createElement('a')
+  a.download = 'viralspark-icon-512.png'
+  a.href = canvas.toDataURL('image/png')
+  a.click()
+}
+</script>
+</body>
+</html>

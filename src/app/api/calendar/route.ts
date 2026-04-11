@@ -3,28 +3,42 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { generateContent } from '@/lib/gemini'
 import { checkAndIncrementUsage } from '@/lib/usage'
 import { getUserPlan, PLAN_LIMITS } from '@/lib/plans'
+import { validateString, validateNumber, validateLang } from '@/lib/validate'
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth()
     if (!userId) {
-      return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 })
+      return NextResponse.json({ error: 'Authentication required.' }, { status: 401 })
     }
 
     const usage = await checkAndIncrementUsage(userId, 'calendar')
     if (!usage.allowed) {
       const msg = usage.limit === 0
-        ? 'İçerik takvimi bu planda kullanılamaz. Planınızı yükseltin.'
-        : `Aylık ${usage.limit} takvim limitinize ulaştınız. Planınızı yükseltin.`
+        ? 'Content calendar is not available on this plan. Upgrade your plan.'
+        : `You've reached your monthly limit of ${usage.limit} calendars. Upgrade your plan.`
       return NextResponse.json({ error: msg, limitReached: true }, { status: 429 })
     }
 
-    const { topic, days } = await req.json()
-    if (!topic) {
-      return NextResponse.json({ error: 'Konu gerekli' }, { status: 400 })
+    const { topic: rawTopic, days: rawDays, lang: rawLang } = await req.json()
+    const lang = validateLang(rawLang) ? rawLang : 'tr'
+
+    const topicCheck = validateString(rawTopic, 200)
+    if (!topicCheck.valid) {
+      return NextResponse.json({ error: lang === 'en' ? 'Topic is required (max 200 chars)' : 'Konu gerekli (max 200 karakter)' }, { status: 400 })
+    }
+    const topic = topicCheck.value
+
+    // Validate days if provided (1-30 range, defaults handled below by plan limits)
+    let days = rawDays
+    if (rawDays !== undefined) {
+      const daysCheck = validateNumber(rawDays, 1, 30)
+      if (!daysCheck.valid) {
+        return NextResponse.json({ error: 'Days must be a number between 1 and 30.' }, { status: 400 })
+      }
+      days = daysCheck.value
     }
 
-    // Enforce max calendar days per plan
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
     const plan = getUserPlan(user.publicMetadata as Record<string, unknown>)
@@ -33,13 +47,30 @@ export async function POST(req: Request) {
 
     const brand = (user.publicMetadata?.brand as Record<string, string>) || {}
     const brandContext = brand.name
-      ? `\nMarka: ${brand.name}, Sektör: ${brand.sector || '-'}, Ton: ${brand.tone || 'Profesyonel'}, Hedef Kitle: ${brand.audience || '-'}`
+      ? `\nBrand: ${brand.name}, Industry: ${brand.sector || '-'}, Tone: ${brand.tone || 'Professional'}, Audience: ${brand.audience || '-'}`
       : ''
 
     const today = new Date()
     const startDate = today.toISOString().split('T')[0]
 
-    const systemPrompt = `Sen profesyonel bir sosyal medya planlayıcısısın.${brandContext}
+    const systemPrompt = lang === 'en'
+      ? `You are a professional social media planner.${brandContext}
+
+Topic: ${topic}
+
+Create a ${dayCount}-day content calendar starting from ${startDate}.
+
+For each day:
+- Date (YYYY-MM-DD)
+- Platform (twitter, instagram, linkedin, tiktok — distribute evenly)
+- Topic title (short)
+- Content text (platform-appropriate, ready to publish)
+
+Return JSON array:
+[{"date":"YYYY-MM-DD","platform":"instagram","title":"Title","content":"Content"}]
+
+Return ONLY JSON. Total ${dayCount} items.`
+      : `Sen profesyonel bir sosyal medya planlayıcısısın.${brandContext}
 
 Konu: ${topic}
 
@@ -63,7 +94,7 @@ SADECE JSON döndür. Toplam ${dayCount} öğe.`
     try {
       parsed = JSON.parse(text)
     } catch {
-      return NextResponse.json({ error: 'Takvim oluşturulamadı, tekrar deneyin.' }, { status: 500 })
+      return NextResponse.json({ error: 'Calendar generation failed, please try again.' }, { status: 500 })
     }
 
     return NextResponse.json({
@@ -72,7 +103,7 @@ SADECE JSON döndür. Toplam ${dayCount} öğe.`
     })
   } catch (error: unknown) {
     console.error('Calendar Error:', error)
-    const message = error instanceof Error ? error.message : 'Takvim oluşturulamadı'
+    const message = error instanceof Error ? error.message : 'Calendar generation failed'
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }

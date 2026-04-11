@@ -3,39 +3,66 @@ import { auth, clerkClient } from '@clerk/nextjs/server'
 import { generateContent } from '@/lib/gemini'
 import { checkAndIncrementUsage } from '@/lib/usage'
 import { rateLimit } from '@/lib/rate-limit'
+import { validateString, validatePlatform, validateLang } from '@/lib/validate'
 
 export async function POST(req: Request) {
   try {
     const { userId } = await auth()
     if (!userId) {
-      return NextResponse.json({ error: 'Giriş yapmanız gerekiyor.' }, { status: 401 })
+      return NextResponse.json({ error: 'Authentication required.' }, { status: 401 })
     }
 
     const rl = rateLimit(userId, 10, 60_000)
     if (!rl.allowed) {
-      return NextResponse.json({ error: 'Çok fazla istek. Lütfen biraz bekleyin.' }, { status: 429 })
+      return NextResponse.json({ error: 'Too many requests. Please wait.' }, { status: 429 })
     }
 
-    const { topic, platform } = await req.json()
-    if (!topic) {
-      return NextResponse.json({ error: 'Konu gerekli' }, { status: 400 })
+    const { topic: rawTopic, platform, lang: rawLang } = await req.json()
+    const lang = validateLang(rawLang) ? rawLang : 'tr'
+
+    const topicCheck = validateString(rawTopic, 200)
+    if (!topicCheck.valid) {
+      return NextResponse.json({ error: lang === 'en' ? 'Topic is required (max 200 chars)' : 'Konu gerekli (max 200 karakter)' }, { status: 400 })
+    }
+    const topic = topicCheck.value
+
+    if (platform && !validatePlatform(platform)) {
+      return NextResponse.json({ error: 'Invalid platform. Allowed: twitter, instagram, linkedin, tiktok' }, { status: 400 })
     }
 
     const usage = await checkAndIncrementUsage(userId, 'singlePosts')
     if (!usage.allowed) {
-      return NextResponse.json({
-        error: `Aylık ${usage.limit} kullanım limitinize ulaştınız. Planınızı yükseltin.`,
-        limitReached: true,
-      }, { status: 429 })
+      const msg = lang === 'en'
+        ? `You've reached your monthly limit of ${usage.limit}. Upgrade your plan.`
+        : `Aylık ${usage.limit} kullanım limitinize ulaştınız. Planınızı yükseltin.`
+      return NextResponse.json({ error: msg, limitReached: true }, { status: 429 })
     }
 
-    // Get brand context
     const client = await clerkClient()
     const user = await client.users.getUser(userId)
     const brand = (user.publicMetadata?.brand as Record<string, string>) || {}
-    const brandContext = brand.sector ? `Sektör: ${brand.sector}. ` : ''
+    const brandContext = brand.sector ? (lang === 'en' ? `Industry: ${brand.sector}. ` : `Sektör: ${brand.sector}. `) : ''
 
-    const prompt = `Sen bir sosyal medya hashtag uzmanısın.
+    const prompt = lang === 'en'
+      ? `You are a social media hashtag expert.
+${brandContext}
+Topic: ${topic}
+Platform: ${platform || 'general'}
+
+Create the most effective hashtag strategy for this topic.
+
+REQUIRED FORMAT (JSON):
+{
+  "primary": ["5 most relevant hashtags - high volume"],
+  "secondary": ["5 medium competition hashtags - niche audience"],
+  "trending": ["3-5 currently trending related hashtags"],
+  "niche": ["3-5 low competition but targeted hashtags"],
+  "avoid": ["2-3 hashtags to avoid and why"],
+  "strategy": "Short strategy note on how to combine these hashtags"
+}
+
+Return ONLY JSON.`
+      : `Sen bir sosyal medya hashtag uzmanısın.
 ${brandContext}
 Konu: ${topic}
 Platform: ${platform || 'genel'}
@@ -77,7 +104,7 @@ SADECE JSON döndür.`
     })
   } catch (error: unknown) {
     console.error('Hashtag Error:', error)
-    const message = error instanceof Error ? error.message : 'Hashtag araştırması yapılamadı'
+    const message = error instanceof Error ? error.message : 'Hashtag research failed'
     return NextResponse.json({ error: message }, { status: 500 })
   }
 }

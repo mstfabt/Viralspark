@@ -21,13 +21,13 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-[400px] flex items-center justify-center p-8">
           <div className="text-center">
             <div className="text-4xl mb-4">:(</div>
-            <h2 className="text-xl font-semibold mb-2">Bir şeyler ters gitti</h2>
-            <p className="text-gray-500 mb-6 text-sm max-w-md">{this.state.error || 'Beklenmeyen bir hata oluştu.'}</p>
+            <h2 className="text-xl font-semibold mb-2">Something went wrong</h2>
+            <p className="text-gray-500 dark:text-[#a1a1aa] mb-6 text-sm max-w-md">{this.state.error || 'An unexpected error occurred.'}</p>
             <button
               onClick={() => this.setState({ hasError: false, error: '' })}
-              className="bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors text-sm"
+              className="brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold text-sm"
             >
-              Tekrar Dene
+              Try Again
             </button>
           </div>
         </div>

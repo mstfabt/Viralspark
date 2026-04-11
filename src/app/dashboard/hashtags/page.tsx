@@ -3,9 +3,10 @@
 import { useUser } from '@clerk/nextjs'
 import { useState } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
+import { useLanguage } from '@/components/language-provider'
 
 const PLATFORMS = [
-  { id: 'genel', label: 'Genel' },
+  { id: 'genel', labelKey: 'common.general' },
   { id: 'twitter', label: 'Twitter/X' },
   { id: 'instagram', label: 'Instagram' },
   { id: 'linkedin', label: 'LinkedIn' },
@@ -23,6 +24,7 @@ type HashtagResult = {
 
 export default function HashtagsPage() {
   const { user } = useUser()
+  const { t, locale } = useLanguage()
   const [topic, setTopic] = useState('')
   const [platform, setPlatform] = useState('genel')
   const [result, setResult] = useState<HashtagResult | null>(null)
@@ -46,7 +48,7 @@ export default function HashtagsPage() {
       const res = await fetch('/api/hashtags', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic, platform }),
+        body: JSON.stringify({ topic, platform, lang: locale }),
       })
       const data = await res.json()
       if (data.limitReached) {
@@ -54,10 +56,10 @@ export default function HashtagsPage() {
       } else if (data.result) {
         setResult(data.result)
       } else {
-        setError(data.error || 'Bir hata oluştu.')
+        setError(data.error || t('common.error'))
       }
     } catch {
-      setError('Sunucuya bağlanılamadı.')
+      setError(t('common.error'))
     }
     setIsLoading(false)
   }
@@ -71,13 +73,13 @@ export default function HashtagsPage() {
   if (isLocked) {
     return (
       <div className="p-8 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">Hashtag Araştırma</h1>
-        <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm">
+        <h1 className="text-3xl font-bold tracking-tight mb-6">{t('hashtags.title')}</h1>
+        <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-12 text-center shadow-sm">
           <div className="text-5xl mb-4">🔒</div>
-          <h2 className="text-xl font-semibold mb-2">Bu özellik planınızda mevcut değil</h2>
-          <p className="text-gray-500 mb-6">Hashtag araştırma aracına erişmek için planınızı yükseltin.</p>
-          <a href="/#pricing" className="inline-block bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
-            Planını Yükselt
+          <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
+          <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
+          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
+            {t('common.upgrade')}
           </a>
         </div>
       </div>
@@ -87,14 +89,14 @@ export default function HashtagsPage() {
   const TagGroup = ({ label, tags, color }: { label: string; tags: string[]; color: string }) => {
     if (!tags || tags.length === 0) return null
     return (
-      <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
+      <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-5 shadow-sm">
         <div className="flex items-center justify-between mb-3">
           <h3 className="font-semibold text-sm">{label}</h3>
           <button
             onClick={() => copyGroup(label, tags)}
-            className="text-xs bg-gray-100 hover:bg-gray-200 px-3 py-1 rounded-full transition-colors"
+            className="text-xs bg-gray-100 dark:bg-[#1f1f26] hover:bg-gray-200 dark:hover:bg-[#27272a] px-3 py-1 rounded-full transition-colors"
           >
-            {copiedGroup === label ? 'Kopyalandı!' : 'Tümünü Kopyala'}
+            {copiedGroup === label ? t('common.copied') : t('hashtags.copyall')}
           </button>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -111,12 +113,12 @@ export default function HashtagsPage() {
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Hashtag Araştırma</h1>
-        <p className="text-gray-500 mt-1">AI destekli hashtag stratejisi. Konunuzu girin, en etkili hashtagleri bulun.</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('hashtags.title')}</h1>
+        <p className="text-gray-500 dark:text-[#a1a1aa] mt-1">{t('hashtags.desc')}</p>
       </div>
 
       {/* Input */}
-      <div className="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 mb-8">
+      <div className="bg-white dark:bg-[#13131a] p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-[#27272a] mb-8">
         <div className="flex flex-wrap gap-2 mb-4">
           {PLATFORMS.map((p) => (
             <button
@@ -124,18 +126,18 @@ export default function HashtagsPage() {
               onClick={() => setPlatform(p.id)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                 platform === p.id
-                  ? 'bg-black text-white border-black'
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                  ? 'brand-grad brand-shadow-sm border-transparent'
+                  : 'bg-white dark:bg-[#13131a] text-gray-500 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-400 dark:hover:border-[#52525b]'
               }`}
             >
-              {p.label}
+              {p.labelKey ? t(p.labelKey) : p.label}
             </button>
           ))}
         </div>
         <textarea
-          className="w-full p-5 text-lg bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all resize-none placeholder:text-gray-400"
+          className="w-full p-5 text-lg bg-gray-50 dark:bg-[#1a1a22] border border-gray-200 dark:border-[#27272a] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d62976] focus:border-transparent transition-all resize-none placeholder:text-gray-400 dark:placeholder:text-[#52525b]"
           rows={2}
-          placeholder="Örn: Butik kahve dükkanı, specialty coffee, üçüncü dalga..."
+          placeholder={t('hashtags.placeholder')}
           value={topic}
           onChange={(e) => setTopic(e.target.value)}
           onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleResearch() } }}
@@ -143,9 +145,9 @@ export default function HashtagsPage() {
         <button
           onClick={handleResearch}
           disabled={isLoading || !topic}
-          className="w-full mt-4 bg-black text-white py-4 rounded-2xl font-medium text-lg hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-4 brand-grad brand-shadow py-4 rounded-2xl font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Araştırılıyor...' : 'Hashtag Araştır'}
+          {isLoading ? t('hashtags.loading') : t('hashtags.button')}
         </button>
       </div>
 
@@ -157,14 +159,14 @@ export default function HashtagsPage() {
 
       {result && (
         <div className="space-y-4">
-          <TagGroup label="Ana Hashtagler (Yüksek Hacim)" tags={result.primary} color="bg-blue-100 text-blue-700" />
-          <TagGroup label="İkincil Hashtagler (Orta Rekabet)" tags={result.secondary} color="bg-purple-100 text-purple-700" />
-          <TagGroup label="Trend Hashtagler" tags={result.trending} color="bg-green-100 text-green-700" />
-          <TagGroup label="Niş Hashtagler (Hedefli)" tags={result.niche} color="bg-amber-100 text-amber-700" />
+          <TagGroup label={t('hashtags.primary')} tags={result.primary} color="bg-blue-100 text-blue-700" />
+          <TagGroup label={t('hashtags.secondary')} tags={result.secondary} color="bg-purple-100 text-purple-700" />
+          <TagGroup label={t('hashtags.trending')} tags={result.trending} color="bg-green-100 text-green-700" />
+          <TagGroup label={t('hashtags.niche')} tags={result.niche} color="bg-amber-100 text-amber-700" />
 
           {result.avoid && result.avoid.length > 0 && (
-            <div className="bg-white rounded-2xl border border-red-100 p-5 shadow-sm">
-              <h3 className="font-semibold text-sm text-red-600 mb-3">Kaçınılması Gerekenler</h3>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-red-100 p-5 shadow-sm">
+              <h3 className="font-semibold text-sm text-red-600 mb-3">{t('hashtags.avoid')}</h3>
               <div className="space-y-2">
                 {result.avoid.map((item, i) => (
                   <p key={i} className="text-sm text-red-500">• {item}</p>
@@ -174,9 +176,9 @@ export default function HashtagsPage() {
           )}
 
           {result.strategy && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
-              <h3 className="font-semibold text-sm mb-2">Strateji Notu</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{result.strategy}</p>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-5 shadow-sm">
+              <h3 className="font-semibold text-sm mb-2">{t('hashtags.strategy')}</h3>
+              <p className="text-sm text-gray-600 dark:text-[#a1a1aa] leading-relaxed">{result.strategy}</p>
             </div>
           )}
         </div>

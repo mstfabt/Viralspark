@@ -3,6 +3,7 @@
 import { useUser } from '@clerk/nextjs'
 import { useState } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
+import { useLanguage } from '@/components/language-provider'
 
 type CompetitorResult = {
   topStrategies: { strategy: string; description: string; effectiveness: string }[]
@@ -14,7 +15,7 @@ type CompetitorResult = {
 }
 
 const PLATFORMS = [
-  { id: 'genel', label: 'Genel' },
+  { id: 'genel', labelKey: 'common.general' },
   { id: 'twitter', label: 'Twitter/X' },
   { id: 'instagram', label: 'Instagram' },
   { id: 'linkedin', label: 'LinkedIn' },
@@ -23,6 +24,7 @@ const PLATFORMS = [
 
 export default function CompetitorPage() {
   const { user } = useUser()
+  const { t, locale } = useLanguage()
   const [niche, setNiche] = useState('')
   const [platform, setPlatform] = useState('genel')
   const [competitors, setCompetitors] = useState('')
@@ -46,7 +48,7 @@ export default function CompetitorPage() {
       const res = await fetch('/api/competitor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ niche, platform, competitors }),
+        body: JSON.stringify({ niche, platform, competitors, lang: locale }),
       })
       const data = await res.json()
       if (data.limitReached) {
@@ -54,10 +56,10 @@ export default function CompetitorPage() {
       } else if (data.result) {
         setResult(data.result)
       } else {
-        setError(data.error || 'Bir hata oluştu.')
+        setError(data.error || t('common.error'))
       }
     } catch {
-      setError('Sunucuya bağlanılamadı.')
+      setError(t('common.error'))
     }
     setIsLoading(false)
   }
@@ -65,19 +67,25 @@ export default function CompetitorPage() {
   const effectivenessColor = (e: string) => {
     if (e === 'high') return 'bg-green-100 text-green-700'
     if (e === 'medium') return 'bg-yellow-100 text-yellow-700'
-    return 'bg-gray-100 text-gray-500'
+    return 'bg-gray-100 dark:bg-[#1f1f26] text-gray-500 dark:text-[#a1a1aa]'
+  }
+
+  const effectivenessLabel = (e: string) => {
+    if (e === 'high') return t('hooks.high')
+    if (e === 'medium') return t('hooks.medium')
+    return t('hooks.low')
   }
 
   if (isLocked) {
     return (
       <div className="p-8 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight mb-6">Rakip Analizi</h1>
-        <div className="bg-white rounded-2xl border border-gray-100 p-12 text-center shadow-sm">
+        <h1 className="text-3xl font-bold tracking-tight mb-6">{t('competitor.title')}</h1>
+        <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-12 text-center shadow-sm">
           <div className="text-5xl mb-4">🔒</div>
-          <h2 className="text-xl font-semibold mb-2">Bu özellik planınızda mevcut değil</h2>
-          <p className="text-gray-500 mb-6">Rakip analizi aracına erişmek için planınızı yükseltin.</p>
-          <a href="/#pricing" className="inline-block bg-black text-white px-6 py-3 rounded-full font-medium hover:bg-gray-800 transition-colors">
-            Planını Yükselt
+          <h2 className="text-xl font-semibold mb-2">{t('common.locked')}</h2>
+          <p className="text-gray-500 dark:text-[#a1a1aa] mb-6">{t('common.locked.desc')}</p>
+          <a href="/#pricing" className="inline-block brand-grad brand-shadow-sm px-6 py-3 rounded-full font-semibold">
+            {t('common.upgrade')}
           </a>
         </div>
       </div>
@@ -87,12 +95,12 @@ export default function CompetitorPage() {
   return (
     <div className="p-8 max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-3xl font-bold tracking-tight">Rakip Analizi</h1>
-        <p className="text-gray-500 mt-1">Sektörünüzdeki sosyal medya stratejilerini analiz edin, fırsatları keşfedin.</p>
+        <h1 className="text-3xl font-bold tracking-tight">{t('competitor.title')}</h1>
+        <p className="text-gray-500 dark:text-[#a1a1aa] mt-1">{t('competitor.desc')}</p>
       </div>
 
       {/* Input */}
-      <div className="bg-white p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 mb-8">
+      <div className="bg-white dark:bg-[#13131a] p-8 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-gray-100 dark:border-[#27272a] mb-8">
         <div className="flex flex-wrap gap-2 mb-4">
           {PLATFORMS.map((p) => (
             <button
@@ -100,32 +108,32 @@ export default function CompetitorPage() {
               onClick={() => setPlatform(p.id)}
               className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
                 platform === p.id
-                  ? 'bg-black text-white border-black'
-                  : 'bg-white text-gray-500 border-gray-200 hover:border-gray-400'
+                  ? 'brand-grad brand-shadow-sm border-transparent'
+                  : 'bg-white dark:bg-[#13131a] text-gray-500 dark:text-[#a1a1aa] border-gray-200 dark:border-[#27272a] hover:border-gray-400 dark:hover:border-[#52525b]'
               }`}
             >
-              {p.label}
+              {p.labelKey ? t(p.labelKey) : p.label}
             </button>
           ))}
         </div>
         <input
-          className="w-full p-5 text-lg bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all placeholder:text-gray-400 mb-3"
-          placeholder="Sektör/Niş: Örn: Butik kahve, fitness koçluğu, SaaS..."
+          className="w-full p-5 text-lg bg-gray-50 dark:bg-[#1a1a22] border border-gray-200 dark:border-[#27272a] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d62976] focus:border-transparent transition-all placeholder:text-gray-400 dark:placeholder:text-[#52525b] mb-3"
+          placeholder={t('competitor.niche.placeholder')}
           value={niche}
           onChange={(e) => setNiche(e.target.value)}
         />
         <input
-          className="w-full p-4 text-base bg-gray-50 border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-all placeholder:text-gray-400"
-          placeholder="Rakip hesaplar (opsiyonel): @hesap1, @hesap2..."
+          className="w-full p-4 text-base bg-gray-50 dark:bg-[#1a1a22] border border-gray-200 dark:border-[#27272a] rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#d62976] focus:border-transparent transition-all placeholder:text-gray-400 dark:placeholder:text-[#52525b]"
+          placeholder={t('competitor.competitors.placeholder')}
           value={competitors}
           onChange={(e) => setCompetitors(e.target.value)}
         />
         <button
           onClick={handleAnalyze}
           disabled={isLoading || !niche}
-          className="w-full mt-4 bg-black text-white py-4 rounded-2xl font-medium text-lg hover:bg-gray-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full mt-4 brand-grad brand-shadow py-4 rounded-2xl font-semibold text-lg disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Analiz Ediliyor...' : 'Rakip Analizi Yap'}
+          {isLoading ? t('competitor.loading') : t('competitor.button')}
         </button>
       </div>
 
@@ -137,22 +145,21 @@ export default function CompetitorPage() {
 
       {result && (
         <div className="space-y-6">
-          {/* Top Strategies */}
           {result.topStrategies && result.topStrategies.length > 0 && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <h3 className="font-semibold mb-4">En Etkili Stratejiler</h3>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-6 shadow-sm">
+              <h3 className="font-semibold mb-4">{t('competitor.strategies')}</h3>
               <div className="space-y-3">
                 {result.topStrategies.map((s, i) => (
-                  <div key={i} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
+                  <div key={i} className="flex items-start gap-3 p-3 bg-gray-50 dark:bg-[#1a1a22] rounded-xl">
                     <span className="text-lg font-bold text-gray-300 mt-0.5">{i + 1}</span>
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="font-medium text-sm">{s.strategy}</span>
                         <span className={`text-xs px-2 py-0.5 rounded-full ${effectivenessColor(s.effectiveness)}`}>
-                          {s.effectiveness === 'high' ? 'Yüksek' : s.effectiveness === 'medium' ? 'Orta' : 'Düşük'}
+                          {effectivenessLabel(s.effectiveness)}
                         </span>
                       </div>
-                      <p className="text-xs text-gray-500">{s.description}</p>
+                      <p className="text-xs text-gray-500 dark:text-[#a1a1aa]">{s.description}</p>
                     </div>
                   </div>
                 ))}
@@ -160,15 +167,14 @@ export default function CompetitorPage() {
             </div>
           )}
 
-          {/* Content Types */}
           {result.contentTypes && result.contentTypes.length > 0 && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <h3 className="font-semibold mb-4">İçerik Türleri ve Sıklık</h3>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-6 shadow-sm">
+              <h3 className="font-semibold mb-4">{t('competitor.content')}</h3>
               <div className="grid gap-3 md:grid-cols-2">
                 {result.contentTypes.map((c, i) => (
-                  <div key={i} className="p-3 bg-gray-50 rounded-xl">
+                  <div key={i} className="p-3 bg-gray-50 dark:bg-[#1a1a22] rounded-xl">
                     <p className="font-medium text-sm">{c.type}</p>
-                    <p className="text-xs text-gray-500 mt-1">Haftalık: {c.frequency} | Etkileşim: {c.engagement}</p>
+                    <p className="text-xs text-gray-500 dark:text-[#a1a1aa] mt-1">{c.frequency} | {c.engagement}</p>
                   </div>
                 ))}
               </div>
@@ -176,22 +182,20 @@ export default function CompetitorPage() {
           )}
 
           <div className="grid gap-6 md:grid-cols-2">
-            {/* Best Times */}
             {result.bestTimes && result.bestTimes.length > 0 && (
-              <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-                <h3 className="font-semibold mb-3">En İyi Paylaşım Zamanları</h3>
+              <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-6 shadow-sm">
+                <h3 className="font-semibold mb-3">{t('competitor.times')}</h3>
                 <div className="space-y-2">
-                  {result.bestTimes.map((t, i) => (
-                    <p key={i} className="text-sm text-gray-600">• {t}</p>
+                  {result.bestTimes.map((item, i) => (
+                    <p key={i} className="text-sm text-gray-600 dark:text-[#a1a1aa]">• {item}</p>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Gaps */}
             {result.gaps && result.gaps.length > 0 && (
-              <div className="bg-white rounded-2xl border border-green-100 p-6 shadow-sm">
-                <h3 className="font-semibold mb-3 text-green-700">Fırsatlar (Rakiplerin Kaçırdığı)</h3>
+              <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-green-100 p-6 shadow-sm">
+                <h3 className="font-semibold mb-3 text-green-700">{t('competitor.gaps')}</h3>
                 <div className="space-y-2">
                   {result.gaps.map((g, i) => (
                     <p key={i} className="text-sm text-green-600">• {g}</p>
@@ -201,23 +205,21 @@ export default function CompetitorPage() {
             )}
           </div>
 
-          {/* Hooks */}
           {result.hooks && result.hooks.length > 0 && (
-            <div className="bg-white rounded-2xl border border-gray-100 p-6 shadow-sm">
-              <h3 className="font-semibold mb-3">Bu Sektörde Etkili Hook Cümleleri</h3>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-gray-100 dark:border-[#27272a] p-6 shadow-sm">
+              <h3 className="font-semibold mb-3">{t('competitor.hooks')}</h3>
               <div className="space-y-2">
                 {result.hooks.map((h, i) => (
-                  <p key={i} className="text-sm text-gray-700 p-2 bg-gray-50 rounded-lg">&ldquo;{h}&rdquo;</p>
+                  <p key={i} className="text-sm text-gray-700 dark:text-[#d4d4d8] p-2 bg-gray-50 dark:bg-[#1a1a22] rounded-lg">&ldquo;{h}&rdquo;</p>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Recommendations */}
           {result.recommendations && (
-            <div className="bg-white rounded-2xl border border-blue-100 p-6 shadow-sm">
-              <h3 className="font-semibold mb-2 text-blue-700">Genel Strateji Önerisi</h3>
-              <p className="text-sm text-gray-600 leading-relaxed">{result.recommendations}</p>
+            <div className="bg-white dark:bg-[#13131a] rounded-2xl border border-blue-100 p-6 shadow-sm">
+              <h3 className="font-semibold mb-2 text-blue-700">{t('competitor.recommendation')}</h3>
+              <p className="text-sm text-gray-600 dark:text-[#a1a1aa] leading-relaxed">{result.recommendations}</p>
             </div>
           )}
         </div>

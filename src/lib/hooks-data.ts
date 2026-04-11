@@ -6,7 +6,7 @@ export type Hook = {
   engagement: 'high' | 'medium' | 'low'
 }
 
-export const HOOK_CATEGORIES = [
+export const HOOK_CATEGORIES_TR = [
   'Tümü',
   'Merak Uyandıran',
   'Tartışma Başlatan',
@@ -18,7 +18,22 @@ export const HOOK_CATEGORIES = [
   'Kişisel',
 ]
 
-export const HOOKS: Hook[] = [
+export const HOOK_CATEGORIES_EN = [
+  'All',
+  'Curiosity',
+  'Debate Starter',
+  'Storytelling',
+  'Educational',
+  'Motivation',
+  'Sales',
+  'Trending',
+  'Personal',
+]
+
+// For backward compat
+export const HOOK_CATEGORIES = HOOK_CATEGORIES_TR
+
+export const HOOKS_TR: Hook[] = [
   // Merak Uyandıran
   { id: 1, text: "Kimse bundan bahsetmiyor ama...", category: "Merak Uyandıran", platform: "twitter", engagement: "high" },
   { id: 2, text: "Bunu öğrendiğimde her şey değişti.", category: "Merak Uyandıran", platform: "instagram", engagement: "high" },
@@ -83,3 +98,72 @@ export const HOOKS: Hook[] = [
   { id: 73, text: "Benim sabah rutinim (kopyalayın):", category: "Kişisel", platform: "tiktok", engagement: "medium" },
   { id: 74, text: "Dürüst olacağım: Bu kolay değildi.", category: "Kişisel", platform: "instagram", engagement: "medium" },
 ]
+
+export const HOOKS_EN: Hook[] = [
+  // Curiosity
+  { id: 101, text: "Nobody is talking about this but...", category: "Curiosity", platform: "twitter", engagement: "high" },
+  { id: 102, text: "Everything changed when I learned this.", category: "Curiosity", platform: "instagram", engagement: "high" },
+  { id: 103, text: "I'm sharing a secret I've kept for 3 years.", category: "Curiosity", platform: "instagram", engagement: "high" },
+  { id: 104, text: "99% of people don't know this.", category: "Curiosity", platform: "tiktok", engagement: "high" },
+  { id: 105, text: "There's something everyone gets wrong...", category: "Curiosity", platform: "twitter", engagement: "high" },
+  { id: 106, text: "You won't believe this but...", category: "Curiosity", platform: "tiktok", engagement: "medium" },
+  { id: 107, text: "Save this post. You'll thank me later.", category: "Curiosity", platform: "instagram", engagement: "high" },
+  { id: 108, text: "POV: You just learned something that will change your life", category: "Curiosity", platform: "tiktok", engagement: "high" },
+
+  // Debate Starter
+  { id: 110, text: "Unpopular opinion: ...", category: "Debate Starter", platform: "twitter", engagement: "high" },
+  { id: 111, text: "I think everyone is wrong about this.", category: "Debate Starter", platform: "twitter", engagement: "high" },
+  { id: 112, text: "You're going to disagree with me on this...", category: "Debate Starter", platform: "linkedin", engagement: "high" },
+  { id: 113, text: "Most say X. I say Y. Here's why:", category: "Debate Starter", platform: "linkedin", engagement: "medium" },
+  { id: 114, text: "Hot take: ...", category: "Debate Starter", platform: "twitter", engagement: "high" },
+  { id: 115, text: "I'll probably get cancelled for saying this but...", category: "Debate Starter", platform: "twitter", engagement: "high" },
+
+  // Storytelling
+  { id: 120, text: "This time last year, I had nothing. Today...", category: "Storytelling", platform: "instagram", engagement: "high" },
+  { id: 121, text: "There's a story behind this photo.", category: "Storytelling", platform: "instagram", engagement: "high" },
+  { id: 122, text: "I was 24 with less than $50 in my bank account.", category: "Storytelling", platform: "linkedin", engagement: "high" },
+  { id: 123, text: "I quit my job. Here's the next 365 days:", category: "Storytelling", platform: "linkedin", engagement: "high" },
+  { id: 124, text: "When I read this customer's message, I teared up.", category: "Storytelling", platform: "instagram", engagement: "medium" },
+  { id: 125, text: "Everyone said 'don't do it.' I did it anyway. Here's what happened:", category: "Storytelling", platform: "tiktok", engagement: "high" },
+
+  // Educational
+  { id: 130, text: "Learn this in 5 minutes: ...", category: "Educational", platform: "instagram", engagement: "high" },
+  { id: 131, text: "I wish I knew this sooner...", category: "Educational", platform: "tiktok", engagement: "high" },
+  { id: 132, text: "Here's everything you need to know about [topic]:", category: "Educational", platform: "linkedin", engagement: "medium" },
+  { id: 133, text: "Thread: Step-by-step guide to [topic] 🧵", category: "Educational", platform: "twitter", engagement: "high" },
+  { id: 134, text: "These 3 mistakes are why you're failing:", category: "Educational", platform: "linkedin", engagement: "high" },
+  { id: 135, text: "Save and apply. Results in 30 days.", category: "Educational", platform: "instagram", engagement: "medium" },
+  { id: 136, text: "Beginner's guide: From zero to [topic]", category: "Educational", platform: "linkedin", engagement: "medium" },
+
+  // Motivation
+  { id: 140, text: "Today is the perfect day to start.", category: "Motivation", platform: "instagram", engagement: "medium" },
+  { id: 141, text: "Success isn't one night. It's every night.", category: "Motivation", platform: "linkedin", engagement: "medium" },
+  { id: 142, text: "Nobody started perfect. Everyone started somewhere.", category: "Motivation", platform: "instagram", engagement: "high" },
+  { id: 143, text: "Remind yourself: You're here because you have talent.", category: "Motivation", platform: "tiktok", engagement: "medium" },
+  { id: 144, text: "A year from now, you'll look back and say 'I'm glad I started.'", category: "Motivation", platform: "instagram", engagement: "high" },
+
+  // Sales
+  { id: 150, text: "Don't buy this product without seeing this.", category: "Sales", platform: "tiktok", engagement: "high" },
+  { id: 151, text: "Here's what our customers are saying:", category: "Sales", platform: "instagram", engagement: "medium" },
+  { id: 152, text: "Try it free for 7 days. No risk.", category: "Sales", platform: "twitter", engagement: "medium" },
+  { id: 153, text: "Why do 10,000+ people choose us?", category: "Sales", platform: "linkedin", engagement: "high" },
+  { id: 154, text: "This ends this weekend. Last chance.", category: "Sales", platform: "instagram", engagement: "high" },
+  { id: 155, text: "Last [X] units before the price goes up.", category: "Sales", platform: "twitter", engagement: "high" },
+
+  // Trending
+  { id: 160, text: "If you're not doing this in 2026, you'll fall behind.", category: "Trending", platform: "linkedin", engagement: "high" },
+  { id: 161, text: "Everyone's talking about AI but the real opportunity is in [X].", category: "Trending", platform: "twitter", engagement: "high" },
+  { id: 162, text: "Get on this trend early and win.", category: "Trending", platform: "tiktok", engagement: "high" },
+  { id: 163, text: "A quiet revolution in the industry: ...", category: "Trending", platform: "linkedin", engagement: "medium" },
+  { id: 164, text: "Pay attention, this is going to blow up: ...", category: "Trending", platform: "twitter", engagement: "medium" },
+
+  // Personal
+  { id: 170, text: "I'm going to make a confession today.", category: "Personal", platform: "instagram", engagement: "high" },
+  { id: 171, text: "3 months ago I hit burnout. Here's what I learned:", category: "Personal", platform: "linkedin", engagement: "high" },
+  { id: 172, text: "The biggest mistake I made when starting my first business:", category: "Personal", platform: "linkedin", engagement: "high" },
+  { id: 173, text: "My morning routine (steal it):", category: "Personal", platform: "tiktok", engagement: "medium" },
+  { id: 174, text: "I'll be honest: This wasn't easy.", category: "Personal", platform: "instagram", engagement: "medium" },
+]
+
+// Default export for backward compat
+export const HOOKS = HOOKS_TR
