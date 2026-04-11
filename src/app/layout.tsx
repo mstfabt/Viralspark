@@ -6,6 +6,7 @@ import { ToastProvider } from '@/components/toast'
 import { ErrorBoundary } from '@/components/error-boundary'
 import { LanguageProvider } from '@/components/language-provider'
 import { ThemeProvider } from '@/components/theme-provider'
+import { LemonSqueezyOverlay } from '@/components/lemon-squeezy-overlay'
 import './globals.css'
 
 // Inline script — runs before React hydrates to prevent FOUC / theme flash
@@ -204,6 +205,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </ThemeProvider>
         <Analytics />
         <SpeedInsights />
+        <LemonSqueezyOverlay />
       </body>
     </html>
   )

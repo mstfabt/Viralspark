@@ -521,7 +521,7 @@ export default function Home() {
                   <a href="/sign-up" className="block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('nav.start')}</a>
                 </Show>
                 <Show when="signed-in">
-                  <a href={getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id)} className="block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('pricing.select')}</a>
+                  <a href={getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id)} className="lemonsqueezy-button block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('pricing.select')}</a>
                 </Show>
               </div>
             </div>
@@ -543,7 +543,7 @@ export default function Home() {
                 <a href="/sign-up" className="block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('nav.start')}</a>
               </Show>
               <Show when="signed-in">
-                <a href={getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id)} className="block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('pricing.go')}</a>
+                <a href={getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id)} className="lemonsqueezy-button block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('pricing.go')}</a>
               </Show>
             </div>
           </div>
