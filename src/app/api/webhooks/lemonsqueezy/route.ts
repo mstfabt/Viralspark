@@ -38,9 +38,17 @@ export async function POST(request: NextRequest) {
       const variantId = payload.data?.attributes?.variant_id
       const subscriptionId = payload.data?.id
 
+      const plan = getPlanFromVariant(variantId)
+      if (!plan) {
+        // Unknown variant — refuse to silently downgrade a Pro buyer to Starter.
+        // Returns 500 so LS retries; meanwhile the variant ID env vars must be fixed.
+        console.error('Unknown LS variant_id, refusing to update plan:', variantId)
+        return NextResponse.json('Unknown variant_id', { status: 500 })
+      }
+
       await client.users.updateUserMetadata(userId, {
         publicMetadata: {
-          plan: getPlanFromVariant(variantId),
+          plan,
           subscriptionStatus: status,
           subscriptionId,
           lsCustomerId: payload.data?.attributes?.customer_id,
@@ -55,6 +63,16 @@ export async function POST(request: NextRequest) {
       await client.users.updateUserMetadata(userId, {
         publicMetadata: {
           subscriptionStatus: 'cancelled',
+        },
+      })
+      break
+    }
+
+    case 'subscription_resumed': {
+      // User cancelled then changed their mind before period end.
+      await client.users.updateUserMetadata(userId, {
+        publicMetadata: {
+          subscriptionStatus: 'active',
         },
       })
       break
@@ -79,15 +97,27 @@ export async function POST(request: NextRequest) {
       })
       break
     }
+
+    case 'subscription_payment_success': {
+      // LS automatically retries failed payments. When one succeeds, lift past_due.
+      await client.users.updateUserMetadata(userId, {
+        publicMetadata: {
+          subscriptionStatus: 'active',
+        },
+      })
+      break
+    }
   }
 
   return NextResponse.json('OK', { status: 200 })
 }
 
-function getPlanFromVariant(variantId: number): string {
-  const variantMap: Record<number, string> = {
-    1498792: 'starter',
-    1498787: 'pro',
-  }
-  return variantMap[variantId] || 'starter'
+// Variant IDs differ between test mode and live mode — keep them in env so the
+// switch to live only requires updating Vercel, never editing code.
+function getPlanFromVariant(variantId: number): 'starter' | 'pro' | null {
+  const starterId = Number(process.env.LS_STARTER_VARIANT_ID)
+  const proId = Number(process.env.LS_PRO_VARIANT_ID)
+  if (variantId === starterId) return 'starter'
+  if (variantId === proId) return 'pro'
+  return null
 }
