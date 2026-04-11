@@ -3,6 +3,7 @@
 import { useUser, UserButton, SignOutButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import Link from 'next/link'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
 import { LanguageSelector } from '@/components/language-selector'
@@ -57,9 +58,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         <div className="pointer-events-none absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-[#d62976]/20 via-[#962fbf]/10 to-transparent" />
 
         <div className="relative p-6 border-b border-white/5 flex items-center justify-between">
-          <a href="/" className="inline-flex group">
+          <Link href="/" className="inline-flex group">
             <Logo size={28} />
-          </a>
+          </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
@@ -78,24 +79,37 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           {NAV_ITEMS.map((item, i) => {
             const active = pathname === item.href
             return (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
+                prefetch
                 onClick={() => setSidebarOpen(false)}
-                style={{ animationDelay: `${i * 30}ms` }}
-                className={`group relative flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 animate-[fade-in-up_0.4s_ease-out_backwards] ${
-                  active
-                    ? 'brand-grad brand-shadow-sm text-white'
-                    : 'text-white/60 hover:text-white hover:bg-white/5 hover:translate-x-0.5'
+                style={{ animationDelay: `${i * 25}ms` }}
+                className={`group relative flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium animate-[fade-in-up_0.4s_ease-out_backwards] ${
+                  active ? 'text-white' : 'text-white/60 hover:text-white'
                 }`}
               >
+                {/* Animated gradient background */}
+                <span
+                  className={`absolute inset-0 rounded-xl brand-grad brand-shadow-sm transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    active ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+                  }`}
+                />
+                {/* Hover layer */}
+                <span
+                  className={`absolute inset-0 rounded-xl bg-white/5 transition-opacity duration-300 ${
+                    active ? 'opacity-0' : 'opacity-0 group-hover:opacity-100'
+                  }`}
+                />
                 {/* Active indicator bar */}
-                {active && (
-                  <span className="absolute -left-3 top-1/2 -translate-y-1/2 h-6 w-1 rounded-r-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.6)]" />
-                )}
+                <span
+                  className={`absolute -left-3 top-1/2 -translate-y-1/2 w-1 rounded-r-full bg-white shadow-[0_0_12px_rgba(255,255,255,0.6)] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    active ? 'h-6 opacity-100' : 'h-0 opacity-0'
+                  }`}
+                />
                 <svg
-                  className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
-                    active ? '' : 'group-hover:scale-110'
+                  className={`relative w-5 h-5 shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                    active ? 'scale-110' : 'group-hover:scale-110 group-hover:rotate-[-4deg]'
                   }`}
                   fill="none"
                   stroke="currentColor"
@@ -103,8 +117,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={item.icon} />
                 </svg>
-                <span className="truncate">{t(item.labelKey)}</span>
-              </a>
+                <span className={`relative truncate transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${active ? '' : 'group-hover:translate-x-0.5'}`}>
+                  {t(item.labelKey)}
+                </span>
+              </Link>
             )
           })}
         </nav>
@@ -130,7 +146,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
       </aside>
 
       {/* Main Content */}
-      <main key={pathname} className="flex-1 lg:ml-64 min-h-screen animate-[fade-in_0.4s_ease-out]">
+      <main key={pathname} className="flex-1 lg:ml-64 min-h-screen animate-[fade-in-up_0.5s_cubic-bezier(0.16,1,0.3,1)]">
         {/* Mobile header */}
         <div className="lg:hidden sticky top-0 z-30 bg-[var(--bg-surface)]/80 backdrop-blur-xl border-b border-[var(--border-base)] px-4 py-3 flex items-center justify-between transition-colors">
           <button
