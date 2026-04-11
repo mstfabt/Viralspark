@@ -23,6 +23,7 @@ export default function BillingPage() {
   const [usage, setUsage] = useState<UsageResponse | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [portalUrl, setPortalUrl] = useState<string | null>(null)
 
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
   const subscriptionStatus = publicMeta.subscriptionStatus as string | undefined
@@ -42,6 +43,18 @@ export default function BillingPage() {
       .catch(() => {})
   }, [])
 
+  useEffect(() => {
+    if (!portalUrl) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setPortalUrl(null) }
+    document.addEventListener('keydown', onKey)
+    const prevOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.body.style.overflow = prevOverflow
+    }
+  }, [portalUrl])
+
   const openBillingPortal = async () => {
     setLoading(true)
     setError(null)
@@ -52,7 +65,7 @@ export default function BillingPage() {
         setError(data.error || 'Failed to open billing portal')
         return
       }
-      window.open(data.url, '_blank')
+      setPortalUrl(data.url)
     } catch {
       setError(isEn ? 'Failed to open portal' : 'Portal acilamadi')
     } finally {
@@ -222,6 +235,48 @@ export default function BillingPage() {
           </a>
         </div>
       </div>
+
+      {portalUrl && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 animate-[fade-in_0.2s_ease-out]"
+          aria-modal="true"
+          role="dialog"
+        >
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setPortalUrl(null)} />
+          <div className="relative w-full max-w-5xl h-[85vh] bg-[#0a0a0f] border border-white/10 rounded-3xl shadow-2xl overflow-hidden animate-[fade-in-up_0.3s_cubic-bezier(0.16,1,0.3,1)]">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 bg-[#0a0a0f]">
+              <span className="text-sm font-semibold text-white/80">
+                {isEn ? 'Manage subscription' : 'Aboneligi yonet'}
+              </span>
+              <div className="flex items-center gap-2">
+                <a
+                  href={portalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-white/50 hover:text-white/80 transition-colors px-2 py-1"
+                  title={isEn ? 'Open in new tab' : 'Yeni sekmede ac'}
+                >
+                  ↗
+                </a>
+                <button
+                  onClick={() => setPortalUrl(null)}
+                  aria-label={isEn ? 'Close' : 'Kapat'}
+                  className="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center transition-colors"
+                >
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <iframe
+              src={portalUrl}
+              title={isEn ? 'Manage subscription' : 'Aboneligi yonet'}
+              className="w-full h-[calc(85vh-49px)] bg-white"
+            />
+          </div>
+        </div>
+      )}
     </div>
   )
 }
