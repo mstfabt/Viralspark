@@ -1,10 +1,11 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'genel', labelKey: 'common.general' },
@@ -33,6 +34,11 @@ export default function HashtagsPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [copiedGroup, setCopiedGroup] = useState<string | null>(null)
+  const { cachedResult, saveResult } = useGenerationCache<HashtagResult>('hashtags')
+
+  useEffect(() => {
+    if (cachedResult) setResult(cachedResult)
+  }, [cachedResult])
 
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
   const plan = (publicMeta.subscriptionStatus === 'active' || publicMeta.subscriptionStatus === 'on_trial')
@@ -57,6 +63,7 @@ export default function HashtagsPage() {
         setError(data.error)
       } else if (data.result) {
         setResult(data.result)
+        saveResult(data.result, topic)
       } else {
         setError(data.error || t('common.error'))
       }

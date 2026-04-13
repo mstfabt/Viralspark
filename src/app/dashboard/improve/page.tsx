@@ -1,9 +1,10 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useToast } from '@/components/toast'
 import { useLanguage } from '@/components/language-provider'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X' },
@@ -35,6 +36,11 @@ export default function ImprovePage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [showComparison, setShowComparison] = useState(false)
   const [copiedImproved, setCopiedImproved] = useState(false)
+  const { cachedResult, saveResult } = useGenerationCache<AnalysisResult>('improve')
+
+  useEffect(() => {
+    if (cachedResult) setResult(cachedResult)
+  }, [cachedResult])
 
   const handleAnalyze = async () => {
     if (!content.trim()) return
@@ -58,6 +64,7 @@ export default function ImprovePage() {
         }
       } else if (data.result) {
         setResult(data.result)
+        saveResult(data.result, content)
       }
     } catch {
       setErrorMsg(t('common.error'))

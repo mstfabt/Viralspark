@@ -1,10 +1,11 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORM_STYLES: Record<string, { color: string; icon: string; label: string }> = {
   twitter: { color: 'bg-black', icon: '𝕏', label: 'Twitter/X' },
@@ -42,6 +43,11 @@ export default function CalendarPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const { cachedResult, saveResult } = useGenerationCache<CalendarItem[]>('calendar')
+
+  useEffect(() => {
+    if (cachedResult) setCalendar(cachedResult)
+  }, [cachedResult])
 
   const handleGenerate = async () => {
     if (!topic) return
@@ -60,6 +66,7 @@ export default function CalendarPage() {
         setError(data.error)
       } else if (data.calendar) {
         setCalendar(data.calendar)
+        saveResult(data.calendar, topic)
       } else {
         setError(data.error || t('common.error'))
       }

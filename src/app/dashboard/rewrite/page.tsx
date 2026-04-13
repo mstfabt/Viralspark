@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { useToast } from '@/components/toast'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X' },
@@ -40,6 +41,11 @@ export default function RewritePage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [limitReached, setLimitReached] = useState(false)
   const [copied, setCopied] = useState(false)
+  const { cachedResult, saveResult } = useGenerationCache<{ rewritten: string; changes: string }>('rewrite')
+
+  useEffect(() => {
+    if (cachedResult) setResult(cachedResult)
+  }, [cachedResult])
 
   const handleGenerate = async () => {
     if (!content.trim()) return
@@ -67,6 +73,7 @@ export default function RewritePage() {
         setErrorMsg(data.error)
       } else if (data.result) {
         setResult(data.result)
+        saveResult(data.result, content)
         toast(t('common.generated'))
       } else {
         setErrorMsg(data.error || t('common.error'))

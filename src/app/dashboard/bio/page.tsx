@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useToast } from '@/components/toast'
 import { useLanguage } from '@/components/language-provider'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X', maxChars: 160 },
@@ -33,6 +34,11 @@ export default function BioPage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [limitReached, setLimitReached] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const { cachedResult, saveResult } = useGenerationCache<Record<string, string>>('bio')
+
+  useEffect(() => {
+    if (cachedResult) setResults(cachedResult)
+  }, [cachedResult])
 
   const togglePlatform = (id: string) => {
     setSelectedPlatforms((prev) =>
@@ -59,6 +65,7 @@ export default function BioPage() {
         setErrorMsg(data.error)
       } else if (data.result) {
         setResults(data.result)
+        saveResult(data.result, name)
         toast(t('common.generated'))
       } else {
         setErrorMsg(data.error || t('common.error'))

@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { useToast } from '@/components/toast'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X' },
@@ -27,6 +28,11 @@ export default function BulkPage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [limitReached, setLimitReached] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const { cachedResult, saveResult } = useGenerationCache<BulkResult[]>('bulk')
+
+  useEffect(() => {
+    if (cachedResult) setResults(cachedResult)
+  }, [cachedResult])
 
   const getTopics = () => {
     return topicsText
@@ -69,6 +75,7 @@ export default function BulkPage() {
       } else if (data.results) {
         setResults(data.results)
         setProgress(data.results.length)
+        saveResult(data.results, topics.join('\n'))
         toast(t('common.generated'))
       } else {
         setErrorMsg(data.error || t('common.error'))

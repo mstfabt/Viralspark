@@ -1,9 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { useToast } from '@/components/toast'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', icon: 'X' },
@@ -38,6 +39,11 @@ export default function ReplyPage() {
   const [errorMsg, setErrorMsg] = useState('')
   const [limitReached, setLimitReached] = useState(false)
   const [copiedIdx, setCopiedIdx] = useState<number | null>(null)
+  const { cachedResult, saveResult } = useGenerationCache<string[]>('reply')
+
+  useEffect(() => {
+    if (cachedResult) setReplies(cachedResult)
+  }, [cachedResult])
 
   const handleGenerate = async () => {
     if (!content.trim()) return
@@ -59,6 +65,7 @@ export default function ReplyPage() {
         setErrorMsg(data.error)
       } else if (data.replies) {
         setReplies(data.replies)
+        saveResult(data.replies, content)
         toast(t('common.generated'))
       } else {
         setErrorMsg(data.error || t('common.error'))

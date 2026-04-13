@@ -8,6 +8,7 @@ import { saveToHistory } from '@/lib/history'
 import { addFavorite, isFavorite } from '@/lib/favorites'
 import { useLanguage } from '@/components/language-provider'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const PLATFORMS = [
   { id: 'twitter', label: 'Twitter/X', color: 'bg-black', icon: 'X' },
@@ -34,6 +35,11 @@ export default function DashboardPage() {
   const [favoritedIds, setFavoritedIds] = useState<Set<string>>(new Set())
   const [showOnboarding, setShowOnboarding] = useState(false)
   const [bannerDismissed, setBannerDismissed] = useState(false)
+  const { cachedResult, saveResult } = useGenerationCache<Record<string, ContentResult[]>>('generate')
+
+  useEffect(() => {
+    if (cachedResult) setResults(cachedResult)
+  }, [cachedResult])
 
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
   const plan = (publicMeta.subscriptionStatus === 'active' || publicMeta.subscriptionStatus === 'on_trial')
@@ -103,6 +109,7 @@ export default function DashboardPage() {
           }
         }
         setResults(normalized)
+        saveResult(normalized, topic)
         if (data.usage) setUsageInfo(data.usage)
 
         const historyResults: Record<string, ContentResult> = {}

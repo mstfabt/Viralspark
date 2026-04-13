@@ -1,10 +1,11 @@
 'use client'
 
 import { useUser } from '@clerk/nextjs'
-import { useState, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { PLAN_LIMITS, type PlanType } from '@/lib/plans'
 import { useLanguage } from '@/components/language-provider'
 import { useUpgradeModal } from '@/components/upgrade-modal'
+import { useGenerationCache } from '@/lib/generation-cache'
 
 const OVERLAY_STYLES = [
   { id: 'bottom-dark', label: { tr: 'Alt Koyu Bant', en: 'Bottom Dark' }, position: 'bottom' as const, bg: 'rgba(0,0,0,0.7)', text: '#fff' },
@@ -55,6 +56,15 @@ export default function SharePage() {
   const [platformSize, setPlatformSize] = useState(PLATFORM_SIZES[0])
   const [overlayText, setOverlayText] = useState('')
   const [copiedCaption, setCopiedCaption] = useState(false)
+  const { cachedResult, saveResult } = useGenerationCache<{ overlay: string; caption: string }>('share')
+
+  useEffect(() => {
+    if (cachedResult) {
+      setOverlayText(cachedResult.overlay)
+      setCaption(cachedResult.caption)
+    }
+  }, [cachedResult])
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -92,8 +102,13 @@ export default function SharePage() {
         return
       }
 
-      setOverlayText(data.result?.overlay || '')
-      setCaption(data.result?.caption || '')
+      const overlay = data.result?.overlay || ''
+      const captionText = data.result?.caption || ''
+      setOverlayText(overlay)
+      setCaption(captionText)
+      if (overlay || captionText) {
+        saveResult({ overlay, caption: captionText }, topic)
+      }
     } catch {
       setCaption(t('common.error'))
     }
