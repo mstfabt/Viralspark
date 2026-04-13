@@ -67,7 +67,11 @@ export default function BillingPage() {
         setError(data.error || 'Failed to open billing portal')
         return
       }
-      setPortalUrl(data.url)
+      if (data.provider === 'paddle') {
+        window.open(data.url, '_blank')
+      } else {
+        setPortalUrl(data.url)
+      }
     } catch {
       setError(isEn ? 'Failed to open portal' : 'Portal acilamadi')
     } finally {
