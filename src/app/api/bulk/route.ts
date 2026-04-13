@@ -96,54 +96,60 @@ export async function POST(req: Request) {
     const rule = (platformRules[lang] || platformRules.tr)[platform] || platformRules.tr.twitter
     const toneHint = brandTone ? (lang === 'en' ? `Tone: ${brandTone}.` : `Ton: ${brandTone}.`) : ''
 
-    // Generate for each topic sequentially
-    const results: { topic: string; text: string; score: number }[] = []
+    const topicList = topics.map((t: string, i: number) => `${i + 1}. ${t}`).join('\n')
 
-    for (const topic of topics) {
-      const systemPrompt = lang === 'en'
-        ? `You are a social media expert. Generate a viral ${platform} post about: ${topic}
+    const systemPrompt = lang === 'en'
+      ? `You are a social media expert. Generate a viral ${platform} post for EACH topic below.
 ${rule}
 ${toneHint}
-Also give a viral score from 1-100 (hook strength, engagement potential, hashtag quality, platform fit).
+Also give each a viral score from 1-100 (hook strength, engagement potential, hashtag quality, platform fit).
 Write in ${language}.
 
-REQUIRED FORMAT (JSON):
-{"text": "the post content", "score": 85}
+Topics:
+${topicList}
 
-Return ONLY JSON.`
-        : `Sen bir sosyal medya uzmanisin. Su konu hakkinda viral bir ${platform} gonderisi uret: ${topic}
+REQUIRED FORMAT (JSON array, one object per topic in order):
+[{"text": "post content", "score": 85}, ...]
+
+Return ONLY a JSON array with exactly ${topics.length} objects.`
+      : `Sen bir sosyal medya uzmanisin. Asagidaki HER konu icin viral bir ${platform} gonderisi uret.
 ${rule}
 ${toneHint}
-Ayrica 1-100 arasi viral skor ver (hook gucu, etkilesim potansiyeli, hashtag kalitesi, platform uyumu).
+Ayrica her birine 1-100 arasi viral skor ver (hook gucu, etkilesim potansiyeli, hashtag kalitesi, platform uyumu).
 ${language} dilinde yaz.
 
-ZORUNLU FORMAT (JSON):
-{"text": "gonderi icerigi", "score": 85}
+Konular:
+${topicList}
 
-SADECE JSON dondur.`
+ZORUNLU FORMAT (JSON dizisi, her konu icin sirali bir nesne):
+[{"text": "gonderi icerigi", "score": 85}, ...]
 
-      let text = await generateContent(systemPrompt, { maxOutputTokens: 2000, temperature: 0.8 })
-      text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
+SADECE tam ${topics.length} nesneli JSON dizisi dondur.`
 
-      let parsed: { text: string; score: number }
-      try {
-        parsed = JSON.parse(text)
-        if (!parsed.text) {
-          parsed = { text, score: 70 }
-        }
-      } catch {
-        parsed = { text, score: 70 }
-      }
+    let text = await generateContent(systemPrompt, { maxOutputTokens: 2000, temperature: 0.8 })
+    text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
-      results.push({ topic, text: parsed.text, score: parsed.score })
+    let parsedArr: { text: string; score: number }[]
+    try {
+      parsedArr = JSON.parse(text)
+      if (!Array.isArray(parsedArr)) throw new Error('Not an array')
+    } catch {
+      parsedArr = topics.map(() => ({ text: text.slice(0, 500), score: 70 }))
+    }
 
-      // Increment usage for each topic
-      if (usage.limit !== Infinity) {
+    const results = topics.map((topic: string, i: number) => ({
+      topic,
+      text: parsedArr[i]?.text || '',
+      score: parsedArr[i]?.score || 70,
+    }))
+
+    // Increment usage for each topic
+    if (usage.limit !== Infinity) {
+      for (let i = 0; i < topics.length; i++) {
         await incrementUsage(userId, 'singlePosts')
       }
     }
 
-    // Get updated usage count
     const updatedUsage = await checkUsage(userId, 'singlePosts')
 
     return NextResponse.json({
