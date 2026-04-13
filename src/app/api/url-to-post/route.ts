@@ -157,7 +157,7 @@ ZORUNLU FORMAT (JSON):
 
 SADECE JSON dondur.`
 
-    let text = await generateContent(systemPrompt)
+    let text = await generateContent(systemPrompt, { maxOutputTokens: 1500, temperature: 0.8 })
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     let parsed: Record<string, { text: string; score: number }>

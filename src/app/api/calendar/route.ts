@@ -87,7 +87,7 @@ JSON array döndür:
 
 SADECE JSON döndür. Toplam ${dayCount} öğe.`
 
-    let text = await generateContent(systemPrompt)
+    let text = await generateContent(systemPrompt, { maxOutputTokens: 4000, temperature: 0.8 })
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     let parsed

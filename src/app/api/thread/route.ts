@@ -85,7 +85,7 @@ ZORUNLU FORMAT (JSON string dizisi):
 
 SADECE ${parts} elemanli JSON dizisi dondur. Baska bir sey yazma.`
 
-    let text = await generateContent(systemPrompt)
+    let text = await generateContent(systemPrompt, { maxOutputTokens: 2500, temperature: 0.8 })
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     let parsed: string[]

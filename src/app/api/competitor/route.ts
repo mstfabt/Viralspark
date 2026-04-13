@@ -89,7 +89,7 @@ ZORUNLU FORMAT (JSON):
 
 SADECE JSON döndür.`
 
-    let text = await generateContent(prompt)
+    let text = await generateContent(prompt, { maxOutputTokens: 2000, temperature: 0.5 })
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     let parsed

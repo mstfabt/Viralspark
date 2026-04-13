@@ -62,7 +62,7 @@ SADECE bu JSON formatında döndür:
 
 SADECE geçerli JSON döndür, başka hiçbir şey yazma.`
 
-    let text = await generateContent(prompt)
+    let text = await generateContent(prompt, { maxOutputTokens: 400, temperature: 0.8 })
     text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim()
 
     let parsed

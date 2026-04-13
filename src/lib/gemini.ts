@@ -11,7 +11,15 @@ export function getGeminiClient(): GoogleGenAI {
   return _client
 }
 
-export async function generateContent(prompt: string): Promise<string> {
+export type GenerateOptions = {
+  maxOutputTokens?: number
+  temperature?: number
+}
+
+export async function generateContent(
+  prompt: string,
+  options: GenerateOptions = {},
+): Promise<string> {
   const client = getGeminiClient()
 
   const response = await client.models.generateContent({
@@ -21,6 +29,8 @@ export async function generateContent(prompt: string): Promise<string> {
       thinkingConfig: {
         thinkingBudget: 0, // Thinking kapalı — maliyet %80 düşer
       },
+      maxOutputTokens: options.maxOutputTokens,
+      temperature: options.temperature,
     },
   })
 
