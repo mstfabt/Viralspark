@@ -7,6 +7,7 @@ import { ErrorBoundary } from '@/components/error-boundary'
 import { LanguageProvider } from '@/components/language-provider'
 import { ThemeProvider } from '@/components/theme-provider'
 import { LemonSqueezyOverlay } from '@/components/lemon-squeezy-overlay'
+import { PaddleLoader } from '@/components/paddle-loader'
 import './globals.css'
 
 // Inline script — runs before React hydrates to prevent FOUC / theme flash
@@ -208,6 +209,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Analytics />
         <SpeedInsights />
         <LemonSqueezyOverlay />
+        <PaddleLoader />
       </body>
     </html>
   )

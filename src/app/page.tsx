@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '@/components/language-provider'
 import { LanguageSelector } from '@/components/language-selector'
 
+const PADDLE_STARTER_PRICE = process.env.NEXT_PUBLIC_PADDLE_STARTER_PRICE_ID || ''
+const PADDLE_PRO_PRICE = process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID || ''
+const USE_PADDLE = !!PADDLE_STARTER_PRICE
+
 const PLAN_KEYS = {
   starter: {
     nameKey: 'pricing.starter',
@@ -17,6 +21,15 @@ const PLAN_KEYS = {
     checkoutUrl: process.env.NEXT_PUBLIC_LS_PRO_URL || process.env.NEXT_PUBLIC_GUMROAD_PRO_URL || '#',
     recommended: true,
   },
+}
+
+function openPaddleCheckout(priceId: string, userId: string | undefined) {
+  if (!window.Paddle || !priceId) return
+  window.Paddle.Checkout.open({
+    settings: { displayMode: 'overlay', theme: 'dark' },
+    customData: userId ? { user_id: userId } : {},
+    items: [{ priceId, quantity: 1 }],
+  })
 }
 
 // Remaining features (the top 4 are promoted to sticky spotlights below).
@@ -533,12 +546,22 @@ export default function Home() {
                   <a href="/sign-up" className="block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]">{t('nav.start')}</a>
                 </Show>
                 <Show when="signed-in">
-                  <a
-                    href={getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id)}
-                    className="lemonsqueezy-button block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
-                  >
-                    {t('pricing.select')}
-                  </a>
+                  {USE_PADDLE ? (
+                    <button
+                      type="button"
+                      onClick={() => openPaddleCheckout(PADDLE_STARTER_PRICE, user?.id)}
+                      className="w-full block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
+                    >
+                      {t('pricing.select')}
+                    </button>
+                  ) : (
+                    <a
+                      href={getCheckoutUrl(PLAN_KEYS.starter.checkoutUrl, user?.id)}
+                      className="lemonsqueezy-button block text-center py-4 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
+                    >
+                      {t('pricing.select')}
+                    </a>
+                  )}
                 </Show>
               </div>
             </div>
@@ -560,12 +583,22 @@ export default function Home() {
                 <a href="/sign-up" className="block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors">{t('nav.start')}</a>
               </Show>
               <Show when="signed-in">
-                <a
-                  href={getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id)}
-                  className="lemonsqueezy-button block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
-                >
-                  {t('pricing.go')}
-                </a>
+                {USE_PADDLE ? (
+                  <button
+                    type="button"
+                    onClick={() => openPaddleCheckout(PADDLE_PRO_PRICE, user?.id)}
+                    className="w-full block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
+                  >
+                    {t('pricing.go')}
+                  </button>
+                ) : (
+                  <a
+                    href={getCheckoutUrl(PLAN_KEYS.pro.checkoutUrl, user?.id)}
+                    className="lemonsqueezy-button block text-center py-4 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
+                  >
+                    {t('pricing.go')}
+                  </a>
+                )}
               </Show>
             </div>
           </div>
@@ -573,7 +606,10 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-8 mt-14 text-xs text-white/40 font-medium">
             <span>{isEn ? '✓ 14-day money-back guarantee' : '✓ 14 gün para iade garantisi'}</span>
             <span>{isEn ? '✓ Cancel anytime' : '✓ İstediğin zaman iptal'}</span>
-            <span>{isEn ? '✓ Secure via Lemon Squeezy' : '✓ Lemon Squeezy ile güvenli ödeme'}</span>
+            <span>{USE_PADDLE
+              ? (isEn ? '✓ Secure via Paddle' : '✓ Paddle ile güvenli ödeme')
+              : (isEn ? '✓ Secure via Lemon Squeezy' : '✓ Lemon Squeezy ile güvenli ödeme')
+            }</span>
           </div>
         </div>
       </section>

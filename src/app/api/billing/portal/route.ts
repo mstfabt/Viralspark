@@ -1,20 +1,12 @@
 import { NextResponse } from 'next/server'
 import { auth, clerkClient } from '@clerk/nextjs/server'
+import { Paddle } from '@paddle/paddle-node-sdk'
 
-/**
- * Returns the Lemon Squeezy customer portal URL for the current user.
- * The customer can manage their subscription, update card, download invoices, and cancel.
- */
 export async function GET() {
   try {
     const { userId } = await auth()
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const apiKey = process.env.LEMONSQUEEZY_API_KEY
-    if (!apiKey) {
-      return NextResponse.json({ error: 'Billing not configured' }, { status: 500 })
     }
 
     const client = await clerkClient()
@@ -26,7 +18,6 @@ export async function GET() {
       return NextResponse.json({ error: 'No active subscription' }, { status: 404 })
     }
 
-    // Gumroad: subscribers manage through Gumroad library, no portal API
     if (provider === 'gumroad') {
       return NextResponse.json({
         url: 'https://gumroad.com/library',
@@ -34,12 +25,39 @@ export async function GET() {
       })
     }
 
-    // Lemon Squeezy: fetch subscription, get customer portal URL
+    if (provider === 'paddle') {
+      const paddleKey = process.env.PADDLE_API_KEY
+      if (!paddleKey) {
+        return NextResponse.json({ error: 'Paddle billing not configured' }, { status: 500 })
+      }
+
+      const paddleCustomerId = user.publicMetadata?.paddleCustomerId as string | undefined
+      if (!paddleCustomerId) {
+        return NextResponse.json({ error: 'No Paddle customer ID found' }, { status: 500 })
+      }
+
+      const paddle = new Paddle(paddleKey)
+      const session = await paddle.customerPortalSessions.create(paddleCustomerId, [subscriptionId])
+      const portalUrl = (session as unknown as { urls?: { general?: { overview?: string } } })?.urls?.general?.overview
+
+      if (!portalUrl) {
+        return NextResponse.json({ error: 'Could not create portal session' }, { status: 500 })
+      }
+
+      return NextResponse.json({ url: portalUrl, provider: 'paddle' })
+    }
+
+    // Default: Lemon Squeezy
+    const lsKey = process.env.LEMONSQUEEZY_API_KEY
+    if (!lsKey) {
+      return NextResponse.json({ error: 'Billing not configured' }, { status: 500 })
+    }
+
     const res = await fetch(`https://api.lemonsqueezy.com/v1/subscriptions/${subscriptionId}`, {
       headers: {
         'Accept': 'application/vnd.api+json',
         'Content-Type': 'application/vnd.api+json',
-        'Authorization': `Bearer ${apiKey}`,
+        'Authorization': `Bearer ${lsKey}`,
       },
     })
 

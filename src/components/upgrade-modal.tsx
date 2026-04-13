@@ -6,10 +6,22 @@ import { useLanguage } from '@/components/language-provider'
 
 const STARTER_URL = process.env.NEXT_PUBLIC_LS_STARTER_URL || '#'
 const PRO_URL = process.env.NEXT_PUBLIC_LS_PRO_URL || '#'
+const PADDLE_STARTER_PRICE = process.env.NEXT_PUBLIC_PADDLE_STARTER_PRICE_ID || ''
+const PADDLE_PRO_PRICE = process.env.NEXT_PUBLIC_PADDLE_PRO_PRICE_ID || ''
+const USE_PADDLE = !!PADDLE_STARTER_PRICE
 
 function withCheckoutParams(baseUrl: string, userId: string | undefined) {
   if (!userId || baseUrl === '#') return baseUrl
   return `${baseUrl}?embed=1&checkout[custom][user_id]=${userId}`
+}
+
+function openPaddleCheckout(priceId: string, userId: string | undefined) {
+  if (!window.Paddle || !priceId) return
+  window.Paddle.Checkout.open({
+    settings: { displayMode: 'overlay', theme: 'dark' },
+    customData: userId ? { user_id: userId } : {},
+    items: [{ priceId, quantity: 1 }],
+  })
 }
 
 type Ctx = { open: () => void; close: () => void }
@@ -128,12 +140,22 @@ export function UpgradeModalProvider({ children }: { children: React.ReactNode }
                         </li>
                       ))}
                     </ul>
-                    <a
-                      href={withCheckoutParams(STARTER_URL, user?.id)}
-                      className="lemonsqueezy-button block text-center py-3.5 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
-                    >
-                      {isEn ? 'Choose Starter' : 'Starter Seç'}
-                    </a>
+                    {USE_PADDLE ? (
+                      <button
+                        type="button"
+                        onClick={() => openPaddleCheckout(PADDLE_STARTER_PRICE, user?.id)}
+                        className="w-full block text-center py-3.5 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
+                      >
+                        {isEn ? 'Choose Starter' : 'Starter Seç'}
+                      </button>
+                    ) : (
+                      <a
+                        href={withCheckoutParams(STARTER_URL, user?.id)}
+                        className="lemonsqueezy-button block text-center py-3.5 rounded-full bg-gradient-to-r from-[#ff006e] via-[#8338ec] to-[#3a86ff] font-bold text-sm hover:scale-[1.02] transition-transform shadow-[0_0_40px_rgba(255,0,110,0.3)]"
+                      >
+                        {isEn ? 'Choose Starter' : 'Starter Seç'}
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -157,19 +179,32 @@ export function UpgradeModalProvider({ children }: { children: React.ReactNode }
                       </li>
                     ))}
                   </ul>
-                  <a
-                    href={withCheckoutParams(PRO_URL, user?.id)}
-                    className="lemonsqueezy-button block text-center py-3.5 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
-                  >
-                    {isEn ? 'Choose Pro' : 'Pro Seç'}
-                  </a>
+                  {USE_PADDLE ? (
+                    <button
+                      type="button"
+                      onClick={() => openPaddleCheckout(PADDLE_PRO_PRICE, user?.id)}
+                      className="w-full block text-center py-3.5 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
+                    >
+                      {isEn ? 'Choose Pro' : 'Pro Seç'}
+                    </button>
+                  ) : (
+                    <a
+                      href={withCheckoutParams(PRO_URL, user?.id)}
+                      className="lemonsqueezy-button block text-center py-3.5 rounded-full border border-white/20 font-semibold text-sm hover:bg-white/5 transition-colors"
+                    >
+                      {isEn ? 'Choose Pro' : 'Pro Seç'}
+                    </a>
+                  )}
                 </div>
               </div>
 
               <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 text-[11px] text-white/40 font-medium">
                 <span>{isEn ? '✓ 14-day money-back' : '✓ 14 gün para iade'}</span>
                 <span>{isEn ? '✓ Cancel anytime' : '✓ İstediğin zaman iptal'}</span>
-                <span>{isEn ? '✓ Secure via Lemon Squeezy' : '✓ Lemon Squeezy ile güvenli'}</span>
+                <span>{USE_PADDLE
+                  ? (isEn ? '✓ Secure via Paddle' : '✓ Paddle ile güvenli')
+                  : (isEn ? '✓ Secure via Lemon Squeezy' : '✓ Lemon Squeezy ile güvenli')
+                }</span>
               </div>
             </div>
           </div>
