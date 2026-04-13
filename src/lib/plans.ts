@@ -43,8 +43,11 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
 export function getUserPlan(publicMetadata: Record<string, unknown>): PlanType {
   const plan = publicMetadata?.plan as PlanType | undefined
   const status = publicMetadata?.subscriptionStatus as string | undefined
+  const provider = publicMetadata?.paymentProvider as string | undefined
 
-  // cancelled = user cancelled but period not ended yet, keep their plan
+  // Only honor active subscriptions from Paddle; old LS/Gumroad users must re-subscribe.
+  if (provider !== 'paddle') return 'free'
+
   if (plan && (status === 'active' || status === 'on_trial' || status === 'cancelled')) {
     return plan
   }

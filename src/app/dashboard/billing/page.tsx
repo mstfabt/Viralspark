@@ -27,14 +27,16 @@ export default function BillingPage() {
 
   const publicMeta = (user?.publicMetadata || {}) as Record<string, unknown>
   const subscriptionStatus = publicMeta.subscriptionStatus as string | undefined
+  const provider = publicMeta.paymentProvider as string | undefined
+  const isPaddle = provider === 'paddle'
+  const isOldProvider = !isPaddle && (publicMeta.subscriptionId || provider === 'gumroad')
   const isActiveStatus =
     subscriptionStatus === 'active' ||
     subscriptionStatus === 'on_trial' ||
     subscriptionStatus === 'cancelled'
-  const plan = isActiveStatus ? (publicMeta.plan as PlanType || 'free') : 'free'
+  const plan = (isActiveStatus && isPaddle) ? (publicMeta.plan as PlanType || 'free') : 'free'
   const planLabel = PLAN_LIMITS[plan]?.label || 'Free'
-  const provider = publicMeta.paymentProvider as string | undefined
-  const hasSubscription = plan !== 'free' && publicMeta.subscriptionId
+  const hasSubscription = plan !== 'free' && publicMeta.subscriptionId && isPaddle
 
   useEffect(() => {
     fetch('/api/usage')
@@ -130,7 +132,15 @@ export default function BillingPage() {
             )}
           </div>
 
-          {plan === 'free' ? (
+          {isOldProvider ? (
+            <button
+              type="button"
+              onClick={openUpgrade}
+              className="px-6 py-3 brand-grad brand-shadow-sm rounded-full text-sm font-semibold"
+            >
+              {isEn ? 'Switch to new plan' : 'Yeni plana gec'}
+            </button>
+          ) : plan === 'free' ? (
             <button
               type="button"
               onClick={openUpgrade}
@@ -154,6 +164,19 @@ export default function BillingPage() {
             </button>
           )}
         </div>
+
+        {isOldProvider && (
+          <div className="mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-sm text-amber-800">
+            <p className="font-semibold mb-1">
+              {isEn ? 'Payment system updated' : 'Odeme sistemi guncellendi'}
+            </p>
+            <p>
+              {isEn
+                ? 'We\'ve switched to a new payment provider for a better experience. Please subscribe again to continue using premium features. Your previous subscription will not be charged.'
+                : 'Daha iyi bir deneyim icin yeni odeme sistemine gectik. Premium ozellikleri kullanmaya devam etmek icin lutfen yeniden abone olun. Eski aboneliginizden ucret alinmayacaktir.'}
+            </p>
+          </div>
+        )}
 
         {error && (
           <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-700">
