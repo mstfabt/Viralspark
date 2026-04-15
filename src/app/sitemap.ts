@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { BLOG_POSTS } from '@/lib/blog-data'
 import { TOOLS } from '@/lib/tools-data'
+import { NICHES } from '@/lib/niche-data'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://viralspark.shop'
@@ -49,5 +50,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${baseUrl}/refund`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
   ]
 
-  return [...staticRoutes, ...toolUrls, ...blogUrls]
+  // Niche landing pages — programmatic SEO for industries & roles
+  const nicheUrls: MetadataRoute.Sitemap = NICHES.map((niche) => ({
+    url: `${baseUrl}/for/${niche.slug}`,
+    lastModified: now,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }))
+
+  return [...staticRoutes, ...toolUrls, ...nicheUrls, ...blogUrls]
 }

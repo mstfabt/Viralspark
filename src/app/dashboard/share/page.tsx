@@ -339,7 +339,7 @@ export default function SharePage() {
                 />
                 {image ? (
                   <div className="relative">
-                    <img src={image} alt="" className="w-full h-40 object-cover rounded-xl" />
+                    <img src={image} alt="User uploaded content preview" className="w-full h-40 object-cover rounded-xl" />
                     <button
                       onClick={() => { setImage(null); if (fileInputRef.current) fileInputRef.current.value = '' }}
                       className="absolute top-2 right-2 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center text-sm hover:bg-black/70"

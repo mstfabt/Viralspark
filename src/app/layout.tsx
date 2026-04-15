@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
@@ -9,6 +10,8 @@ import { ThemeProvider } from '@/components/theme-provider'
 import { LemonSqueezyOverlay } from '@/components/lemon-squeezy-overlay'
 import { PaddleLoader } from '@/components/paddle-loader'
 import './globals.css'
+
+const inter = Inter({ subsets: ['latin'], display: 'swap' })
 
 // Inline script — runs before React hydrates to prevent FOUC / theme flash
 const themeInitScript = `(function(){try{var t=localStorage.getItem('vs-theme')||'system';var d=t==='dark'||(t==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches);var r=document.documentElement;if(d)r.classList.add('dark');r.style.colorScheme=d?'dark':'light';}catch(e){}})();`
@@ -194,7 +197,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </>
         )}
       </head>
-      <body>
+      <body className={inter.className}>
         <ThemeProvider>
           <ClerkProvider>
             <ErrorBoundary>

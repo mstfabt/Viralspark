@@ -42,3 +42,5 @@ next-env.d.ts
 
 # stitch generation artifacts
 /stitch-output
+
+.env*.local
